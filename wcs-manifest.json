@@ -1,0 +1,40 @@
+{
+  "title": "TODO: Webcomponent Boilerplate",
+  "description": "TODO: A webcomponent boilerplate that can be used to build your own boilerplate.",
+  "descriptionAbstract": "TODO: A webcomponent boilerplate",
+  "license": "AGPL-3.0-or-later",
+  "copyrightHolders": [
+    {
+      "name": "NOI",
+      "email": "info@noi.bz.it",
+      "organization": "NOI S.p.A",
+      "organizationUrl": "https://noi.bz.it"
+    }
+  ],
+  "authors": [
+    {
+      "name": "your-name-or-company",
+      "email": "...",
+      "organization": "...",
+      "organizationUrl": "..."
+    }
+  ],
+  "image": null,
+  "searchTags": [],
+  "dist": {
+    "basePath": "dist",
+    "files": [
+      "app.min.js"
+    ],
+    "scripts": [
+      {
+        "file": "odh-this-repos-name-without-webcomp.min.js",
+        "parameter": ""
+      }
+    ]
+  },
+  "configuration": {
+    "tagName": "odh-this-repos-name-without-webcomp",
+    "options": []
+  }
+}
