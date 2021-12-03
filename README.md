@@ -2,7 +2,7 @@
 
 [![REUSE status](https://api.reuse.software/badge/github.com/noi-techpark/webcomp-boilerplate)](https://api.reuse.software/info/github.com/noi-techpark/webcomp-boilerplate)
 
-A customizable map for displaying air traffic in and around BZO/Bolzano. Real-time data can be retrieved and displayed via websockets, as well as historical data via an available rest API.
+A customizable map for displaying air traffic in and around BZO/Bolzano. Real-time data can be retrieved and displayed via websockets.
 
 ## Table of contents
 
@@ -15,11 +15,21 @@ A customizable map for displaying air traffic in and around BZO/Bolzano. Real-ti
 
 ## Usage
 
-Include the webcompscript file `dist/noi-mobility-atc.min.js` in your HTML and define the web component like this:
+Include vue.js (https://unpkg.com/vue) and the webcompscript file `dist/noi-mobility-atc.min.js` in your HTML and define the web component like this:
 
 ```html
- <noi-mobility-atc lang="it" departures="true" arrivals="true" regionswitch="false"></noi-mobility-atc>
+ <noi-mobility-atc
+ lang="en"
+ departures="true"
+ arrivals="true"
+ realtime="true"
+ regionswitch="true"
+ timezone="UTC"
+ maxentries="5"
+ maxage="60"
+ ></noi-mobility-atc>
 ```
+For an example, configuration options and available custom properties please have a look at [the demo](demo.html)
 
 ### Attributes
 
