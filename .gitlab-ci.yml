@@ -1,0 +1,15 @@
+image: node:14
+variables:
+  TEST_VAR: "All jobs can use this variable's value"
+pages:
+  script:
+  - cp .env.default .env
+  - npm install
+  - npm run build
+  - mv dist public
+  - mv demo.html public/atc.html
+  artifacts:
+    paths:
+    - public
+  only:
+  - master

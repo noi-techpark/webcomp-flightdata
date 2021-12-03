@@ -3,7 +3,7 @@ pipeline {
 	options {
 		ansiColor('xterm')
 	}
-	// TODO: Delete either all yarn or all npm scripts
+
 	stages {
 		stage('Agent: Node Docker') {
 			agent {
@@ -15,16 +15,11 @@ pipeline {
 			stages {
 				stage('Dependencies') {
 					steps {
-						sh 'yarn'
 						sh 'npm ci'
 					}
 				}
 				stage('Test') {
 					steps {
-						sh '''
-							yarn lint
-							yarn test
-						'''
 						sh '''
 							npm run lint
 							npm run test
@@ -33,7 +28,6 @@ pipeline {
 				}
 				stage('Build') {
 					steps {
-						sh 'yarn build'
 						sh 'npm run build'
 					}
 				}

@@ -21,7 +21,6 @@ pipeline {
 					image "${DOCKER_IMAGE}"
 				}
 			}
-			// TODO: Delete either all yarn or all npm scripts
 			stages {
 				stage('Prepare') {
 					steps {
@@ -34,28 +33,13 @@ pipeline {
 				stage("Dependencies") {
 					steps {
 						sh '''
-							yarn
 							npm ci
-						'''
-					}
-				}
-				// TODO: Remove this stage if we do not have tests or linting
-				stage('Test') {
-					steps {
-						sh '''
-							yarn lint
-							yarn test
-						'''
-						sh '''
-							npm run lint
-							npm run test
 						'''
 					}
 				}
 				stage("Build") {
 					steps {
 						sh '''
-							yarn build
 							npm run build
 						'''
 					}

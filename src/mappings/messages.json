@@ -1,0 +1,12 @@
+{
+  "de" : {
+    "Realtime data" : "Echtzeit-Daten",
+    "Arrivals" : "Ankünfte",
+    "Departures" : "Abflüge"
+  },
+  "it" : {
+    "Realtime data" : "Tempo reale",
+    "Arrivals" : "Arrivi",
+    "Departures" : "Partenze"
+  }
+}

@@ -1,7 +1,7 @@
 {
-  "title": "TODO: Webcomponent Boilerplate",
-  "description": "TODO: A webcomponent boilerplate that can be used to build your own boilerplate.",
-  "descriptionAbstract": "TODO: A webcomponent boilerplate",
+  "title": "Webcomponent: Flightmap",
+  "description": "A webcomponent displaying realtime flightdata from different sources",
+  "descriptionAbstract": "A webcomponent displaying realtime flightdata",
   "license": "AGPL-3.0-or-later",
   "copyrightHolders": [
     {
@@ -9,32 +9,159 @@
       "email": "info@noi.bz.it",
       "organization": "NOI S.p.A",
       "organizationUrl": "https://noi.bz.it"
+    },
+    {
+      "name": "RMB",
+      "email": "info@noi.bz.it",
+      "organization": "Rabanser Martin RMB",
+      "organizationUrl": "https://it.linkedin.com/in/martinrabanser"
     }
   ],
   "authors": [
     {
-      "name": "your-name-or-company",
-      "email": "...",
-      "organization": "...",
-      "organizationUrl": "..."
+      "name": "agon-e",
+      "email": "alex@agon-e.com",
+      "organization": "agon-e des alex complojer",
+      "organizationUrl": "agon-e.com"
     }
   ],
   "image": null,
-  "searchTags": [],
+  "searchTags": [
+    "atc",
+    "adsb",
+    "mqtt",
+    "websockets"
+  ],
   "dist": {
     "basePath": "dist",
     "files": [
-      "app.min.js"
+      "noi-mobility-atc.min.js"
     ],
     "scripts": [
       {
-        "file": "odh-this-repos-name-without-webcomp.min.js",
+        "file": "https://unpkg.com/vue",
+        "parameter": ""
+      },
+      {
+        "file": "noi-mobility-atc.min.js",
         "parameter": ""
       }
     ]
   },
   "configuration": {
-    "tagName": "odh-this-repos-name-without-webcomp",
-    "options": []
+    "tagName": "noi-mobility-atc",
+    "options": [
+      {
+        "key": "lang",
+        "type": "select",
+        "label": "Two letter key for the language to be used. Fallback is `en`",
+        "required": false,
+        "options": {
+          "values": [
+            "en",
+            "de",
+            "it"
+          ],
+          "default": "en"
+        }
+      },
+      {
+        "key": "realtime",
+        "type": "select",
+        "label": "Show realtime data",
+        "options": {
+          "values": ["true", "false"],
+          "default": "true"
+        }
+      },
+      {
+        "key": "departures",
+        "type": "select",
+        "label": "Show Skyalps departures",
+        "options": {
+          "values": ["true", "false"],
+          "default": "true"
+        }
+      },
+      {
+        "key": "arrivals",
+        "type": "select",
+        "label": "Show Skypalps arrivals",
+        "options": {
+          "values": ["true", "false"],
+          "default": "true"
+        }
+      },
+      {
+        "key": "regionswitch",
+        "type": "select",
+        "label": "Show region switcher",
+        "options": {
+          "values": ["true", "false"],
+          "default": "true"
+        }
+      },
+      {
+        "key": "metricunits",
+        "type": "select",
+        "label": "Metric values",
+        "options": {
+          "values": ["false", "true"],
+          "default": "false"
+        }
+      },
+      {
+        "key": "regions",
+        "type": "object",
+        "label": "Region-Switcher (first region = default screen)",
+        "required": false,
+        "options": {
+          "default": [
+            {
+              "label": "Airport Bolzano/Bozen",
+              "center": [11.326656463229954, 46.44298771993968],
+              "zoom": 14
+            },
+            {
+              "label": "Region",
+              "center": [11.463606010174134, 46.42665096950925],
+              "zoom": 10
+            }
+          ]
+        }
+      },
+      {
+        "key": "colors",
+        "type": "object",
+        "label": "In-Map colors",
+        "required": false,
+        "options": {
+          "default": {
+            "primary": "#0068B4",
+            "secondary": "#339966",
+            "primary_contrast": "#ffffff",
+            "secondary_contrast": "#ffffff"
+          }
+        }
+      },
+      {
+        "key": "maxage",
+        "type": "text",
+        "label": "Max age of data points until they are flagged as deletable (s)",
+        "required": false,
+        "options": {
+          "default": "180"
+        }
+      },
+      {
+        "key": "style",
+        "type": "text",
+        "label": "CSS style definition",
+        "required": false,
+        "options": {
+          "default": "--noi-font-family: 'Roboto', 'Helvetica Neue', sans-serif; --noi-primary: #0068B4; --noi-primary-contrast: #ffffff; --noi-action: #339966; --noi-action-contrast: #ffffff"
+        }
+      }
+    ]
   }
 }

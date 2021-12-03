@@ -10,6 +10,8 @@
 *.sln
 *.sw?
 
+dist
+
 # Project
 node_modules
 npm-debug.log*
