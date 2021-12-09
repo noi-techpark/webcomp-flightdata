@@ -12,7 +12,7 @@
     },
     {
       "name": "RMB",
-      "email": "info@noi.bz.it",
+      "email": "martin.rabanser@rmb-consulting.tech",
       "organization": "Rabanser Martin RMB",
       "organizationUrl": "https://it.linkedin.com/in/martinrabanser"
     }
@@ -21,11 +21,10 @@
     {
       "name": "agon-e",
       "email": "alex@agon-e.com",
-      "organization": "agon-e des alex complojer",
-      "organizationUrl": "agon-e.com"
+      "organization": "agon-e des alex complojer"
     }
   ],
-  "image": null,
+  "image": "",
   "searchTags": [
     "atc",
     "adsb",
@@ -35,17 +34,8 @@
   "dist": {
     "basePath": "dist",
     "files": [
-      "noi-mobility-atc.min.js"
-    ],
-    "scripts": [
-      {
-        "file": "https://unpkg.com/vue",
-        "parameter": ""
-      },
-      {
-        "file": "noi-mobility-atc.min.js",
-        "parameter": ""
-      }
+        "https://unpkg.com/vue",
+        "noi-mobility-atc.min.js"
     ]
   },
   "configuration": {
@@ -116,18 +106,18 @@
         "label": "Region-Switcher (first region = default screen)",
         "required": false,
         "options": {
-          "default": [
-            {
+          "default": {
+            "0" : {
               "label": "Airport Bolzano/Bozen",
               "center": [11.326656463229954, 46.44298771993968],
               "zoom": 14
             },
-            {
+            "1" : {
               "label": "Region",
               "center": [11.463606010174134, 46.42665096950925],
               "zoom": 10
             }
-          ]
+          }
         }
       },
       {
