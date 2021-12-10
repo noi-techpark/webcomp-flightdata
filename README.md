@@ -1,18 +1,8 @@
-Replace all `ToDo` notes in this file and adjust also the following files:
-- package.json:
-    - Adjust the general parts like name, description, ...
-    - Adjust the scripts `npm run start`, `npm run build`, `npm run lint` and
-      `npm run test` or change them if you use `yarn` for instance
-- wcs-manifest.json:
-    - Adjust the general parts like title, description, ...
-    - Adjust the configuration part with all possible configuration options
-      (https://webcomponents.opendatahub.bz.it/getting-started) and test them with the [Validator](https://webcomponents.opendatahub.bz.it/validator/)
-
-# ToDo: Project Name
+# Flightmap
 
 [![REUSE status](https://api.reuse.software/badge/github.com/noi-techpark/webcomp-boilerplate)](https://api.reuse.software/info/github.com/noi-techpark/webcomp-boilerplate)
 
-ToDo: Description of the project. What does this web component provide? Which data of the Open Data Hub will be shown? Why is it sooo coool ;-)
+A customizable map for displaying air traffic in and around BZO/Bolzano. Real-time data can be retrieved and displayed via websockets.
 
 ## Table of contents
 
@@ -25,26 +15,107 @@ ToDo: Description of the project. What does this web component provide? Which da
 
 ## Usage
 
-ToDo: Include the webcompscript file `dist/webcomp-boilerplate.min.js` in your HTML and define the web component like this:
+Include vue.js (https://unpkg.com/vue) and the webcompscript file `dist/noi-mobility-atc.min.js` in your HTML and define the web component like this:
 
 ```html
-<webcomp-boilerplate xxx="test" yyy="2"></webcomp-boilerplate>
+ <noi-mobility-atc
+ lang="en"
+ departures="true"
+ arrivals="true"
+ realtime="true"
+ regionswitch="true"
+ timezone="UTC"
+ maxentries="5"
+ maxage="60"
+ ></noi-mobility-atc>
 ```
+For an example, configuration options and available custom properties please have a look at [the demo](demo.html)
 
 ### Attributes
 
-#### xxxx
+#### lang
 
-The description of the parameter xxx.
+The language in which the component is rendered
 
 Type: string
-Options: "test", "123"
+Options: "en", "it", "de"
 
-#### yyy
+#### departures, arrivals, regionswitch, realtime
 
-The description of the parameter yyy.
+Visibility of the individual subcomponents
 
-Type: int
+Type: Boolean
+Options: "true", "false"
+
+departures: table of departures, default = true
+arrivals: table with arrivals, default = true
+regionswitch: buttons for switching the view, default = true
+realtime: Table with realtime data, default = true
+
+#### metricunits
+
+Show units as metric values
+
+Type: Boolean
+Options: "true", "false"
+
+#### maxage
+
+Received data will be interpreted as valid for && deleted after X seconds
+
+Type: Number (seconds)
+Default: 60
+
+#### timezone
+
+timezone for arrivals/departures
+
+Type: Timezone name (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+Default: UTC
+
+#### colors
+
+in-map coloring (aircraft)
+
+Type: Object
+Default:
+```
+{
+  primary: "#0068B4",
+  secondary: "#555555",
+  primary_contrast: "#ffffff",
+  secondary_contrast: "#ffffff"
+}
+```
+
+#### regions
+
+preset regions, first region is used as start screen
+
+Type: Array
+Default:
+```
+[
+  {
+    label: "Airport",
+    center: [11.326656463229954, 46.44298771993968],
+    zoom: 14,
+  },
+  {
+    label: "Region",
+    center: [11.463606010174134, 46.42665096950925],
+    zoom: 10,
+  },
+]
+```
+
+#### maxforecast
+
+maximum entries for departure and arrival
+
+Type: Number
+Default: 5
+
 
 ## Getting started
 
@@ -55,8 +126,7 @@ on your local machine for development and testing purposes.
 
 To build the project, the following prerequisites must be met:
 
-- ToDo: Check the prerequisites
-- Node 12 / NPM 6
+- Node 14 / NPM 6
 
 For a ready to use Docker environment with all prerequisites already installed and prepared, you can check out the [Docker environment](#docker-environment) section.
 
@@ -65,13 +135,13 @@ For a ready to use Docker environment with all prerequisites already installed a
 Get a copy of the repository:
 
 ```bash
-ToDo: git clone https://github.com/noi-techpark/project-name.git
+git clone https://github.com/noi-techpark/webcomp-flightdata
 ```
 
 Change directory:
 
 ```bash
-ToDo: cd project-name/
+cd webcomp-flightdata/
 ```
 
 ### Dependencies
@@ -82,24 +152,19 @@ Download all dependencies:
 npm install
 ```
 
-### Build
+### Develope/Build
 
-Build and start the project:
-
-```bash
-npm run start
-```
-
-The application will be served and can be accessed at [http://localhost:8080](http://localhost:8080).
-
-## Tests and linting
-
-The tests and the linting can be executed with the following commands:
+Build the project:
 
 ```bash
-npm run test
-npm run lint
+npm start
 ```
+
+The necessary files to run the web component are provided under dist/.
+dist/demo.html can be viewed locally in your browser.
+
+Due to some limitations in Vue2/Web components, hot reload atm is not available for development.
+
 
 ## Deployment
 
