@@ -2,7 +2,7 @@
   <NoiFlightControl
     :options="{
       lang: lang,
-      colors: colors,
+      colors: JSON.parse(colors),
       showRealtimeTable: realtime,
       showDepartures: departures,
       showArrivals: arrivals,
@@ -10,7 +10,8 @@
       metricUnits: metricunits,
       maxAge: maxage,
       timezone: timezone,
-      regions: JSON.parse(regions),
+      // TODO: object cause of wcs limitations
+      regions: Object.values(JSON.parse(regions)),
       maxforecast: maxforecast,
     }"
   />
@@ -65,31 +66,31 @@ export default {
       default: 5,
     },
     colors: {
-      type: Object,
+      type: String,
       default: () => {
-        return {
+        return JSON.stringify({
           primary: "#0068B4",
           secondary: "#555555",
           primary_contrast: "#ffffff",
           secondary_contrast: "#ffffff",
-        };
+        });
       },
     },
     regions: {
       type: String,
       default: () => {
-        return JSON.stringify([
-          {
+        return JSON.stringify({
+          "0" : {
             label: "Airport",
             center: [11.326656463229954, 46.44298771993968],
             zoom: 14,
           },
-          {
+          "1" : {
             label: "Region",
             center: [11.463606010174134, 46.42665096950925],
             zoom: 10,
           },
-        ]);
+        });
       },
     },
   },
