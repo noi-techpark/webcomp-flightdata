@@ -1,10 +1,10 @@
 {
   "name": "noi-flightmap",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "private": true,
   "scripts": {
-    "serve": "npm run vcbuild -- --target wc --name noi-mobility-atc src/App.vue --watch",
-    "build": "npm run vcbuild -- --target wc --name noi-mobility-atc src/App.vue",
+    "serve": "npm run vcbuild -- --target wc --name noi-mobility-atc src/App.vue --watch --inline-vue",
+    "build": "npm run vcbuild -- --target wc --name noi-mobility-atc src/App.vue --inline-vue",
     "lint": "vue-cli-service lint",
     "test": "mocha --reporter list",
     "start": "npm run serve",

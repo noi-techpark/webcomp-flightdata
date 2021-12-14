@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <title>noi-mobility-atc demo</title>
-    <script src="https://unpkg.com/vue"></script>
     <script src="./dist/noi-mobility-atc.min.js"></script>
     <style>
       html,
@@ -33,10 +32,16 @@
     <div style="width: 100%; height: 100%">
       <noi-mobility-atc
         lang="en"
+        realtime="true"
+        departures="true"
+        arrivals="true"
+        regionswitch="false"
         maxage="80"
         timezone="UTC"
-        maxforecast="5"
-        regions='[{"label": "Airport Bolzano/Bozen","center": [11.326656463229954, 46.44298771993968],"zoom": 14},{ "label": "Region","center": [11.463606010174134, 46.42665096950925],"zoom": 10}]'
+        maxforecast="10"
+        metricunits="true"
+
+        regions='{ "0" : {"label": "Airport Bolzano/Bozen","center": [11.326656463229954, 46.44798771993968],"zoom": 14}, "1" : { "label": "Region","center": [11.463606010174134, 46.42665096950925],"zoom": 10}}'
       ></noi-mobility-atc>
     </div>
   </body>

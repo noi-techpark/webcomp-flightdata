@@ -136,6 +136,7 @@
             <table class="table table-dark shadow mb-0">
               <thead>
                 <tr>
+                  <th scope="col"></th>
                   <th scope="col">{{ $t("Date") }}</th>
                   <th scope="col">{{ $t("Time") }} ({{ options.timezone }})</th>
                   <th scope="col">{{ $t("Origin") }}</th>
@@ -146,6 +147,19 @@
               </thead>
               <tbody>
                 <tr v-for="arrival in lastArrivals" :key="arrival.key">
+                  <th>
+                    <a
+                      href="https://www.skyalps.com/"
+                      target="_blank"
+                      title="Skyalps Home"
+                    >
+                      <img
+                        :src="require('@/assets/icons/skyalps.png')"
+                        height="20px"
+                        style="display: inline-block"
+                      />
+                    </a>
+                  </th>
                   <th>{{ asZoneDate(arrival.date) }}</th>
                   <th>
                     {{ asZoneTime(arrival.time) }}
@@ -192,6 +206,7 @@
             <table class="table table-dark shadow mb-0">
               <thead>
                 <tr>
+                  <th scope="col"></th>
                   <th scope="col">{{ $t("Date") }}</th>
                   <th scope="col">{{ $t("Time") }} ({{ options.timezone }})</th>
                   <th scope="col">
@@ -205,6 +220,19 @@
               </thead>
               <tbody>
                 <tr v-for="departure in lastDepartures" :key="departure.key">
+                  <th>
+                    <a
+                      href="https://www.skyalps.com/"
+                      target="_blank"
+                      title="Skyalps Home"
+                    >
+                      <img
+                        :src="require('@/assets/icons/skyalps.png')"
+                        height="20px"
+                        style="display: inline-block"
+                      />
+                    </a>
+                  </th>
                   <th>
                     {{ asZoneDate(departure.date) }}
                   </th>
@@ -388,7 +416,6 @@ export default {
       if (region) {
         this.map.center = region.center;
         this.map.zoom = region.zoom;
-        this.current_region = region.label;
       }
     },
     ktsOrKmh: function (kts) {
@@ -437,7 +464,7 @@ export default {
           const flightdate = DateTime.fromFormat(json.date, "yyyy-LL-dd", {
             zone: "UTC",
           });
-          return flightdate > DateTime.now();
+          return flightdate > DateTime.now().minus({ day: 1 });
         });
 
         // split data
@@ -640,6 +667,7 @@ export default {
         alt: "m",
       };
     }
+    this.resizer();
   },
   created: async function () {
     // arrivals/departures
@@ -658,6 +686,9 @@ export default {
     this.fetchSkyalps();
 
     window.addEventListener("resize", this.resizer);
+
+    if (this.options.regions.length > 0)
+      this.current_region = this.options.regions[0].label;
   },
   destroyed() {
     window.removeEventListener("resize", this.resizer);
@@ -710,6 +741,7 @@ export default {
     td,
     th {
       font-family: monospace;
+      line-height: 20px;
     }
     td {
       color: var(--noi-jam-strong, #ffffff);
