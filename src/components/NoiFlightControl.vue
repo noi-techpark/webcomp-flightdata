@@ -464,6 +464,54 @@ export default {
     age: function (past) {
       return Math.floor(Date.now() / 1000) - past;
     },
+    async fetchOpensky() {
+      try {
+        const states = await axios.get(
+          "https://opensky-network.org/api/states/all?lamin=" +
+            this.map.viewport.minLat +
+            "&lomin=" +
+            this.map.viewport.minLng +
+            "&lamax=" +
+            this.map.viewport.maxLat +
+            "&lomax=" +
+            this.map.viewport.maxLng
+        );
+
+        if (states.data.states == null) return;
+
+        for (var a = 0; a < states.data.states.length - 1; a++) {
+          let flight = JSON.parse(JSON.stringify(states.data.states[a]));
+
+          const icao = parseInt(flight[0], 16);
+
+          const newflight = {
+            Icao_addr: icao + "os",
+            Tail: flight[1].trim(),
+            Alt: this.mAsFt(flight[13]), // geo alt in meters
+            Speed_valid: true,
+            Speed: this.kmhAsKts(flight[9] * 3.6), // m/s
+            Track: flight[10], // ° north
+            Lat: flight[6],
+            Lng: flight[5],
+            Position_valid: true,
+            Vvel: flight[11], // m/s
+            Squawk: flight[14],
+            OnGround: flight[8],
+            Emitter_category: 0,
+            source: "opensky",
+          };
+
+          if (!isNaN(icao)) {
+            // async movement for rest api data
+            setTimeout(() => {
+              this.updateTraffic(newflight);
+            }, Math.floor(Math.random() * 10000));
+          }
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async fetchSkyalps() {
       try {
 
@@ -697,6 +745,10 @@ export default {
 
     // fetch skyalps flight data (tbd/poc)
     this.fetchSkyalps();
+
+    // poc: opensky data
+    setInterval(this.fetchOpensky, 10000);
+    this.fetchOpensky();
 
     window.addEventListener("resize", this.resizer);
 
