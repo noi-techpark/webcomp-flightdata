@@ -99,7 +99,7 @@
     >
       <img
         :src="require('@/assets/icons/list-view.png')"
-        height="10px"
+        height="14px"
         style="display: inline-block; color: white"
       />
     </button>
@@ -110,13 +110,18 @@
     >
       <button
         type="button"
-        class="btn btn-dark shadow btn-sm sm-only"
+        class="btn btn-sm"
         @click="hideTables = true"
-        style="position: absolute; top: 0.5rem; left: 0.5rem; z-index: 100001"
+        style="position: absolute; top: 0.5rem; right: 0.5rem; z-index: 100001"
       >
-        X
+        collapse
+        <img
+          :src="require('@/assets/icons/collapse.png')"
+          height="14px"
+          style="display: inline-block"
+        />
       </button>
-      <div class="clock p-2">
+      <div class="clock p-2 mt-4">
         {{ time }} <br />
         <span style="font-size: 80%">{{ current_region }}</span>
       </div>
@@ -136,33 +141,35 @@
             <table class="table table-dark shadow mb-0">
               <thead>
                 <tr>
-                  <th scope="col"></th>
+
                   <th scope="col">{{ $t("Date") }}</th>
-                  <th scope="col">{{ $t("Time") }} ({{ options.timezone }})</th>
+                  <th scope="col">{{ $t("Time") }}</th>
+                               <th scope="col"></th>
                   <th scope="col">{{ $t("Origin") }}</th>
                   <th scope="col">{{ $t("Flight") }}</th>
                   <th scope="col" class="text-center">{{ $t("Remarks") }}</th>
-                  <th scope="col" class="text-end">{{ $t("Gate") }}</th>
+                  <th scope="col" class="text-center">{{ $t("Gate") }}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="arrival in lastArrivals" :key="arrival.key">
+
+                  <th>{{ asZoneDate(arrival.date) }}</th>
                   <th>
+                    {{ asZoneTime(arrival.time) }}
+                  </th>
+                                    <th>
                     <a
                       href="https://www.skyalps.com/"
                       target="_blank"
                       title="Skyalps Home"
                     >
                       <img
-                        :src="require('@/assets/icons/skyalps.png')"
-                        height="20px"
+                        :src="require('@/assets/icons/skyalpsl.png')"
+                        width="62px"
                         style="display: inline-block"
                       />
                     </a>
-                  </th>
-                  <th>{{ asZoneDate(arrival.date) }}</th>
-                  <th>
-                    {{ asZoneTime(arrival.time) }}
                   </th>
                   <td v-if="airport_types[arrival.departure]">
                     {{ airport_types[arrival.departure].name }}
@@ -174,7 +181,7 @@
                   <td class="text-center">
                     {{ arrival.remark }}
                   </td>
-                  <td class="text-end">
+                  <td class="text-center">
                     {{ arrival.gate }}
                   </td>
                 </tr>
@@ -185,7 +192,7 @@
                   ) - Object.values(lastArrivals).length"
                   :key="index"
                 >
-                  <td colspan="6"></td>
+                  <td colspan="7"></td>
                 </tr>
               </tbody>
             </table>
@@ -206,38 +213,40 @@
             <table class="table table-dark shadow mb-0">
               <thead>
                 <tr>
-                  <th scope="col"></th>
+
                   <th scope="col">{{ $t("Date") }}</th>
-                  <th scope="col">{{ $t("Time") }} ({{ options.timezone }})</th>
+                  <th scope="col">{{ $t("Time") }}</th>
+                          <th scope="col"></th>
                   <th scope="col">
                     {{ $t("Destination") }}
                   </th>
                   <th scope="col">{{ $t("Flight") }}</th>
 
                   <th scope="col" class="text-center">{{ $t("Remarks") }}</th>
-                  <th scope="col" class="text-end">{{ $t("Gate") }}</th>
+                  <th scope="col" class="text-center">{{ $t("Gate") }}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="departure in lastDepartures" :key="departure.key">
+
                   <th>
+                    {{ asZoneDate(departure.date) }}
+                  </th>
+                  <th>
+                    {{ asZoneTime(departure.time) }}
+                  </th>
+                                    <th>
                     <a
                       href="https://www.skyalps.com/"
                       target="_blank"
                       title="Skyalps Home"
                     >
                       <img
-                        :src="require('@/assets/icons/skyalps.png')"
-                        height="20px"
+                        :src="require('@/assets/icons/skyalpsl.png')"
+                       width="62px"
                         style="display: inline-block"
                       />
                     </a>
-                  </th>
-                  <th>
-                    {{ asZoneDate(departure.date) }}
-                  </th>
-                  <th>
-                    {{ asZoneTime(departure.time) }}
                   </th>
                   <td v-if="airport_types[departure.arrival]">
                     {{ airport_types[departure.arrival].name }}
@@ -248,7 +257,7 @@
                   <td class="text-center">
                     {{ departure.remark }}
                   </td>
-                  <td class="text-end">{{ departure.gate }}</td>
+                  <td class="text-center">{{ departure.gate }}</td>
                 </tr>
                 <tr
                   v-for="index in Math.max(
@@ -257,7 +266,7 @@
                   ) - Object.values(lastDepartures).length"
                   :key="index"
                 >
-                  <td colspan="6"></td>
+                  <td colspan="7"></td>
                 </tr>
               </tbody>
             </table>
@@ -381,7 +390,8 @@ export default {
       return datetime.toFormat("dd/LL/yyyy");
     },
     updateTime() {
-      const time = DateTime.utc();
+      let time = DateTime.utc();
+      time = time.setZone(this.options.timezone);
       this.time = time.toFormat("TTT");
     },
     setExtend(evt) {
@@ -456,7 +466,9 @@ export default {
     },
     async fetchSkyalps() {
       try {
-        let { data } = await axios.get(process.env.VUE_APP_REST_API);
+
+        // TODO: if env-bug=fixed remove hardcoded fallback
+        let { data } = await axios.get(process.env.VUE_APP_REST_API ? process.env.VUE_APP_REST_API : "https://mqtt.rmbdev.cloud/mqtt/rest/flightdata-scheduled");
 
         // remove obsolete entries
         data = data.filter((val) => {
@@ -631,7 +643,8 @@ export default {
       return this.map[type];
     },
     initWebsockets: function () {
-      this.connection = new WebSocket(process.env.VUE_APP_MQTT_WS);
+      // TODO: if env-bug=fixed remove hardcoded fallback
+      this.connection = new WebSocket(process.env.VUE_APP_MQTT_WS ? process.env.VUE_APP_MQTT_WS : "wss://mqtt.rmbdev.cloud/mqtt/ws/flightdata/sbs-aggregated");
 
       this.connection.onmessage = (event) => {
         this.updateTraffic(JSON.parse(event.data));
@@ -843,6 +856,10 @@ export default {
 
   .sm-only {
     display: none;
+  }
+
+  .table > :not(caption) > * > * {
+    padding:0.2rem 0.2rem;
   }
 
   /* 'container'-queries */
