@@ -97,5 +97,13 @@ export default {
   components: {
     NoiFlightControl,
   },
+  methods: {
+    getRegions: function() {
+      // TODO
+    },
+    getColors: function() {
+      // TODO
+    }
+  }
 };
 </script>

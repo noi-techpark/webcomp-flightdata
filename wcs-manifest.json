@@ -13,9 +13,10 @@
   ],
   "authors": [
     {
-      "name": "RMB",
+      "name": "RMB Rabanser Martin",
       "email": "martin.rabanser@rmb-consulting.tech",
-      "organization": "Rabanser Martin RMB"
+      "organization": "Rabanser Martin RMB",
+      "organizationUrl": "https://it.linkedin.com/in/martinrabanser"
     },
     {
       "name": "agon-e",
@@ -113,8 +114,8 @@
           "default": {
             "0" : {
               "label": "Airport Bolzano/Bozen",
-              "center": [11.326656463229954, 46.44798771993968],
-              "zoom": 14
+              "center": [11.3361503,  46.4607403],
+              "zoom": 14.25
             },
             "1" : {
               "label": "Region",
