@@ -10,8 +10,7 @@
       metricUnits: metricunits,
       maxAge: maxage,
       timezone: timezone,
-      // TODO: object cause of wcs limitations
-      regions: Object.values(JSON.parse(regions)),
+      regions: JSON.parse(regions),
       maxforecast: maxforecast,
       wss_endpoint: wssendpoint,
       rest_endpoint: restendpoint,
@@ -89,23 +88,23 @@ export default {
     regions: {
       type: String,
       default: () => {
-        return JSON.stringify({
-          0: {
+        return JSON.stringify([
+          {
             label: "Airport",
             center: [11.326656463229954, 46.44298771993968],
             zoom: 14,
           },
-          1: {
+          {
             label: "Region",
             center: [11.463606010174134, 46.42665096950925],
             zoom: 10,
           },
-        });
+        ]);
       },
     },
   },
   components: {
     NoiFlightControl,
-  }
+  },
 };
 </script>
