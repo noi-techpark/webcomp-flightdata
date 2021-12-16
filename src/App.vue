@@ -90,9 +90,9 @@ export default {
       default: () => {
         return JSON.stringify([
           {
-            label: "Airport",
-            center: [11.326656463229954, 46.44298771993968],
-            zoom: 14,
+            label: "Airport Bolzano/Bozen",
+            center: [11.3361503, 46.4607403],
+            zoom: 14.25,
           },
           {
             label: "Region",
