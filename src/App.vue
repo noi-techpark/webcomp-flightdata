@@ -13,6 +13,8 @@
       // TODO: object cause of wcs limitations
       regions: Object.values(JSON.parse(regions)),
       maxforecast: maxforecast,
+      wss_endpoint: wssendpoint,
+      rest_endpoint: restendpoint,
     }"
   />
 </template>
@@ -57,6 +59,14 @@ export default {
       default: "UTC",
       // https://www.npmjs.com/package/tzdata list
     },
+    wssendpoint: {
+      type: String,
+      default: "wss://mqtt.rmbdev.cloud/mqtt/ws/flightdata/sbs-aggregated",
+    },
+    restendpoint: {
+      type: String,
+      default: "https://mqtt.rmbdev.cloud/mqtt/rest/flightdata-scheduled",
+    },
     maxage: {
       type: Number,
       default: 60,
@@ -80,12 +90,12 @@ export default {
       type: String,
       default: () => {
         return JSON.stringify({
-          "0" : {
+          0: {
             label: "Airport",
             center: [11.326656463229954, 46.44298771993968],
             zoom: 14,
           },
-          "1" : {
+          1: {
             label: "Region",
             center: [11.463606010174134, 46.42665096950925],
             zoom: 10,
@@ -96,14 +106,6 @@ export default {
   },
   components: {
     NoiFlightControl,
-  },
-  methods: {
-    getRegions: function() {
-      // TODO
-    },
-    getColors: function() {
-      // TODO
-    }
   }
 };
 </script>
