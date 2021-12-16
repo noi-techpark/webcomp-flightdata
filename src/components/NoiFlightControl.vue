@@ -95,7 +95,7 @@
       v-if="hideTables"
       class="btn btn-dark shadow btn-sm dark"
       @click="hideTables = false"
-      style="position: absolute; top: 0.5rem; left: 0.5rem; z-index: 100001"
+      style="position: absolute; top: 0.5rem; right: 0.5rem; z-index: 100001"
     >
       <img
         :src="require('@/assets/icons/list-view.png')"
@@ -141,10 +141,9 @@
             <table class="table table-dark shadow mb-0">
               <thead>
                 <tr>
-
                   <th scope="col">{{ $t("Date") }}</th>
                   <th scope="col">{{ $t("Time") }}</th>
-                               <th scope="col"></th>
+                  <th scope="col">{{ $t("Airline") }}</th>
                   <th scope="col">{{ $t("Origin") }}</th>
                   <th scope="col">{{ $t("Flight") }}</th>
                   <th scope="col" class="text-center">{{ $t("Remarks") }}</th>
@@ -153,12 +152,11 @@
               </thead>
               <tbody>
                 <tr v-for="arrival in lastArrivals" :key="arrival.key">
-
                   <th>{{ asZoneDate(arrival.date) }}</th>
                   <th>
                     {{ asZoneTime(arrival.time) }}
                   </th>
-                                    <th>
+                  <th>
                     <a
                       href="https://www.skyalps.com/"
                       target="_blank"
@@ -213,10 +211,9 @@
             <table class="table table-dark shadow mb-0">
               <thead>
                 <tr>
-
                   <th scope="col">{{ $t("Date") }}</th>
                   <th scope="col">{{ $t("Time") }}</th>
-                          <th scope="col"></th>
+                  <th scope="col">{{ $t("Airline") }}</th>
                   <th scope="col">
                     {{ $t("Destination") }}
                   </th>
@@ -228,14 +225,13 @@
               </thead>
               <tbody>
                 <tr v-for="departure in lastDepartures" :key="departure.key">
-
                   <th>
                     {{ asZoneDate(departure.date) }}
                   </th>
                   <th>
                     {{ asZoneTime(departure.time) }}
                   </th>
-                                    <th>
+                  <th>
                     <a
                       href="https://www.skyalps.com/"
                       target="_blank"
@@ -243,7 +239,7 @@
                     >
                       <img
                         :src="require('@/assets/icons/skyalpsl.png')"
-                       width="62px"
+                        width="62px"
                         style="display: inline-block"
                       />
                     </a>
@@ -323,7 +319,7 @@
                 </tr>
                 <tr
                   v-for="index in Math.max(
-                    10,
+                    6,
                     Object.values(map.features).length
                   ) - Object.values(map.features).length"
                   :key="index"
@@ -466,9 +462,7 @@ export default {
     },
     async fetchSkyalps() {
       try {
-
-        // TODO: if env-bug=fixed remove hardcoded fallback
-        let { data } = await axios.get(process.env.VUE_APP_REST_API ? process.env.VUE_APP_REST_API : "https://mqtt.rmbdev.cloud/mqtt/rest/flightdata-scheduled");
+        let { data } = await axios.get(this.options.rest_endpoint);
 
         // remove obsolete entries
         data = data.filter((val) => {
@@ -643,8 +637,7 @@ export default {
       return this.map[type];
     },
     initWebsockets: function () {
-      // TODO: if env-bug=fixed remove hardcoded fallback
-      this.connection = new WebSocket(process.env.VUE_APP_MQTT_WS ? process.env.VUE_APP_MQTT_WS : "wss://mqtt.rmbdev.cloud/mqtt/ws/flightdata/sbs-aggregated");
+      this.connection = new WebSocket(this.options.wss_endpoint);
 
       this.connection.onmessage = (event) => {
         this.updateTraffic(JSON.parse(event.data));
@@ -859,7 +852,7 @@ export default {
   }
 
   .table > :not(caption) > * > * {
-    padding:0.2rem 0.2rem;
+    padding: 0.2rem 0.2rem;
   }
 
   /* 'container'-queries */

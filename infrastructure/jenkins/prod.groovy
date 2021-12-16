@@ -4,8 +4,6 @@ pipeline {
 		DOCKER_IMAGE = "755952719952.dkr.ecr.eu-west-1.amazonaws.com/webcompbuild:latest"
 		WC_GIT_REMOTE = get_git_remote()
 		WC_GIT_BRANCH = get_git_branch()
-		VUE_APP_MQTT_WS="wss://mqtt.rmbdev.cloud/mqtt/ws/flightdata/sbs-aggregated"
-		VUE_APP_REST_API="https://mqtt.rmbdev.cloud/mqtt/rest/flightdata-scheduled"
 	}
 	options {
 		ansiColor('xterm')
