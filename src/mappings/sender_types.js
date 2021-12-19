@@ -1,10 +1,10 @@
 module.exports = [
   [
     "n.a.",                           // name
-    require('@/assets/icons/0.png'),  // img as base64
+    require('@/assets/icons/1.png'),  // img as base64
     0,                                // rotation offset
     0.4,                              // size factor
-    true                              // disable rotation
+    false                             // disable rotation
   ],
   [
     "light",
