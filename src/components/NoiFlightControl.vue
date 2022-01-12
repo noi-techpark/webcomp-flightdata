@@ -229,12 +229,6 @@
                     {{ asZoneTime(arrival.time) }}
                   </th>
                   <th>
-                    {{ asZoneDate(departure.date) }}
-                  </th>
-                  <th>
-                    {{ asZoneTime(departure.time) }}
-                  </th>
-                  <th>
                     <a
                       href="https://www.skyalps.com/"
                       target="_blank"
