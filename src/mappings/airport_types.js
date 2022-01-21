@@ -3,6 +3,10 @@ module.exports = {
     pos: [4.48443984985, 50.901401519800004],
     name: "Brussels",
   },
+  BER: {
+    pos: [13.503316260935625, 52.361355334469714],
+    name: "Berlin",
+  },
   BZO: {
     pos: [11.3264, 46.460201],
     name: "Bolzano",

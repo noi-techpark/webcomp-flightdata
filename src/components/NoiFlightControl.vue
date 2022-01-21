@@ -126,77 +126,7 @@
         <span style="font-size: 80%">{{ current_region }}</span>
       </div>
       <div class="accordeon p-2">
-        <div class="aitem" v-if="options.showArrivals">
-          <h2 class="ma-0 p-0 dark">
-            <span class="iconbg m-1">
-              <img
-                :src="require('@/assets/icons/arrival.png')"
-                height="40px"
-                style="display: inline-block"
-              />
-            </span>
-            {{ $t("Arrivals") }}
-          </h2>
-          <div class="table-responsive mb-4">
-            <table class="table table-dark shadow mb-0">
-              <thead>
-                <tr>
-                  <th scope="col">{{ $t("Date") }}</th>
-                  <th scope="col">{{ $t("Time") }}</th>
-                  <th scope="col">{{ $t("Airline") }}</th>
-                  <th scope="col">{{ $t("Origin") }}</th>
-                  <th scope="col">{{ $t("Flight") }}</th>
-                  <th scope="col" class="text-center">{{ $t("Remarks") }}</th>
-                  <th scope="col" class="text-center">{{ $t("Gate") }}</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="arrival in lastArrivals" :key="arrival.key">
-                  <th>{{ asZoneDate(arrival.date) }}</th>
-                  <th>
-                    {{ asZoneTime(arrival.time) }}
-                  </th>
-                  <th>
-                    <a
-                      href="https://www.skyalps.com/"
-                      target="_blank"
-                      title="Skyalps Home"
-                    >
-                      <img
-                        :src="require('@/assets/icons/skyalpsl.png')"
-                        width="62px"
-                        style="display: inline-block"
-                      />
-                    </a>
-                  </th>
-                  <td v-if="airport_types[arrival.departure]">
-                    {{ airport_types[arrival.departure].name }}
-                  </td>
-                  <td v-else></td>
-                  <td>
-                    {{ arrival.flight_number }}
-                  </td>
-                  <td class="text-center">
-                    {{ arrival.remark }}
-                  </td>
-                  <td class="text-center">
-                    {{ arrival.gate }}
-                  </td>
-                </tr>
-                <tr
-                  v-for="index in Math.max(
-                    5,
-                    Object.values(lastArrivals).length
-                  ) - Object.values(lastArrivals).length"
-                  :key="index"
-                >
-                  <td colspan="7"></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="aitem" v-if="options.showDepartures">
+                <div class="aitem" v-if="options.showDepartures">
           <h2 class="ma-0 p-0 dark">
             <span class="iconbg m-1">
               <img
@@ -260,6 +190,76 @@
                     5,
                     Object.values(lastDepartures).length
                   ) - Object.values(lastDepartures).length"
+                  :key="index"
+                >
+                  <td colspan="7"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="aitem" v-if="options.showArrivals">
+          <h2 class="ma-0 p-0 dark">
+            <span class="iconbg m-1">
+              <img
+                :src="require('@/assets/icons/arrival.png')"
+                height="40px"
+                style="display: inline-block"
+              />
+            </span>
+            {{ $t("Arrivals") }}
+          </h2>
+          <div class="table-responsive mb-4">
+            <table class="table table-dark shadow mb-0">
+              <thead>
+                <tr>
+                  <th scope="col">{{ $t("Date") }}</th>
+                  <th scope="col">{{ $t("Time") }}</th>
+                  <th scope="col">{{ $t("Airline") }}</th>
+                  <th scope="col">{{ $t("Origin") }}</th>
+                  <th scope="col">{{ $t("Flight") }}</th>
+                  <th scope="col" class="text-center">{{ $t("Remarks") }}</th>
+                  <th scope="col" class="text-center">{{ $t("Gate") }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="arrival in lastArrivals" :key="arrival.key">
+                  <th>{{ asZoneDate(arrival.date) }}</th>
+                  <th>
+                    {{ asZoneTime(arrival.time) }}
+                  </th>
+                  <th>
+                    <a
+                      href="https://www.skyalps.com/"
+                      target="_blank"
+                      title="Skyalps Home"
+                    >
+                      <img
+                        :src="require('@/assets/icons/skyalpsl.png')"
+                        width="62px"
+                        style="display: inline-block"
+                      />
+                    </a>
+                  </th>
+                  <td v-if="airport_types[arrival.departure]">
+                    {{ airport_types[arrival.departure].name }}
+                  </td>
+                  <td v-else></td>
+                  <td>
+                    {{ arrival.flight_number }}
+                  </td>
+                  <td class="text-center">
+                    {{ arrival.remark }}
+                  </td>
+                  <td class="text-center">
+                    {{ arrival.gate }}
+                  </td>
+                </tr>
+                <tr
+                  v-for="index in Math.max(
+                    5,
+                    Object.values(lastArrivals).length
+                  ) - Object.values(lastArrivals).length"
                   :key="index"
                 >
                   <td colspan="7"></td>
