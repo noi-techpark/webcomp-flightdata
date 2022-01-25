@@ -371,16 +371,16 @@ export default {
     },
   },
   methods: {
-    asZoneTime(utctime = "00:00") {
-      if (utctime == "") return "";
-      let datetime = DateTime.fromFormat(utctime, "T", { zone: "UTC" });
+    asZoneTime(time = "00:00", source_zone = 'Europe/Berlin') {
+      if (time == "") return "";
+      let datetime = DateTime.fromFormat(time, "T", { zone: source_zone });
       datetime = datetime.setZone(this.options.timezone);
       return datetime.toFormat("HH:mm");
     },
-    asZoneDate(utcdate = "2022-01-01") {
-      if (utcdate == "") return "";
-      let datetime = DateTime.fromFormat(utcdate, "yyyy-LL-dd", {
-        zone: "UTC",
+    asZoneDate(date = "2022-01-01", source_zone = 'Europe/Berlin') {
+      if (date == "") return "";
+      let datetime = DateTime.fromFormat(date, "yyyy-LL-dd", {
+        zone: source_zone,
       });
       datetime = datetime.setZone(this.options.timezone);
       return datetime.toFormat("dd/LL/yyyy");
@@ -468,7 +468,7 @@ export default {
         data = data.filter((val) => {
           const json = JSON.parse(val.rawdata);
           const flightdate = DateTime.fromFormat(json.date, "yyyy-LL-dd", {
-            zone: "UTC",
+            zone: "Europe/Berlin",
           });
           return flightdate > DateTime.now().minus({ day: 1 });
         });
