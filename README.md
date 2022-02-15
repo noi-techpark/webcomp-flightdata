@@ -1,6 +1,6 @@
 # Flightmap
 
-[![REUSE status](https://api.reuse.software/badge/github.com/noi-techpark/webcomp-boilerplate)](https://api.reuse.software/info/github.com/noi-techpark/webcomp-boilerplate)
+[![REUSE status](https://api.reuse.software/badge/github.com/noi-techpark/webcomp-flightdata)](https://api.reuse.software/info/github.com/noi-techpark/webcomp-flightdata)
 
 A customizable map for displaying air traffic in and around BZO/Bolzano. Real-time data can be retrieved and displayed via websockets.
 

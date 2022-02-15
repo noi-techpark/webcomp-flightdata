@@ -60,11 +60,11 @@ export default {
     },
     wssendpoint: {
       type: String,
-      default: "wss://mqtt.rmbdev.cloud/mqtt/ws/flightdata/sbs-aggregated",
+      default: "wss://ws.datapool.opendatahub.testingmachine.eu/flightdata/sbs-aggregated",
     },
     restendpoint: {
       type: String,
-      default: "https://mqtt.rmbdev.cloud/mqtt/rest/flightdata-scheduled",
+      default: "https://api.datapool.opendatahub.testingmachine.eu/flightdata-scheduled",
     },
     maxage: {
       type: Number,

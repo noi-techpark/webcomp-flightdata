@@ -113,15 +113,6 @@
         "options": {
           "default": "60"
         }
-      },
-      {
-        "key": "style",
-        "type": "text",
-        "label": "CSS style definition",
-        "required": false,
-        "options": {
-          "default": "--noi-font-family: 'Roboto', 'Helvetica Neue', sans-serif; --basic-font-size: 12px; --noi-primary: #000; --noi-primary-contrast: #ffffff; --noi-jam-strong: #e4c200; --noi-jam-light: #aaa"
-        }
       }
     ]
   }
