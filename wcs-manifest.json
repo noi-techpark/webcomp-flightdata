@@ -3,6 +3,7 @@
   "description": "A webcomponent displaying realtime flightdata & Skyalps arrival/departures",
   "descriptionAbstract": "A webcomponent displaying realtime flightdata & Skyalps arrival/departures",
   "license": "AGPL-3.0-or-later",
+  "repositoryUrl": "https://github.com/noi-techpark/webcomp-flightdata.git",
   "copyrightHolders": [
     {
       "name": "NOI",
