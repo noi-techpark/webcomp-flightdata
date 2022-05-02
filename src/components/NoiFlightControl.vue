@@ -126,7 +126,7 @@
         <span style="font-size: 80%">{{ current_region }}</span>
       </div>
       <div class="accordeon p-2">
-                <div class="aitem" v-if="options.showDepartures">
+        <div class="aitem" v-if="options.showDepartures">
           <h2 class="ma-0 p-0 dark">
             <span class="iconbg m-1">
               <img
@@ -156,7 +156,7 @@
               <tbody>
                 <tr v-for="departure in lastDepartures" :key="departure.key">
                   <th>
-                    {{ asZoneDate(departure.date) }}
+                    {{ asZoneDate(departure.date, "UTC", departure.time) }}
                   </th>
                   <th>
                     {{ asZoneTime(departure.time) }}
@@ -224,7 +224,7 @@
               </thead>
               <tbody>
                 <tr v-for="arrival in lastArrivals" :key="arrival.key">
-                  <th>{{ asZoneDate(arrival.date) }}</th>
+                  <th>{{ asZoneDate(arrival.date, "UTC", arrival.time) }}</th>
                   <th>
                     {{ asZoneTime(arrival.time) }}
                   </th>
@@ -371,15 +371,17 @@ export default {
     },
   },
   methods: {
-    asZoneTime(time = "00:00", source_zone = 'Europe/Berlin') {
+    asZoneTime(time = "00:00", source_zone = "UTC") {
       if (time == "") return "";
-      let datetime = DateTime.fromFormat(time, "T", { zone: source_zone });
+      let datetime = DateTime.fromFormat(time, "T", {
+        zone: source_zone,
+      });
       datetime = datetime.setZone(this.options.timezone);
       return datetime.toFormat("HH:mm");
     },
-    asZoneDate(date = "2022-01-01", source_zone = 'Europe/Berlin') {
+    asZoneDate(date = "2022-01-01", source_zone = "UTC", time = "00:00") {
       if (date == "") return "";
-      let datetime = DateTime.fromFormat(date, "yyyy-LL-dd", {
+      let datetime = DateTime.fromFormat(date + " " + time, "yyyy-LL-dd T", {
         zone: source_zone,
       });
       datetime = datetime.setZone(this.options.timezone);
@@ -468,7 +470,7 @@ export default {
         data = data.filter((val) => {
           const json = JSON.parse(val.rawdata);
           const flightdate = DateTime.fromFormat(json.date, "yyyy-LL-dd", {
-            zone: "Europe/Berlin",
+            zone: "UTC",
           });
           return flightdate > DateTime.now().minus({ day: 1 });
         });
