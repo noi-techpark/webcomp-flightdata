@@ -7,10 +7,12 @@
       showDepartures: departures,
       showArrivals: arrivals,
       regionSwitcher: regionswitch,
+      timezoneSwitcher: timezoneswitch,
       metricUnits: metricunits,
       maxAge: maxage,
       timezone: timezone,
       regions: JSON.parse(regions),
+      timezones: JSON.parse(timezones),
       maxforecast: maxforecast,
       wss_endpoint: wssendpoint,
       rest_endpoint: restendpoint,
@@ -49,13 +51,17 @@ export default {
       type: Boolean,
       default: true,
     },
+    timezoneswitch: {
+      type: Boolean,
+      default: true,
+    },
     metricunits: {
       type: Boolean,
       default: false,
     },
     timezone: {
       type: String,
-      default: "UTC",
+      default: "local",
       // https://www.npmjs.com/package/tzdata list
     },
     wssendpoint: {
@@ -72,7 +78,7 @@ export default {
     },
     maxforecast: {
       type: Number,
-      default: 5,
+      default: 100,
     },
     colors: {
       type: String,
@@ -98,6 +104,21 @@ export default {
             label: "Region",
             center: [11.463606010174134, 46.42665096950925],
             zoom: 10,
+          },
+        ]);
+      },
+    },
+    timezones: {
+      type: String,
+      default: () => {
+        return JSON.stringify([
+          {
+            label: 'UTC',
+            code: 'UTC'
+          },
+          {
+            label: 'Local time',
+            code: 'local'
           },
         ]);
       },
