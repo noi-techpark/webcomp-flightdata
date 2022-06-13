@@ -163,14 +163,14 @@
                   </th>
                   <th>
                     <a
-                      href="https://www.skyalps.com/"
+                      :href="airlineLink(departure)"
                       target="_blank"
                       title="Skyalps Home"
                     >
                       <img
                         :src="require('@/assets/icons/skyalpsl.png')"
                         width="62px"
-                        style="display: inline-block"
+                        style="display: inline-block;margin-top:2px"
                       />
                     </a>
                   </th>
@@ -230,14 +230,14 @@
                   </th>
                   <th>
                     <a
-                      href="https://www.skyalps.com/"
+                      :href="airlineLink(arrival)"
                       target="_blank"
                       title="Skyalps Home"
                     >
                       <img
                         :src="require('@/assets/icons/skyalpsl.png')"
                         width="62px"
-                        style="display: inline-block"
+                        style="display: inline-block;margin-top:2px"
                       />
                     </a>
                   </th>
@@ -272,7 +272,7 @@
           <h3 class="mb-0 text-center">
             {{ $t("Realtime data") }}
           </h3>
-          <div class="table-responsive mb-2">
+          <div class="table-responsive realtime mb-2">
             <table class="table table-dark table-secondary mb-0 realtime">
               <thead>
                 <tr>
@@ -353,6 +353,26 @@
         {{ regions.label }}
       </button>
     </div>
+
+    <div
+      class="btn-group"
+      role="group"
+      v-if="options.timezoneSwitcher"
+      style="position: absolute; bottom: 75px; left: 12px; z-index: 10000"
+    >
+      <button
+        type="button"
+        v-for="zone in options.timezones"
+        :key="zone.code"
+        class="btn btn-dark shadow"
+        :class="{
+          active: zone.code == options.timezone,
+        }"
+        @click="changeTimezone(zone)"
+      >
+        {{ zone.label }}
+      </button>
+    </div>
   </div>
 </template>
 
@@ -371,12 +391,18 @@ export default {
     },
   },
   methods: {
+    airlineLink(departure) {
+        let dep = DateTime.fromFormat(departure.date, "yyyy-LL-dd", 'UTC');
+        let loc = departure.departure + "-" + departure.arrival;
+        let link = "https://booking.skyalps.com/flight-results/"+loc+"/"+dep.toFormat("yyyy-LL-dd")+"/NA/1/0/0";
+        return link;
+    },
     asZoneTime(time = "00:00", source_zone = "UTC") {
       if (time == "") return "";
       let datetime = DateTime.fromFormat(time, "T", {
         zone: source_zone,
       });
-      datetime = datetime.setZone(this.options.timezone);
+      datetime = datetime.setZone(this.current_timezone);
       return datetime.toFormat("HH:mm");
     },
     asZoneDate(date = "2022-01-01", source_zone = "UTC", time = "00:00") {
@@ -384,12 +410,12 @@ export default {
       let datetime = DateTime.fromFormat(date + " " + time, "yyyy-LL-dd T", {
         zone: source_zone,
       });
-      datetime = datetime.setZone(this.options.timezone);
+      datetime = datetime.setZone(this.current_timezone);
       return datetime.toFormat("dd/LL/yyyy");
     },
     updateTime() {
       let time = DateTime.utc();
-      time = time.setZone(this.options.timezone);
+      time = time.setZone(this.current_timezone);
       this.time = time.toFormat("TTT");
     },
     setExtend(evt) {
@@ -425,6 +451,10 @@ export default {
         this.map.center = region.center;
         this.map.zoom = region.zoom;
       }
+    },
+    changeTimezone(zone = false) {
+      if (!zone) return;
+      this.current_timezone = zone.code;
     },
     ktsOrKmh: function (kts) {
       if (isNaN(kts)) return kts;
@@ -668,6 +698,8 @@ export default {
     },
   },
   mounted: function () {
+    this.current_timezone = this.options.timezone;
+
     this.changeRegion();
     if (this.options.metricUnits) {
       this.units = {
@@ -707,6 +739,7 @@ export default {
       hideTables: false,
       idmap: {},
       current_region: "",
+      current_timezone: "",
       map: {
         zoom: 10,
         current_tiles: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -855,6 +888,14 @@ export default {
 
   .table > :not(caption) > * > * {
     padding: 0.2rem 0.2rem;
+  }
+
+  .table-responsive {
+    max-height:188px;
+
+    &.realtime {
+      max-height:235px;
+    }
   }
 
   /* 'container'-queries */
