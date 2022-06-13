@@ -1,6 +1,6 @@
 {
   "name": "noi-flightmap",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "private": true,
   "scripts": {
     "serve": "npm run vcbuild -- --target wc --name noi-mobility-atc src/App.vue --watch --inline-vue",
