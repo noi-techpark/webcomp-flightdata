@@ -2,11 +2,19 @@
   "de" : {
     "Realtime data" : "Echtzeit-Daten",
     "Arrivals" : "Ankünfte",
-    "Departures" : "Abflüge"
+    "Departures" : "Abflüge",
+    "de" : "de-DE"
   },
   "it" : {
     "Realtime data" : "Tempo reale",
     "Arrivals" : "Arrivi",
-    "Departures" : "Partenze"
+    "Departures" : "Partenze",
+    "de" : "it-IT"
+  },
+  "en" : {
+    "Realtime data" : "Realtime data",
+    "Arrivals" : "Arrivals",
+    "Departures" : "Departures",
+    "en" : "en-GB"
   }
 }

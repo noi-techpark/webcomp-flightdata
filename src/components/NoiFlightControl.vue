@@ -2,14 +2,14 @@
   <div
     :class="'noi-mobility-atc global ' + device"
     ref="viewport"
-    style="width: 100%; height: 100%; position: relative"
+    style="width: 100%; height: 100%; min-height: 285px; position: relative"
     v-if="options"
   >
     <vl-map
       :load-tiles-while-animating="true"
       :load-tiles-while-interacting="true"
       data-projection="EPSG:4326"
-      style="width: 100%; height: 100%"
+      style="width: 100%; height: 100%; min-height: 285px"
       @moveend="setExtend($event)"
     >
       <div v-for="plane in map.features" :key="plane[plane.length - 1].name">
@@ -121,8 +121,8 @@
           style="display: inline-block"
         />
       </button>
-      <div class="clock p-2 mt-4">
-        {{ time }} <br />
+      <div class="clock p-2 mt-4" @click="nextTimezone()">
+        <span v-if="time.isValid">{{ time.toFormat("TTT") }}</span> <br />
         <span style="font-size: 80%">{{ current_region }}</span>
       </div>
       <div class="accordeon p-2">
@@ -170,7 +170,7 @@
                       <img
                         :src="require('@/assets/icons/skyalpsl.png')"
                         width="62px"
-                        style="display: inline-block;margin-top:2px"
+                        style="display: inline-block; margin-top: 2px"
                       />
                     </a>
                   </th>
@@ -237,7 +237,7 @@
                       <img
                         :src="require('@/assets/icons/skyalpsl.png')"
                         width="62px"
-                        style="display: inline-block;margin-top:2px"
+                        style="display: inline-block; margin-top: 2px"
                       />
                     </a>
                   </th>
@@ -378,7 +378,7 @@
 
 <script>
 import axios from "axios";
-import { DateTime } from "luxon";
+import { DateTime, Settings } from "luxon";
 import { getBottomLeft, getTopRight } from "ol/extent";
 import { toLonLat } from "ol/proj";
 
@@ -392,10 +392,15 @@ export default {
   },
   methods: {
     airlineLink(departure) {
-        let dep = DateTime.fromFormat(departure.date, "yyyy-LL-dd", 'UTC');
-        let loc = departure.departure + "-" + departure.arrival;
-        let link = "https://booking.skyalps.com/flight-results/"+loc+"/"+dep.toFormat("yyyy-LL-dd")+"/NA/1/0/0";
-        return link;
+      let dep = DateTime.fromFormat(departure.date, "yyyy-LL-dd", "UTC");
+      let loc = departure.departure + "-" + departure.arrival;
+      let link =
+        "https://booking.skyalps.com/flight-results/" +
+        loc +
+        "/" +
+        dep.toFormat("yyyy-LL-dd") +
+        "/NA/1/0/0";
+      return link;
     },
     asZoneTime(time = "00:00", source_zone = "UTC") {
       if (time == "") return "";
@@ -416,7 +421,7 @@ export default {
     updateTime() {
       let time = DateTime.utc();
       time = time.setZone(this.current_timezone);
-      this.time = time.toFormat("TTT");
+      this.time = time;
     },
     setExtend(evt) {
       const map = evt.map;
@@ -455,6 +460,14 @@ export default {
     changeTimezone(zone = false) {
       if (!zone) return;
       this.current_timezone = zone.code;
+      this.time = this.time.setZone(this.current_timezone);
+    },
+    nextTimezone() {
+      if (this.zoneindex < this.options.timezones.length) this.zoneindex++;
+      if (this.zoneindex >= this.options.timezones.length || this.zoneindex < 0)
+        this.zoneindex = 0;
+      this.current_timezone = this.options.timezones[this.zoneindex].code;
+      this.time = this.time.setZone(this.current_timezone);
     },
     ktsOrKmh: function (kts) {
       if (isNaN(kts)) return kts;
@@ -713,8 +726,13 @@ export default {
     // arrivals/departures
     setInterval(this.fetchSkyalps, 60000 * 5);
 
+    Settings.defaultLocale = this.$t(this.options.lang);
+
     // clock
     setInterval(this.updateTime, 1000);
+
+    this.updateTime();
+    this.time = this.time.setZone(this.current_timezone);
 
     // everything older than Xsec will be removed
     setInterval(this.garbageCollector, 500);
@@ -735,6 +753,7 @@ export default {
   },
   data: function () {
     return {
+      zoneindex: 0,
       device: "desktop",
       hideTables: false,
       idmap: {},
@@ -870,6 +889,7 @@ export default {
     font-size: 1.8rem;
     font-weight: bold;
     text-align: center;
+    cursor: pointer;
     font-family: monospace;
   }
 
@@ -891,10 +911,10 @@ export default {
   }
 
   .table-responsive {
-    max-height:188px;
+    max-height: 188px;
 
     &.realtime {
-      max-height:235px;
+      max-height: 235px;
     }
   }
 
