@@ -53,7 +53,7 @@ export default {
     },
     timezoneswitch: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     metricunits: {
       type: Boolean,
