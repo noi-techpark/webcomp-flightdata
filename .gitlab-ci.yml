@@ -4,7 +4,7 @@ pages:
   - npm install
   - npm run build
   - mv dist public
-  - mv demo.html public/atc.html
+  - mv demo.html public/index.html
   artifacts:
     paths:
     - public
