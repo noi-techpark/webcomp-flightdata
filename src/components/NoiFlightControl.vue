@@ -153,7 +153,7 @@
                     {{ asZoneTime(arrival.time) }}
                   </th>
                   <th>
-                    <a :href="airlineLink(arrival)" target="_blank" title="Skyalps Home">
+                    <a :href="airlineLink(arrival)" target="_blank" title="skyalps">
                       <img
                         :src="require('@/assets/icons/skyalpsl.png')"
                         width="62px"
@@ -179,7 +179,7 @@
                       <img
                         :src="require('@/assets/icons/cart.png')"
                         height="20px"
-                        style="filter: invert(1)"
+                        style="filter: invert(1); opacity: 0.5"
                       />
                     </a>
                   </td>
