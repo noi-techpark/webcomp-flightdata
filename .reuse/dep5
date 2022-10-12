@@ -7,6 +7,6 @@ Files: src/* dist/*.js odh-*.js test/test.js
 Copyright: (c) 2021 NOI Techpark <info@noi.bz.it>
 License: AGPL-3.0-or-later
 
-Files: infrastructure/* .editorconfig .gitignore *.md *.txt .env.* *.yml *.json yarn.lock webpack.* wcs-logo.png public/* demo.html .eslintrc.js babel.config.js vue.config.js
+Files: infrastructure/* .editorconfig .gitignore *.md *.txt .env.* *.yml *.json yarn.lock webpack.* wcs-logo.png public/* demo.html demo_single_use.html .eslintrc.js babel.config.js vue.config.js
 Copyright: (c) 2021 NOI Techpark <info@noi.bz.it>
 License: CC0-1.0
