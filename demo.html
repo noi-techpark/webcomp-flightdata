@@ -1,45 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <link rel="shortcut icon" href="/favicon.ico">
-    <title>Realtime Flightdata</title>
-    <script src="./dist/noi-mobility-atc.min.js"></script>
-    <style>
-      html,
-      body,
-      div {
-        height: 100%;
-        width: 100%;
-        overflow: hidden;
-        margin: 0;
-        padding: 0;
-      }
 
-      noi-mobility-atc {
-        --noi-font-family: "Roboto", "Helvetica Neue", sans-serif;
-        --basic-font-size: 12px;
-        --noi-primary: #000;
-        --noi-primary-contrast: #ffffff;
-        --noi-jam-light: #aaa;
-      }
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <link rel="shortcut icon" href="/favicon.ico">
+  <title>Skyalps flight schedule</title>
+  <script src="./dist/noi-mobility-atc.min.js"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300&display=swap" rel="stylesheet">
+  <style>
+    html,
+    body,
+    div {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      margin: 0;
+      padding: 1rem;
+    }
 
-    </style>
-  </head>
-  <body style="width: 100%; height: 100%">
-    <div style="width: 100%; height: 100%">
-      <noi-mobility-atc
-        lang="en"
-        realtime="true"
-        departures="true"
-        arrivals="true"
-        regionswitch="true"
-        maxage="80"
-        timezone="Europe/Berlin"
-        maxforecast="200"
-      ></noi-mobility-atc>
-    </div>
-  </body>
+    * {
+      box-sizing: border-box;
+    }
+
+    noi-mobility-atc {
+      --noi-font-family: Heebo;
+      --noi-font-family-2: Heebo;
+      --basic-font-size: 16px;
+    }
+  </style>
+</head>
+
+<body style="width: 100%; height: 100%">
+  <div style="width: 100%; height: 100%">
+    <noi-mobility-atc theme="skyalps" map="false" header="false" lang="en" realtime="false" departures="true"
+      arrivals="true" regionswitch="true" maxage="80" timezone="Europe/Berlin" maxforecast="10"></noi-mobility-atc>
+  </div>
+</body>
+
 </html>

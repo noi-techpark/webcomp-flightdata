@@ -1,20 +1,41 @@
 {
-  "de" : {
-    "Realtime data" : "Echtzeit-Daten",
-    "Arrivals" : "Ankünfte",
-    "Departures" : "Abflüge",
-    "de" : "de-DE"
+  "de": {
+    "Realtime data": "Echtzeit-Daten",
+    "Arrivals": "Ankünfte",
+    "Departures": "Abflüge",
+    "Date": "Datum",
+    "Time": "Uhrzeit",
+    "Origin": "Von / Via",
+    "Destination": "Nach / Via",
+    "Gate": "Gate",
+    "Remarks": "Info",
+    "Flight": "Flugnummer",
+    "de": "de-DE"
   },
-  "it" : {
-    "Realtime data" : "Tempo reale",
-    "Arrivals" : "Arrivi",
-    "Departures" : "Partenze",
-    "de" : "it-IT"
+  "it": {
+    "Realtime data": "Tempo reale",
+    "Arrivals": "Arrivi",
+    "Departures": "Partenze",
+    "Date": "Data",
+    "Time": "Ora",
+    "Origin": "Da / Via",
+    "Destination": "A / Via",
+    "Gate": "Gate",
+    "Remarks": "Info",
+    "Flight": "Numero volo",
+    "de": "it-IT"
   },
-  "en" : {
-    "Realtime data" : "Realtime data",
-    "Arrivals" : "Arrivals",
-    "Departures" : "Departures",
-    "en" : "en-GB"
+  "en": {
+    "Realtime data": "Realtime data",
+    "Arrivals": "Arrivals",
+    "Departures": "Departures",
+    "Date": "Date",
+    "Time": "Time",
+    "Origin": "From / Via",
+    "Destination": "To / Via",
+    "Gate": "Gate",
+    "Remarks": "Info",
+    "Flight": "Flight",
+    "en": "en-GB"
   }
 }
