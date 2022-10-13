@@ -179,7 +179,7 @@
                       <img
                         :src="require('@/assets/icons/cart.png')"
                         height="20px"
-                        style="filter: invert(1); opacity: 0.5"
+                        style="filter: invert(1)"
                       />
                     </a>
                   </td>
