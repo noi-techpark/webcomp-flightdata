@@ -116,9 +116,9 @@
           style="display: inline-block"
         />
       </button>
-      <div class="clock p-2 mt-4" @click="nextTimezone()" v-if="options.showHeader">
+      <div class="clock p-2 mt-4 mb-4" @click="nextTimezone()" v-if="options.showHeader">
         <span v-if="time.isValid">{{ time.toFormat("TTT") }}</span> <br />
-        <span style="font-size: 80%">{{ current_region }}</span>
+        <span>{{ current_region }}</span>
       </div>
       <div class="accordeon" :class="{ 'p-2': options.showMap }">
         <div class="aitem" v-if="options.showArrivals">
@@ -137,22 +137,24 @@
               <thead>
                 <tr>
                   <th scope="col">{{ $t("Date") }}</th>
-                  <th scope="col">{{ $t("Time") }}</th>
-                  <th scope="col">{{ $t("Airline") }}</th>
+                  <th scope="col" class="text-center">{{ $t("Time") }}</th>
+                  <th scope="col" class="text-center">{{ $t("Airline") }}</th>
                   <th scope="col">{{ $t("Origin") }}</th>
                   <th scope="col">{{ $t("Flight") }}</th>
-                  <th scope="col">{{ $t("Remarks") }}</th>
-                  <th scope="col">{{ $t("Gate") }}</th>
-                  <th scope="col"></th>
+                  <th scope="col" class="text-center">{{ $t("Remarks") }}</th>
+                  <th scope="col" class="text-center">{{ $t("Gate") }}</th>
+                  <th scope="col" class="text-end" v-if="options.buyTicket">
+                    {{ $t("Buy ticket") }}
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="arrival in lastArrivals" :key="arrival.key">
                   <th>{{ asZoneDate(arrival.date, "UTC", arrival.time) }}</th>
-                  <th>
+                  <th class="text-center">
                     {{ asZoneTime(arrival.time) }}
                   </th>
-                  <th>
+                  <th class="text-center">
                     <a :href="airlineLink(arrival)" target="_blank" title="skyalps">
                       <img
                         :src="require('@/assets/icons/skyalpsl.png')"
@@ -168,13 +170,15 @@
                   <td>
                     {{ arrival.flight_number }}
                   </td>
-                  <td>
-                    {{ arrival.remark }}
+                  <td class="text-center">
+                    <span :style="'color:' + remark(arrival.date, arrival.time)['color']">
+                      {{ remark(arrival.date, arrival.time)["text"] }}</span
+                    >
                   </td>
-                  <td>
+                  <td class="text-center">
                     {{ arrival.gate }}
                   </td>
-                  <td style="text-align: right">
+                  <td style="text-align: right" v-if="options.buyTicket">
                     <a :href="airlineLink(arrival)" target="_blank" title="Skyalps Home">
                       <img
                         :src="require('@/assets/icons/cart.png')"
@@ -189,7 +193,7 @@
                   Object.values(lastArrivals).length"
                   :key="index"
                 >
-                  <td colspan="7"></td>
+                  <td colspan="9"></td>
                 </tr>
               </tbody>
             </table>
@@ -211,16 +215,18 @@
               <thead>
                 <tr>
                   <th scope="col">{{ $t("Date") }}</th>
-                  <th scope="col">{{ $t("Time") }}</th>
-                  <th scope="col">{{ $t("Airline") }}</th>
+                  <th scope="col" class="text-center">{{ $t("Time") }}</th>
+                  <th scope="col" class="text-center">{{ $t("Airline") }}</th>
                   <th scope="col">
                     {{ $t("Destination") }}
                   </th>
                   <th scope="col">{{ $t("Flight") }}</th>
 
-                  <th scope="col">{{ $t("Remarks") }}</th>
-                  <th scope="col">{{ $t("Gate") }}</th>
-                  <th scope="col" class="text-center"></th>
+                  <th scope="col" class="text-center">{{ $t("Remarks") }}</th>
+                  <th scope="col" class="text-center">{{ $t("Gate") }}</th>
+                  <th scope="col" class="text-end" v-if="options.buyTicket">
+                    {{ $t("Buy ticket") }}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -228,10 +234,10 @@
                   <th>
                     {{ asZoneDate(departure.date, "UTC", departure.time) }}
                   </th>
-                  <th>
+                  <th class="text-center">
                     {{ asZoneTime(departure.time) }}
                   </th>
-                  <th>
+                  <th class="text-center">
                     <a :href="airlineLink(departure)" target="_blank" title="Skyalps Home">
                       <img
                         :src="require('@/assets/icons/skyalpsl.png')"
@@ -246,11 +252,13 @@
                   <td v-else></td>
                   <td>{{ departure.flight_number }}</td>
 
-                  <td>
-                    {{ departure.remark }}
+                  <td class="text-center">
+                    <span :style="'color:' + remark(departure.date, departure.time)['color']">
+                      {{ remark(departure.date, departure.time)["text"] }}</span
+                    >
                   </td>
-                  <td>{{ departure.gate }}</td>
-                  <td style="text-align: right">
+                  <td class="text-center">{{ departure.gate }}</td>
+                  <td style="text-align: right" v-if="options.buyTicket">
                     <a :href="airlineLink(departure)" target="_blank" title="Skyalps Home">
                       <img
                         :src="require('@/assets/icons/cart.png')"
@@ -265,7 +273,7 @@
                   Object.values(lastDepartures).length"
                   :key="index"
                 >
-                  <td colspan="7"></td>
+                  <td colspan="9"></td>
                 </tr>
               </tbody>
             </table>
@@ -369,6 +377,16 @@
       >
         {{ zone.label }}
       </button>
+    </div>
+
+    <div class="footer p-2" style="font-size: 80%">
+      <a href="https://opendatahub.com"
+        >powered byOpen Data Hub
+        <img
+          :src="require('@/assets/icons/odh.svg')"
+          height="25px"
+          style="display: inline-block; margin-left: 10px"
+      /></a>
     </div>
   </div>
 </template>
@@ -676,6 +694,67 @@ export default {
           else this.initWebsockets()
         }, 5000)
       }
+    },
+    remark(date, time, type = "DEPARTURE") {
+      // WIP
+      return {
+        type: type,
+        date: date,
+        time: time,
+        text: "SCHEDULED",
+        color: "#FFFFFF"
+      }
+
+      /*
+
+      if (type == "DEPARTURE") {
+        // TODO
+        // this.getArrivalDateTime()
+      } else if (type == "ARRIVAL") {
+        // TODO
+        // this.getDepartureDateTime()
+      }
+
+      // departure datetime
+      let datetime = DateTime.fromFormat(date + " " + time, "yyyy-LL-dd T", {
+        zone: this.current_timezone
+      })
+
+      // arrival datetime
+      let adatetime = DateTime.fromFormat(adate + " " + atime, "yyyy-LL-dd T", {
+        zone: this.current_timezone
+      })
+
+      const min = datetime.diff(this.time, ["minutes"]).toObject()["minutes"]
+      const amin = adatetime.diff(this.time, ["minutes"]).toObject()["minutes"]
+
+      if (amin < 0) {
+        return {
+          text: "LANDED",
+          color: "#FFFFFF"
+        }
+      }
+
+      if (min < 0) {
+        return {
+          text: "IN FLIGHT",
+          color: "#a1bad4"
+        }
+      }
+
+      if (min < 90) {
+        return {
+          text: "BOARDING",
+          color: "green"
+        }
+      }
+
+      return {
+        text: "SCHEDULED",
+        color: "#FFFFFF"
+      }
+
+      */
     }
   },
   computed: {
@@ -771,15 +850,33 @@ export default {
   font-size: var(--basic-font-size, 10px);
   color: var(--noi-primary, #0068b4);
 
+  a {
+    text-decoration: none;
+    color: var(--noi-primary, #0068b4);
+  }
+
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background: white;
+    width: 100%;
+    text-align: right;
+    font-size: 1rem;
+    z-index: 100001;
+  }
+
   table {
     font-size: var(--basic-font-size, 12px);
     td,
     th {
       font-family: var(--noi-font-family-2, monospace);
       line-height: 20px;
+      vertical-align: middle;
     }
     td {
       color: var(--noi-jam-strong, #ffffff);
+      vertical-align: middle;
     }
 
     &.realtime {
