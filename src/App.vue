@@ -13,6 +13,7 @@
       regionSwitcher: regionswitch,
       timezoneSwitcher: timezoneswitch,
       metricUnits: metricunits,
+      buyTicket: buyticket,
       maxAge: maxage,
       timezone: timezone,
       regions: JSON.parse(regions),
@@ -58,6 +59,10 @@ export default {
     sidebar: {
       type: Boolean,
       default: true
+    },
+    buyticket: {
+      type: Boolean,
+      default: false
     },
     timezoneswitch: {
       type: Boolean,
