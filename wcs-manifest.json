@@ -170,12 +170,33 @@
         }
       },
       {
+        "key": "buyticket",
+        "type": "select",
+        "label": "Show Skyalps ticket link",
+        "options": {
+          "values": [
+            "false",
+            "true"
+          ],
+          "default": "false"
+        }
+      },
+      {
         "key": "maxage",
         "type": "text",
         "label": "Max age of realtime data points until they are flagged as deletable (s)",
         "required": false,
         "options": {
           "default": "60"
+        }
+      },
+      {
+        "key": "maxforecast",
+        "type": "text",
+        "label": "Max entries per table",
+        "required": false,
+        "options": {
+          "default": "17"
         }
       }
     ]
