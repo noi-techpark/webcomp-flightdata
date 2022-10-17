@@ -100,7 +100,7 @@
       class="sidebar"
       :class="{ full: !options.showMap, shadow: options.showMap }"
       v-if="!hideTables && options.showSidebar"
-      style="overflow-y: auto; overflow-x: hidden"
+      style="overflow-y: auto; overflow-x: hidden; padding-bottom: 45px"
     >
       <button
         type="button"
@@ -380,8 +380,8 @@
     </div>
 
     <div class="footer p-2" style="font-size: 80%">
-      <a href="https://opendatahub.com"
-        >powered byOpen Data Hub
+      <a href="https://opendatahub.com" target="_blank"
+        >powered by Open Data Hub
         <img
           :src="require('@/assets/icons/odh.svg')"
           height="25px"
@@ -695,57 +695,18 @@ export default {
         }, 5000)
       }
     },
-    remark(date, time, type = "DEPARTURE") {
-      // WIP
-      return {
-        type: type,
-        date: date,
-        time: time,
-        text: "SCHEDULED",
-        color: "#FFFFFF"
-      }
-
-      /*
-
-      if (type == "DEPARTURE") {
-        // TODO
-        // this.getArrivalDateTime()
-      } else if (type == "ARRIVAL") {
-        // TODO
-        // this.getDepartureDateTime()
-      }
-
-      // departure datetime
+    remark(date, time) {
       let datetime = DateTime.fromFormat(date + " " + time, "yyyy-LL-dd T", {
         zone: this.current_timezone
       })
 
-      // arrival datetime
-      let adatetime = DateTime.fromFormat(adate + " " + atime, "yyyy-LL-dd T", {
-        zone: this.current_timezone
-      })
-
       const min = datetime.diff(this.time, ["minutes"]).toObject()["minutes"]
-      const amin = adatetime.diff(this.time, ["minutes"]).toObject()["minutes"]
 
-      if (amin < 0) {
-        return {
-          text: "LANDED",
-          color: "#FFFFFF"
-        }
-      }
-
+      // WIP, we need arrival && departure times from api to finish this, or a key to map them properly
       if (min < 0) {
         return {
-          text: "IN FLIGHT",
-          color: "#a1bad4"
-        }
-      }
-
-      if (min < 90) {
-        return {
-          text: "BOARDING",
-          color: "green"
+          text: "",
+          color: ""
         }
       }
 
@@ -753,8 +714,6 @@ export default {
         text: "SCHEDULED",
         color: "#FFFFFF"
       }
-
-      */
     }
   },
   computed: {
