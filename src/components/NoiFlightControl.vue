@@ -379,7 +379,7 @@
       </button>
     </div>
 
-    <div class="footer p-2" style="font-size: 80%">
+    <div class="footer" style="font-size: 80%; padding: 0.5rem 1.5rem">
       <a href="https://opendatahub.com" target="_blank"
         >powered by Open Data Hub
         <img
