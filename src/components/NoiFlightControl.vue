@@ -383,7 +383,7 @@
       <a href="https://opendatahub.com" target="_blank"
         >powered by Open Data Hub
         <img
-          :src="require('@/assets/icons/odh.svg')"
+          :src="require('@/assets/icons/odh.png')"
           height="25px"
           style="display: inline-block; margin-left: 10px"
       /></a>
