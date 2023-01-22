@@ -70,7 +70,7 @@
             "true",
             "false"
           ],
-          "default": "true"
+          "default": "false"
         }
       },
       {
@@ -196,7 +196,25 @@
         "label": "Max entries per table",
         "required": false,
         "options": {
-          "default": "17"
+          "default": "5"
+        }
+      },
+      {
+        "key": "filters",
+        "type": "textarea",
+        "label": "Filter options",
+        "required": false,
+        "options": {
+          "default": "{\"from_ts\": \"false\",\"to_ts\": \"false\",\"airport\": \"BZO\",\"nation\": \"false\"}"
+        }
+      },
+      {
+        "key": "columns",
+        "type": "textarea",
+        "label": "Column filters",
+        "required": false,
+        "options": {
+          "default": "{\"date\": \"true\",\"time\": \"true\",\"airline\": \"true\",\"fromto\": \"true\",\"flightnumber\": \"true\",\"remark\": \"true\",\"gate\": \"false\",\"ticketlink\": \"false\"}"
         }
       }
     ]
