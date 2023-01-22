@@ -20,7 +20,11 @@
       timezones: JSON.parse(timezones),
       maxforecast: maxforecast,
       wss_endpoint: wssendpoint,
-      rest_endpoint: restendpoint
+      rest_endpoint: restendpoint,
+      filters: JSON.parse(filters),
+      columns: JSON.parse(columns),
+      airports: JSON.parse(airports),
+      nations: JSON.parse(nations)
     }"
   />
 </template>
@@ -29,8 +33,9 @@
 import Vue from "vue"
 
 import NoiFlightControl from "./components/NoiFlightControl.vue"
-import VueLayers from "vuelayers"
 
+// TODO: 4MB (!) unused payload => https://github.com/ghettovoice/vuelayers/issues/319
+import VueLayers from "vuelayers"
 Vue.use(VueLayers)
 
 export default {
@@ -85,6 +90,18 @@ export default {
       type: Boolean,
       default: true
     },
+    nations: {
+      type: String,
+      default: () => {
+        return JSON.stringify([])
+      }
+    },
+    airports: {
+      type: String,
+      default: () => {
+        return JSON.stringify([])
+      }
+    },
     timezone: {
       type: String,
       default: "local"
@@ -96,7 +113,7 @@ export default {
     },
     restendpoint: {
       type: String,
-      default: "https://api.datapool.opendatahub.testingmachine.eu/flightdata-scheduled"
+      default: "https://mobility.api.opendatahub.testingmachine.eu/v2/flat%2Cnode/Flight?"
     },
     maxage: {
       type: Number,
@@ -114,6 +131,32 @@ export default {
           secondary: "#555555",
           primary_contrast: "#ffffff",
           secondary_contrast: "#ffffff"
+        })
+      }
+    },
+    filters: {
+      type: String,
+      default: () => {
+        return JSON.stringify({
+          from_ts: false,
+          to_ts: false,
+          airport: "BZO",
+          nation: false
+        })
+      }
+    },
+    columns: {
+      type: String,
+      default: () => {
+        return JSON.stringify({
+          date: true,
+          time: true,
+          airline: true,
+          fromto: true,
+          flightnumber: true,
+          remark: true,
+          gate: true,
+          ticketlink: false
         })
       }
     },

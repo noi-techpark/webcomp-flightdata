@@ -1,10 +1,15 @@
-module.exports = {
-  chainWebpack: config => {
-    config.module
-      .rule('images')
-        .use('url-loader')
-          .loader('url-loader')
-          .tap(options => Object.assign(options, { limit: 10240 }))
-  },
-  productionSourceMap: false
-}
+const { defineConfig } = require('@vue/cli-service')
+module.exports = defineConfig({
+  productionSourceMap: false,
+  transpileDependencies: [
+    'vuetify'
+  ],
+  css: {
+    loaderOptions: {
+      css: {
+        import: true
+      }
+    }
+  }
+})
+

@@ -136,25 +136,35 @@
             <table class="table table-dark shadow mb-0">
               <thead>
                 <tr>
-                  <th scope="col">{{ $t("Date") }}</th>
-                  <th scope="col" class="text-center">{{ $t("Time") }}</th>
-                  <th scope="col" class="text-center">{{ $t("Airline") }}</th>
-                  <th scope="col">{{ $t("Origin") }}</th>
-                  <th scope="col">{{ $t("Flight") }}</th>
-                  <th scope="col" class="text-center">{{ $t("Remarks") }}</th>
-                  <th scope="col" class="text-center">{{ $t("Gate") }}</th>
-                  <th scope="col" class="text-end" v-if="options.buyTicket">
+                  <th scope="col" v-if="options.columns.date">{{ $t("Date") }}</th>
+                  <th scope="col" class="text-center" v-if="options.columns.time">
+                    {{ $t("Time") }}
+                  </th>
+                  <th scope="col" class="text-center" v-if="options.columns.airline">
+                    {{ $t("Airline") }}
+                  </th>
+                  <th scope="col" v-if="options.columns.fromto">{{ $t("Origin") }}</th>
+                  <th scope="col" v-if="options.columns.flightnumber">{{ $t("Flight") }}</th>
+                  <th scope="col" class="text-center" v-if="options.columns.remark">
+                    {{ $t("Remarks") }}
+                  </th>
+                  <th scope="col" class="text-center" v-if="options.columns.gate">
+                    {{ $t("Gate") }}
+                  </th>
+                  <th scope="col" class="text-end" v-if="options.columns.ticketlink">
                     {{ $t("Buy ticket") }}
                   </th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="arrival in lastArrivals" :key="arrival.key">
-                  <th>{{ asZoneDate(arrival.date, "UTC", arrival.time) }}</th>
-                  <th class="text-center">
+                  <th v-if="options.columns.date">
+                    {{ asZoneDate(arrival.date, "UTC", arrival.time) }}
+                  </th>
+                  <th class="text-center" v-if="options.columns.time">
                     {{ asZoneTime(arrival.time) }}
                   </th>
-                  <th class="text-center">
+                  <th class="text-center" v-if="options.columns.airline">
                     <a :href="airlineLink(arrival)" target="_blank" title="skyalps">
                       <img
                         :src="require('@/assets/icons/skyalpsl.png')"
@@ -163,22 +173,22 @@
                       />
                     </a>
                   </th>
-                  <td v-if="airport_types[arrival.departure]">
+                  <td v-if="airport_types[arrival.departure] && options.columns.fromto">
                     {{ airport_types[arrival.departure].name }}
                   </td>
-                  <td v-else></td>
-                  <td>
+                  <td v-if="!airport_types[arrival.departure] && options.columns.fromto"></td>
+                  <td v-if="options.columns.flightnumber">
                     {{ arrival.flight_number }}
                   </td>
-                  <td class="text-center">
-                    <span :style="'color:' + remark(arrival.date, arrival.time)['color']">
-                      {{ remark(arrival.date, arrival.time)["text"] }}</span
+                  <td class="text-center" v-if="options.columns.remark">
+                    <span :style="'color:' + remark(arrival)['color']">
+                      {{ remark(arrival)["text"] }}</span
                     >
                   </td>
-                  <td class="text-center">
+                  <td class="text-center" v-if="options.columns.gate">
                     {{ arrival.gate }}
                   </td>
-                  <td style="text-align: right" v-if="options.buyTicket">
+                  <td style="text-align: right" v-if="options.columns.ticketlink">
                     <a :href="airlineLink(arrival)" target="_blank" title="Skyalps Home">
                       <img
                         :src="require('@/assets/icons/cart.png')"
@@ -214,30 +224,38 @@
             <table class="table table-dark shadow mb-0">
               <thead>
                 <tr>
-                  <th scope="col">{{ $t("Date") }}</th>
-                  <th scope="col" class="text-center">{{ $t("Time") }}</th>
-                  <th scope="col" class="text-center">{{ $t("Airline") }}</th>
-                  <th scope="col">
+                  <th scope="col" v-if="options.columns.date">{{ $t("Date") }}</th>
+                  <th scope="col" class="text-center" v-if="options.columns.time">
+                    {{ $t("Time") }}
+                  </th>
+                  <th scope="col" class="text-center" v-if="options.columns.airline">
+                    {{ $t("Airline") }}
+                  </th>
+                  <th scope="col" v-if="options.columns.fromto">
                     {{ $t("Destination") }}
                   </th>
-                  <th scope="col">{{ $t("Flight") }}</th>
+                  <th scope="col" v-if="options.columns.flightnumber">{{ $t("Flight") }}</th>
 
-                  <th scope="col" class="text-center">{{ $t("Remarks") }}</th>
-                  <th scope="col" class="text-center">{{ $t("Gate") }}</th>
-                  <th scope="col" class="text-end" v-if="options.buyTicket">
+                  <th scope="col" v-if="options.columns.remark" class="text-center">
+                    {{ $t("Remarks") }}
+                  </th>
+                  <th scope="col" v-if="options.columns.gate" class="text-center">
+                    {{ $t("Gate") }}
+                  </th>
+                  <th scope="col" v-if="options.columns.ticketlink" class="text-end">
                     {{ $t("Buy ticket") }}
                   </th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="departure in lastDepartures" :key="departure.key">
-                  <th>
+                  <th v-if="options.columns.date">
                     {{ asZoneDate(departure.date, "UTC", departure.time) }}
                   </th>
-                  <th class="text-center">
+                  <th class="text-center" v-if="options.columns.time">
                     {{ asZoneTime(departure.time) }}
                   </th>
-                  <th class="text-center">
+                  <th class="text-center" v-if="options.columns.airline">
                     <a :href="airlineLink(departure)" target="_blank" title="Skyalps Home">
                       <img
                         :src="require('@/assets/icons/skyalpsl.png')"
@@ -246,19 +264,19 @@
                       />
                     </a>
                   </th>
-                  <td v-if="airport_types[departure.arrival]">
+                  <td v-if="airport_types[departure.arrival] && options.columns.fromto">
                     {{ airport_types[departure.arrival].name }}
                   </td>
-                  <td v-else></td>
-                  <td>{{ departure.flight_number }}</td>
+                  <td v-if="!airport_types[departure.arrival] && options.columns.fromto"></td>
+                  <td v-if="options.columns.flightnumber">{{ departure.flight_number }}</td>
 
-                  <td class="text-center">
-                    <span :style="'color:' + remark(departure.date, departure.time)['color']">
-                      {{ remark(departure.date, departure.time)["text"] }}</span
+                  <td class="text-center" v-if="options.columns.remark">
+                    <span :style="'color:' + remark(departure)['color']">
+                      {{ remark(departure)["text"] }}</span
                     >
                   </td>
-                  <td class="text-center">{{ departure.gate }}</td>
-                  <td style="text-align: right" v-if="options.buyTicket">
+                  <td class="text-center" v-if="options.columns.gate">{{ departure.gate }}</td>
+                  <td style="text-align: right" v-if="options.columns.ticketlink">
                     <a :href="airlineLink(departure)" target="_blank" title="Skyalps Home">
                       <img
                         :src="require('@/assets/icons/cart.png')"
@@ -515,27 +533,132 @@ export default {
     age: function (past) {
       return Math.floor(Date.now() / 1000) - past
     },
-    async fetchSkyalps() {
+    async fetchSchedules() {
       try {
-        let { data } = await axios.get(this.options.rest_endpoint)
+        const now = this.options.filters.from_ts
+          ? DateTime.fromMillis(this.options.filters.from_ts * 1000)
+          : DateTime.utc()
+        const until = this.options.filters.to_ts
+          ? DateTime.fromMillis(this.options.filters.to_ts * 1000)
+          : now.plus({ years: 1 })
 
-        // remove obsolete entries
-        data = data.filter((val) => {
-          const json = JSON.parse(val.rawdata)
+        const where =
+          "and(smetadata.departure_timestamp.gt." +
+          now.toMillis() / 1000 +
+          ",smetadata.departure_timestamp.lt." +
+          until.toMillis() / 1000 +
+          ")"
+
+        const airport = this.options.filters.airport ? this.options.filters.airport : "BZO"
+
+        let params = {
+          limit: "-1",
+          offset: "0",
+          shownull: "false",
+          distinct: "true",
+          where: where
+        }
+
+        params = new URLSearchParams(params).toString()
+
+        let data = await axios.get(this.options.rest_endpoint + params)
+
+        // we can assume with reasonable certainty that the following data type is "data" :)
+        data = data.data.data.map((o) => {
+          const arrival = o.smetadata.fromdestination != airport
+
+          let datetime = DateTime.fromFormat(
+            o.smetadata.fltsfromperiod + " " + arrival ? o.smetadata.sta : o.smetadata.std,
+            "yyyy-LL-dd T",
+            {
+              zone: "UTC"
+            }
+          )
+
+          return {
+            gate: "1",
+            // we assume that fltsfromperiod = fltstoperiod
+            date: o.smetadata.fltsfromperiod.replace(/\//g, "-"),
+            time: arrival ? o.smetadata.sta : o.smetadata.std,
+            sta: o.smetadata.arrival_timestamp,
+            std: o.smetadata.departure_timestamp,
+            type: arrival ? "ARRIVAL" : "DEPARTURE",
+            remark: o.smetadata.remark ? o.smetadata.remark : "SCHEDULED",
+            arrival: o.smetadata.todestination,
+            company: o.sorigin,
+            departure: o.smetadata.fromdestination,
+            flight_number: o.smetadata.fltnumber,
+            timestamp: datetime.toMillis()
+          }
+        })
+
+        // clientside filtering
+        data = data.filter((json) => {
           const flightdate = DateTime.fromFormat(json.date, "yyyy-LL-dd", {
             zone: "UTC"
           })
-          return flightdate > DateTime.now().minus({ day: 1 })
+
+          let validAirport = true
+          let validNation = true
+
+          const isAirport = json.departure == airport || json.arrival == airport
+
+          if (this.options.nations.length > 0) {
+            const excludes = this.options.nations.filter((o) => o.indexOf("!") != -1)
+            const nation = this.airport_types[json.departure]
+              ? this.airport_types[json.departure].nation
+              : ""
+            // excludes > includes
+            if (excludes.length > 0) {
+              excludes.forEach((exc) => {
+                if (nation == exc) validNation = false
+              })
+            } else {
+              if (
+                !(
+                  this.options.nations.indexOf(nation) != -1 ||
+                  this.options.nations.indexOf(nation) != -1
+                )
+              ) {
+                validNation = false
+              }
+            }
+          }
+
+          if (this.options.airports.length > 0) {
+            const excludes = this.options.airports.filter((o) => o.indexOf("!") != -1)
+            // excludes > includes
+            if (excludes.length > 0) {
+              excludes.forEach((exc) => {
+                exc = exc.substring(1)
+                if (json.departure == exc || json.arrival == exc) validAirport = false
+              })
+            } else {
+              if (
+                !(
+                  this.options.airports.indexOf(json.departure) != -1 ||
+                  this.options.airports.indexOf(json.arrival) != -1
+                )
+              ) {
+                validAirport = false
+              }
+            }
+          }
+
+          return (
+            flightdate > DateTime.now().minus({ day: 1 }) &&
+            isAirport &&
+            validNation &&
+            validAirport
+          )
         })
 
         // split data
-        this.departures = data.filter((val) => {
-          const json = JSON.parse(val.rawdata)
+        this.departures = data.filter((json) => {
           return json.type == "DEPARTURE"
         })
 
-        this.arrivals = data.filter((val) => {
-          const json = JSON.parse(val.rawdata)
+        this.arrivals = data.filter((json) => {
           return json.type == "ARRIVAL"
         })
 
@@ -549,7 +672,6 @@ export default {
 
         for (var i = 0; i < this.arrivals.length; i++) {
           let arr = this.arrivals[i]
-          arr = JSON.parse(arr.rawdata)
           const key = arr.date + "-" + arr.flight_number + "-" + arr.arrival + "-" + arr.departure
           if (typeof sarrivals[key] == "undefined") sarrivals[key] = []
           sarrivals[key] = arr
@@ -557,7 +679,6 @@ export default {
 
         for (i = 0; i < this.departures.length; i++) {
           let arr = this.departures[i]
-          arr = JSON.parse(arr.rawdata)
           const key = arr.date + "-" + arr.flight_number + "-" + arr.arrival + "-" + arr.departure
           if (typeof sdepartures[key] == "undefined") sdepartures[key] = []
           sdepartures[key] = arr
@@ -695,23 +816,57 @@ export default {
         }, 5000)
       }
     },
-    remark(date, time) {
-      let datetime = DateTime.fromFormat(date + " " + time, "yyyy-LL-dd T", {
+    remark(data) {
+      let arrivalDate = DateTime.fromMillis(data.sta * 1000, {
         zone: this.current_timezone
       })
 
-      const min = datetime.diff(this.time, ["minutes"]).toObject()["minutes"]
+      let departureDate = DateTime.fromMillis(data.std * 1000, {
+        zone: this.current_timezone
+      })
 
-      // WIP, we need arrival && departure times from api to finish this, or a key to map them properly
-      if (min < 0) {
+      const arrival_diff = arrivalDate.diff(this.time, ["minutes"]).toObject()["minutes"]
+      const departure_diff = departureDate.diff(this.time, ["minutes"]).toObject()["minutes"]
+
+      // landed
+      if (arrival_diff < 0) {
         return {
-          text: "",
-          color: ""
+          text: "LANDED",
+          color: "#FFFFFF"
         }
       }
 
+      // in flight
+      if (arrival_diff > 0 && departure_diff < 0) {
+        return {
+          text: "STARTED",
+          color: "#FFFFFF"
+        }
+      }
+
+      // boarding => departure - 30m
+      if (departure_diff < 30) {
+        return {
+          text: "BOARDING",
+          color: "yellow"
+        }
+      }
+
+      // scheduled
+      if (departure_diff > 0) {
+        return {
+          text: "SCHEDULED",
+          color: "#FFFFFF"
+        }
+      }
+
+      // TODO
+      // ontime => no way to find out without realtime data
+      // delayed => no way to find out without realtime data
+      // cancelled => no way to find out realtime data
+
       return {
-        text: "SCHEDULED",
+        text: "",
         color: "#FFFFFF"
       }
     }
@@ -736,9 +891,14 @@ export default {
     }
     this.resizer()
   },
+  watch: {
+    "options.filters": function () {
+      this.fetchSchedules()
+    }
+  },
   created: async function () {
     // arrivals/departures
-    setInterval(this.fetchSkyalps, 60000 * 5)
+    setInterval(this.fetchSchedules, 60000 * 5)
 
     Settings.defaultLocale = this.$t(this.options.lang)
 
@@ -754,8 +914,7 @@ export default {
     // realtime data from integrator websockets
     this.initWebsockets()
 
-    // fetch skyalps flight data (tbd/poc)
-    this.fetchSkyalps()
+    this.fetchSchedules()
 
     window.addEventListener("resize", this.resizer)
 
@@ -802,7 +961,7 @@ export default {
 
 <style lang="scss">
 @import "~bootstrap/scss/bootstrap.scss";
-@import "~vuelayers/lib/style.css";
+@import "~vuelayers/dist/vuelayers.min.css";
 
 .noi-mobility-atc {
   font-family: var(--noi-font-family, Verdana);
