@@ -848,7 +848,7 @@ export default {
       if (departure_diff < 30) {
         return {
           text: "BOARDING",
-          color: "yellow"
+          color: "#FFFFFF"
         }
       }
 
@@ -860,10 +860,10 @@ export default {
         }
       }
 
-      // TODO
-      // ontime => no way to find out without realtime data
-      // delayed => no way to find out without realtime data
-      // cancelled => no way to find out realtime data
+      // TODO: realtime data endpoints not ready yet
+      // ontime
+      // delayed
+      // cancelled
 
       return {
         text: "",
@@ -916,6 +916,7 @@ export default {
 
     this.fetchSchedules()
 
+    // "container"-queries
     window.addEventListener("resize", this.resizer)
 
     if (this.options.regions.length > 0) this.current_region = this.options.regions[0].label
