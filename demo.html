@@ -41,6 +41,8 @@
 <body style="width: 100%; height: 100%">
   <div style="width: 100%; height: 100%; padding:0 1.5rem">
     <noi-mobility-atc theme="skyalps"
+                      id="atc-main"
+                      styleurl=""
                       map="false"
                       header="true"
                       lang="en"
@@ -53,9 +55,14 @@
                       maxforecast="5"
                       airports='["BER", "DUS"]'
                       nations='["DE", "IT"]'
-                      filters='{"from_ts": 1672531200,"to_ts": false,"airport": "BZO"}'
+                      filters='{"from_ts": "1674604800","to_ts": "1674691200","airport": "BZO"}'
                       columns='{"date": true,"time": true,"airline": true,"fromto": true,"flightnumber": true,"remark": true,"gate": false,"ticketlink": false}'>
     </noi-mobility-atc>
+    <script>
+      // whenever the filter attribute changes, the widget will update internal data
+      var demoelement = document.querySelector("noi-mobility-atc");
+      demoelement.setAttribute("filters", '{"from_ts": "1674604800","to_ts": false,"airport": "BZO"}');
+    </script>
   </div>
 </body>
 

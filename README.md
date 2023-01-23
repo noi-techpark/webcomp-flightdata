@@ -31,7 +31,14 @@ Include vue.js (https://unpkg.com/vue) and the webcompscript file `dist/noi-mobi
 ```
 For an example, configuration options and available custom properties please have a look at [the demo](demo.html)
 
+
+
 ### Attributes
+
+### styleurl
+
+you can specify a url from an external stylesheet (css). this stylesheet will then be appended to the shadowroot and thus allows overriding most css rules.
+if this option is used, an id must be assigned to the element.
 
 #### lang
 
@@ -126,7 +133,7 @@ on your local machine for development and testing purposes.
 
 To build the project, the following prerequisites must be met:
 
-- Node 14 / NPM 6
+- Node 17 / NPM 8
 
 For a ready to use Docker environment with all prerequisites already installed and prepared, you can check out the [Docker environment](#docker-environment) section.
 
@@ -162,9 +169,6 @@ npm start
 
 The necessary files to run the web component are provided under dist/.
 dist/demo.html can be viewed locally in your browser.
-
-Due to some limitations in Vue2/Web components, hot reload atm is not available for development.
-
 
 ## Deployment
 

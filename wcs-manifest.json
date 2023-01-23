@@ -200,6 +200,24 @@
         }
       },
       {
+        "key": "id",
+        "type": "text",
+        "label": "Unique Element Id (required if styleurl is used)",
+        "required": false,
+        "options": {
+          "default": "atc-main"
+        }
+      },
+      {
+        "key": "styleurl",
+        "type": "text",
+        "label": "External Stylesheet Url (...with cors enabled)",
+        "required": false,
+        "options": {
+          "default": ""
+        }
+      },
+      {
         "key": "filters",
         "type": "textarea",
         "label": "Filter options",

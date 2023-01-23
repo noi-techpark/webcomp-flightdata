@@ -41,6 +41,14 @@ Vue.use(VueLayers)
 export default {
   name: "App",
   props: {
+    id: {
+      type: String,
+      default: ""
+    },
+    styleurl: {
+      type: String,
+      default: ""
+    },
     lang: {
       type: String,
       default: "en"
@@ -195,6 +203,26 @@ export default {
   },
   components: {
     NoiFlightControl
+  },
+  mounted: async function () {
+    if (this.styleurl != "") {
+      const elem = document.getElementById(this.id)
+      if (!elem) {
+        console.log("you must give the element an id so that external css-files can be applied")
+      }
+
+      var externalStyles = document.createElement("style")
+
+      fetch(this.styleurl)
+        .then((response) => response.text())
+        .then((data) => {
+          externalStyles.innerHTML = data
+          elem.shadowRoot.appendChild(externalStyles)
+        })
+        .catch((error) => {
+          console.error("wrong stylesheet url. styles can not be applied. cors disabled (?)")
+        })
+    }
   }
 }
 </script>
