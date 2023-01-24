@@ -148,8 +148,7 @@ export default {
         return JSON.stringify({
           from_ts: false,
           to_ts: false,
-          airport: "BZO",
-          nation: false
+          airport: "BZO"
         })
       }
     },
