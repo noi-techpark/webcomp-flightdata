@@ -420,7 +420,11 @@ export default {
   props: {
     options: Object,
     default: () => {
-      return {}
+      return {
+        from_ts: false,
+        to_ts: false,
+        airport: "BZO"
+      }
     }
   },
   methods: {
@@ -913,8 +917,6 @@ export default {
 
     // realtime data from integrator websockets
     this.initWebsockets()
-
-    this.fetchSchedules()
 
     // "container"-queries
     window.addEventListener("resize", this.resizer)
