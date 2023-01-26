@@ -223,7 +223,7 @@
         "label": "Valid nations (excludes > includes)",
         "required": false,
         "options": {
-          "default": "[\"BER\", \"!DUS\"]"
+          "default": "[\"!DE\"]"
         }
       },
       {
@@ -232,7 +232,7 @@
         "label": "Valid airports  (excludes > includes)",
         "required": false,
         "options": {
-          "default": "[\"DE\", \"IT\"]"
+          "default": "[\"!ANR\"]"
         }
       },
       {

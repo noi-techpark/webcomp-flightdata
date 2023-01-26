@@ -615,6 +615,7 @@ export default {
             // excludes > includes
             if (excludes.length > 0) {
               excludes.forEach((exc) => {
+                exc = exc.substring(1)
                 if (nation == exc) validNation = false
               })
             } else {
