@@ -218,6 +218,24 @@
         }
       },
       {
+        "key": "nations",
+        "type": "textarea",
+        "label": "Valid nations (excludes > includes)",
+        "required": false,
+        "options": {
+          "default": "[\"BER\", \"!DUS\"]"
+        }
+      },
+      {
+        "key": "airports",
+        "type": "textarea",
+        "label": "Valid airports  (excludes > includes)",
+        "required": false,
+        "options": {
+          "default": "[\"DE\", \"IT\"]"
+        }
+      },
+      {
         "key": "filters",
         "type": "textarea",
         "label": "Filter options",
