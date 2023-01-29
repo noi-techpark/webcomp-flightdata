@@ -35,12 +35,12 @@ For an example, configuration options and available custom properties please hav
 
 ### Attributes
 
-### styleurl
+#### styleurl
 
 you can specify a url from an external stylesheet (css). this stylesheet will then be appended to the shadowroot and thus allows overriding most css rules.
 if this option is used, an id must be assigned to the element.
 
-### airports and nations (filter)
+#### airports and nations (filter)
 
 The attributes airports and nations can each be passed an array which defines the airports or nations to be displayed.
 Airports and nations can be shown or hidden by their abbreviations. Corresponding abbreviations are currently stored statically and can be viewed under src/mappings/airport_types.js. Listed abbreviations are displayed, abbreviations preceded by ! are explicitly excluded. If exclusions are defined, other values are ignored.
