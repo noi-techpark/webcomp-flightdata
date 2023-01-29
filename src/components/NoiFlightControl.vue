@@ -609,20 +609,28 @@ export default {
 
           if (this.options.nations.length > 0) {
             const excludes = this.options.nations.filter((o) => o.indexOf("!") != -1)
-            const nation = this.airport_types[json.departure]
+
+            const dnation = this.airport_types[json.departure]
               ? this.airport_types[json.departure].nation
               : ""
+
+            const anation = this.airport_types[json.arrival]
+              ? this.airport_types[json.arrival].nation
+              : ""
+
             // excludes > includes
             if (excludes.length > 0) {
               excludes.forEach((exc) => {
                 exc = exc.substring(1)
-                if (nation == exc) validNation = false
+                if (dnation == exc || anation == exc) {
+                  validNation = false
+                }
               })
             } else {
               if (
                 !(
-                  this.options.nations.indexOf(nation) != -1 ||
-                  this.options.nations.indexOf(nation) != -1
+                  this.options.nations.indexOf(dnation) != -1 ||
+                  this.options.nations.indexOf(anation) != -1
                 )
               ) {
                 validNation = false
