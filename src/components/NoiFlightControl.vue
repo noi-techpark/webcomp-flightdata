@@ -154,6 +154,9 @@
                   <th scope="col" class="text-end" v-if="options.columns.ticketlink">
                     {{ $t("Buy ticket") }}
                   </th>
+                  <th scope="col" class="text-end" v-if="options.columns.rate">
+                    {{ $t("Price from") }}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -189,7 +192,12 @@
                     {{ arrival.gate }}
                   </td>
                   <td style="text-align: right" v-if="options.columns.ticketlink">
-                    <a :href="airlineLink(arrival)" target="_blank" title="Skyalps Home">
+                    <a
+                      :href="airlineLink(arrival)"
+                      target="_blank"
+                      title="Skyalps Home"
+                      v-if="remark(arrival)['text'] == 'SCHEDULED'"
+                    >
                       <img
                         :src="require('@/assets/icons/cart.png')"
                         height="20px"
@@ -197,16 +205,34 @@
                       />
                     </a>
                   </td>
+                  <td class="text-end" v-if="options.columns.rate">
+                    <span v-if="remark(arrival)['text'] == 'SCHEDULED' && arrival.rates">
+                      {{ arrival.rates.basic_adult_oneway_withtaxes }} €</span
+                    >
+                  </td>
                 </tr>
                 <tr
                   v-for="index in Math.max(5, Object.values(lastArrivals).length) -
                   Object.values(lastArrivals).length"
                   :key="index"
                 >
-                  <td colspan="9"></td>
+                  <td colspan="10"></td>
+                </tr>
+                <tr
+                  v-if="max_entries < this.arrivals.length && options.columns.morebutton"
+                  class="load-more"
+                >
+                  <td colspan="10" class="text-center">
+                    <div @click="loadMore()">
+                      {{ $t("load more") }} ({{ max_entries }}/{{ this.arrivals.length }})
+                    </div>
+                  </td>
                 </tr>
               </tbody>
             </table>
+            <div v-if="options.columns.rate" class="text-end rateinfo">
+              {{ $t("rateinfo") }}
+            </div>
           </div>
         </div>
         <div class="aitem" v-if="options.showDepartures">
@@ -245,6 +271,9 @@
                   <th scope="col" v-if="options.columns.ticketlink" class="text-end">
                     {{ $t("Buy ticket") }}
                   </th>
+                  <th scope="col" class="text-end" v-if="options.columns.rate">
+                    {{ $t("Price from") }}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -277,7 +306,12 @@
                   </td>
                   <td class="text-center" v-if="options.columns.gate">{{ departure.gate }}</td>
                   <td style="text-align: right" v-if="options.columns.ticketlink">
-                    <a :href="airlineLink(departure)" target="_blank" title="Skyalps Home">
+                    <a
+                      :href="airlineLink(departure)"
+                      target="_blank"
+                      title="Skyalps Home"
+                      v-if="remark(departure)['text'] == 'SCHEDULED'"
+                    >
                       <img
                         :src="require('@/assets/icons/cart.png')"
                         height="20px"
@@ -285,16 +319,34 @@
                       />
                     </a>
                   </td>
+                  <td class="text-end" v-if="options.columns.rate">
+                    <span v-if="remark(departure)['text'] == 'SCHEDULED' && departure.rates"
+                      >{{ departure.rates.basic_adult_oneway_withtaxes }} €</span
+                    >
+                  </td>
                 </tr>
                 <tr
                   v-for="index in Math.max(5, Object.values(lastDepartures).length) -
                   Object.values(lastDepartures).length"
                   :key="index"
                 >
-                  <td colspan="9"></td>
+                  <td colspan="10"></td>
+                </tr>
+                <tr
+                  v-if="max_entries < this.departures.length && options.columns.morebutton"
+                  class="load-more"
+                >
+                  <td colspan="10" class="text-center">
+                    <div @click="loadMore()">
+                      {{ $t("load more") }} ({{ max_entries }}/{{ this.departures.length }})
+                    </div>
+                  </td>
                 </tr>
               </tbody>
             </table>
+            <div v-if="options.columns.rate" class="text-end rateinfo">
+              {{ $t("rateinfo") }}
+            </div>
           </div>
         </div>
 
@@ -428,6 +480,9 @@ export default {
     }
   },
   methods: {
+    loadMore() {
+      this.max_entries += 10
+    },
     airlineLink(departure) {
       let dep = DateTime.fromFormat(departure.date, "yyyy-LL-dd", "UTC")
       let loc = departure.departure + "-" + departure.arrival
@@ -579,6 +634,19 @@ export default {
             }
           )
 
+          let rate = o.smetadata.fares ? o.smetadata.fares["SKY_BASIC"] : null
+
+          if (rate) {
+            rate =
+              rate.fare.adultFareOW +
+              rate.fare.tax1OW +
+              rate.fare.tax2OW +
+              rate.fare.tax3OW +
+              rate.fare.tax4OW
+          }
+
+          if (isNaN(rate) || rate == 0) rate = false
+
           return {
             gate: "1",
             // we assume that fltsfromperiod = fltstoperiod
@@ -592,7 +660,12 @@ export default {
             company: o.sorigin,
             departure: o.smetadata.fromdestination,
             flight_number: o.smetadata.fltnumber,
-            timestamp: datetime.toMillis()
+            timestamp: datetime.toMillis(),
+            rates: rate
+              ? {
+                  basic_adult_oneway_withtaxes: rate
+                }
+              : null
           }
         })
 
@@ -886,10 +959,10 @@ export default {
   },
   computed: {
     lastArrivals() {
-      return this.arrivals.slice(0, this.options.maxforecast)
+      return this.arrivals.slice(0, this.max_entries)
     },
     lastDepartures() {
-      return this.departures.slice(0, this.options.maxforecast)
+      return this.departures.slice(0, this.max_entries)
     }
   },
   mounted: function () {
@@ -930,6 +1003,8 @@ export default {
     // "container"-queries
     window.addEventListener("resize", this.resizer)
 
+    this.max_entries = this.options.maxforecast
+
     if (this.options.regions.length > 0) this.current_region = this.options.regions[0].label
   },
   destroyed() {
@@ -964,6 +1039,7 @@ export default {
         speed: "kts",
         alt: "ft"
       },
+      max_entries: 5,
       emitter_types: require("../mappings/sender_types.js"),
       airport_types: require("../mappings/airport_types.js")
     }
@@ -983,6 +1059,11 @@ export default {
   a {
     text-decoration: none;
     color: var(--noi-primary, #0068b4);
+  }
+
+  .rateinfo {
+    color: var(--noi-primary, #0068b4);
+    font-size: 80%;
   }
 
   .footer {
@@ -1016,10 +1097,25 @@ export default {
     }
   }
 
+  .load-more {
+    td {
+      color: black !important;
+      background-color: var(--noi-jam-strong, #e4c200) !important;
+    }
+  }
+
   &.skyalps {
     .table > :not(caption) > * > * {
       background-color: var(--table-bg, #6e6e6d);
       border-color: var(--table-color, #ffffff);
+    }
+
+    .load-more {
+      cursor: pointer;
+
+      td {
+        background-color: var(--noi-jam-strong, #a1bad4) !important;
+      }
     }
   }
 

@@ -121,7 +121,7 @@ export default {
     },
     restendpoint: {
       type: String,
-      default: "https://mobility.api.opendatahub.testingmachine.eu/v2/flat%2Cnode/Flight?"
+      default: "https://mobility.api.opendatahub.bz.it/v2/flat%2Cnode/Flight?"
     },
     maxage: {
       type: Number,

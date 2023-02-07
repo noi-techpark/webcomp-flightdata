@@ -1,6 +1,9 @@
 {
   "de": {
     "Realtime data": "Echtzeit-Daten",
+    "Price from": "Preis*",
+    "load more": "mehr anzeigen",
+    "rateinfo": "*gerundeter ab-Preis pro Erwachsenem, inklusive Steuern",
     "Arrivals": "Ankünfte",
     "Departures": "Abflüge",
     "Date": "Datum",
@@ -14,6 +17,9 @@
   },
   "it": {
     "Realtime data": "Tempo reale",
+    "Price from": "Prezzo*",
+    "load more": "mostra più voli",
+    "rateinfo": "*prezzo arrotondato per adulto, tasse incluse",
     "Arrivals": "Arrivi",
     "Departures": "Partenze",
     "Date": "Data",
@@ -27,6 +33,9 @@
   },
   "en": {
     "Realtime data": "Realtime data",
+    "Price from": "Price*",
+    "load more": "load more",
+    "rateinfo": "*rounded from price per adult, including taxes",
     "Arrivals": "Arrivals",
     "Departures": "Departures",
     "Date": "Date",

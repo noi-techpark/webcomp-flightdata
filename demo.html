@@ -52,11 +52,11 @@
                       regionswitch="true"
                       maxage="80"
                       timezone="Europe/Berlin"
-                      maxforecast="5"
+                      maxforecast="20"
                       airports='["!HAM"]'
                       nations='["DE"]'
-                      filters='{"from_ts": "1674604800","to_ts": "1674691200","airport": "BZO"}'
-                      columns='{"date": true,"time": true,"airline": true,"fromto": true,"flightnumber": true,"remark": true,"gate": false,"ticketlink": false}'>
+                      filters='{"from_ts": false,"to_ts": false,"airport": "BZO"}'
+                      columns='{"date": true,"time": true,"airline": true,"fromto": true,"flightnumber": true,"remark": true,"gate": false,"ticketlink": true, "rate": true, "morebutton" : true}'>
     </noi-mobility-atc>
     <script>
       // whenever the filter attribute changes, the widget will update internal data
