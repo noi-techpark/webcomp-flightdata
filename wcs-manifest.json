@@ -250,7 +250,7 @@
         "label": "Column filters",
         "required": false,
         "options": {
-          "default": "{\"date\": true,\"time\": true,\"airline\": true,\"fromto\": true,\"flightnumber\": true,\"remark\": true,\"gate\": false,\"ticketlink\": false}"
+          "default": "{\"date\": true,\"time\": true,\"airline\": true,\"fromto\": true,\"flightnumber\": true,\"remark\": true,\"gate\": false,\"ticketlink\": false, \"morebutton\": true}"
         }
       }
     ]
