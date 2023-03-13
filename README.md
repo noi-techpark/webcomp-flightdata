@@ -68,53 +68,55 @@ Only flights departing from or arriving in Hamburg or Berlin are displayed.
 
 Mutually exclusive configuration, nothing is displayed at all
 
-Remember: With filters={ airport : 'BZO' } the current airport of interest is defined. Basically all flights are hidden which do not concern this airport.
+> Remember: With filters={ airport : 'BZO' } the current airport of interest is defined. Basically all flights are hidden which do not concern this airport.
 
 #### lang
 
 The language in which the component is rendered
 
-Type: string
+Type: string<br>
 Options: "en", "it", "de"
 
-#### departures, arrivals, regionswitch, realtime
+#### departures, arrivals, regionswitch, realtime, buyticket, sidebar
 
 Visibility of the individual subcomponents
 
-Type: Boolean
+Type: Boolean <br>
 Options: "true", "false"
 
-departures: table of departures, default = true
-arrivals: table with arrivals, default = true
-regionswitch: buttons for switching the view, default = true
-realtime: Table with realtime data, default = true
+departures: table of departures, default = true<br>
+arrivals: table with arrivals, default = true<br>
+regionswitch: buttons for switching the view, default = true<br>
+realtime: Table with realtime data, default = true<br>
+buyticket: button with the link to buy the respective flight, default = true<br>
+sidebar: shows the sidebar with the info on the flights, default = true
 
 #### metricunits
 
 Show units as metric values
 
-Type: Boolean
+Type: Boolean<br>
 Options: "true", "false"
 
 #### maxage
 
 Received data will be interpreted as valid for && deleted after X seconds
 
-Type: Number (seconds)
+Type: Number (seconds)<br>
 Default: 60
 
 #### timezone
 
 timezone for arrivals/departures
 
-Type: Timezone name (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+Type: Timezone name (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)<br>
 Default: UTC
 
 #### colors
 
 in-map coloring (aircraft)
 
-Type: Object
+Type: Object<br>
 Default:
 ```
 {
@@ -129,7 +131,7 @@ Default:
 
 preset regions, first region is used as start screen
 
-Type: Array
+Type: Array<br>
 Default:
 ```
 [
@@ -150,7 +152,7 @@ Default:
 
 maximum entries for departure and arrival
 
-Type: Number
+Type: Number<br>
 Default: 5
 
 
