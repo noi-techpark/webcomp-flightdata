@@ -1,32 +1,31 @@
 <template>
-  <NoiFlightControl
-    :options="{
-      lang: lang,
-      colors: JSON.parse(colors),
-      showRealtimeTable: realtime,
-      showDepartures: departures,
-      showArrivals: arrivals,
-      showMap: map,
-      theme: theme,
-      showHeader: header,
-      showSidebar: sidebar,
-      regionSwitcher: regionswitch,
-      timezoneSwitcher: timezoneswitch,
-      metricUnits: metricunits,
-      buyTicket: buyticket,
-      maxAge: maxage,
-      timezone: timezone,
-      regions: JSON.parse(regions),
-      timezones: JSON.parse(timezones),
-      maxforecast: maxforecast,
-      wss_endpoint: wssendpoint,
-      rest_endpoint: restendpoint,
-      filters: JSON.parse(filters),
-      columns: JSON.parse(columns),
-      airports: JSON.parse(airports),
-      nations: JSON.parse(nations)
-    }"
-  />
+  <NoiFlightControl :options="{
+    lang: lang,
+    messages: JSON.parse(messages),
+    colors: JSON.parse(colors),
+    showRealtimeTable: realtime,
+    showDepartures: departures,
+    showArrivals: arrivals,
+    showMap: map,
+    theme: theme,
+    showHeader: header,
+    showSidebar: schedules,
+    regionSwitcher: regionswitch,
+    timezoneSwitcher: timezoneswitch,
+    metricUnits: metricunits,
+    buyTicket: buyticket,
+    maxAge: maxage,
+    timezone: timezone,
+    regions: JSON.parse(regions),
+    timezones: JSON.parse(timezones),
+    maxforecast: maxforecast,
+    wss_endpoint: wssendpoint,
+    rest_endpoint: restendpoint,
+    filters: JSON.parse(filters),
+    columns: JSON.parse(columns),
+    airports: JSON.parse(airports),
+    nations: JSON.parse(nations)
+  }" />
 </template>
 
 <script>
@@ -35,8 +34,14 @@ import Vue from "vue"
 import NoiFlightControl from "./components/NoiFlightControl.vue"
 
 // TODO: 4MB (!) unused payload => https://github.com/ghettovoice/vuelayers/issues/319
-import VueLayers from "vuelayers"
-Vue.use(VueLayers)
+import { Map, TileLayer, OsmSource, Feature, Style } from 'vuelayers'
+
+Vue.use(Map)
+Vue.use(TileLayer)
+Vue.use(OsmSource)
+Vue.use(Feature)
+Vue.use(Style)
+
 
 export default {
   name: "App",
@@ -52,6 +57,10 @@ export default {
     lang: {
       type: String,
       default: "en"
+    },
+    messages: {
+      type: String,
+      default: "{}"
     },
     realtime: {
       type: Boolean,
@@ -69,7 +78,7 @@ export default {
       type: Boolean,
       default: true
     },
-    sidebar: {
+    schedules: {
       type: Boolean,
       default: true
     },
@@ -163,7 +172,8 @@ export default {
           flightnumber: true,
           remark: true,
           gate: true,
-          ticketlink: false
+          ticketlink: true,
+          morebutton: true,
         })
       }
     },
