@@ -70,7 +70,7 @@
             "true",
             "false"
           ],
-          "default": "false"
+          "default": "true"
         }
       },
       {
@@ -134,9 +134,9 @@
         }
       },
       {
-        "key": "sidebar",
+        "key": "schedules",
         "type": "select",
-        "label": "Show sidebar",
+        "label": "Show sidebar with schedules & realtime table",
         "options": {
           "values": [
             "true",
@@ -161,18 +161,6 @@
         "key": "metricunits",
         "type": "select",
         "label": "Metric units",
-        "options": {
-          "values": [
-            "false",
-            "true"
-          ],
-          "default": "false"
-        }
-      },
-      {
-        "key": "buyticket",
-        "type": "select",
-        "label": "Show Skyalps ticket link",
         "options": {
           "values": [
             "false",
@@ -229,7 +217,7 @@
       {
         "key": "airports",
         "type": "textarea",
-        "label": "Valid airports  (excludes > includes)",
+        "label": "Valid airports (excludes > includes)",
         "required": false,
         "options": {
           "default": "[\"!ANR\"]"
@@ -250,7 +238,7 @@
         "label": "Column filters",
         "required": false,
         "options": {
-          "default": "{\"date\": true,\"time\": true,\"airline\": true,\"fromto\": true,\"flightnumber\": true,\"remark\": true,\"gate\": false,\"ticketlink\": false}"
+          "default": "{\"date\": true,\"time\": true,\"airline\": true,\"fromto\": true,\"flightnumber\": true,\"remark\": true,\"gate\": true,\"ticketlink\": true}"
         }
       }
     ]

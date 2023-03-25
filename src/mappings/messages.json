@@ -10,6 +10,7 @@
     "Gate": "Gate",
     "Remarks": "Info",
     "Flight": "Flugnummer",
+    "load more": "mehr anzeigen",
     "de": "de-DE"
   },
   "it": {
@@ -23,6 +24,7 @@
     "Gate": "Gate",
     "Remarks": "Info",
     "Flight": "Numero volo",
+    "load more": "Mostra di più",
     "de": "it-IT"
   },
   "en": {
@@ -36,6 +38,7 @@
     "Gate": "Gate",
     "Remarks": "Info",
     "Flight": "Flight",
+    "load more": "show more",
     "en": "en-GB"
   }
 }

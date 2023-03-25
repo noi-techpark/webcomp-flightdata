@@ -38,30 +38,46 @@
   </style>
 </head>
 
-<body style="width: 100%; height: 100%">
-  <div style="width: 100%; height: 100%; padding:0 1.5rem">
+<body style="width: 100%; height: 100%; padding:1%">
+  Currently relevant airport is indicated by "filters.airport". Only flights that directly affect this airport are displayed. Since only flights related to BZO are currently available on the server side, alternative airports effectively only show flights from or to BZO.
+  <div style="width: 100%; height: 100%; padding:0 0">
     <noi-mobility-atc theme="skyalps"
                       id="atc-main"
                       styleurl=""
                       map="false"
                       header="true"
-                      lang="en"
+                      lang="es"
+                      messages='{"es": { 
+                        "Realtime data": "Tempo reale", 
+                        "Price from": "Prezzo*",
+                        "load more": "mostra più voli",
+                        "rateinfo": "*prezzo arrotondato per adulto, tasse incluse",
+                        "Arrivals": "Arrivi",
+                        "Departures": "Partenze",
+                        "Date": "Data",
+                        "Time": "Ora",
+                        "Origin": "Da / Via",
+                        "Destination": "A / Via",
+                        "Gate": "Gate",
+                        "Remarks": "Info",
+                        "Flight": "Numero volo",
+                        "de": "it-IT"
+                      }}'
                       realtime="false"
                       departures="true"
                       arrivals="true"
                       regionswitch="true"
                       maxage="80"
                       timezone="Europe/Berlin"
-                      maxforecast="5"
-                      airports='["!HAM"]'
-                      nations='["DE"]'
-                      filters='{"from_ts": "1674604800","to_ts": "1674691200","airport": "BZO"}'
-                      columns='{"date": true,"time": true,"airline": true,"fromto": true,"flightnumber": true,"remark": true,"gate": false,"ticketlink": false}'>
+                      maxforecast="10"
+                      regions='[{"label": "Airport Hamburg","center": [11.3361503, 46.4607403],"zoom": 14.25}, {"label": "Region","center": [11.463606010174134, 46.42665096950925],"zoom": 10}]'
+                      filters='{"from_ts": false,"to_ts": false,"airport": "HAM"}'
+                      columns='{"morebutton" : true, "date": true,"time": true,"airline": true,"fromto": true,"flightnumber": true,"remark": true,"gate": true,"ticketlink": true, "rate" : false}'>
     </noi-mobility-atc>
     <script>
       // whenever the filter attribute changes, the widget will update internal data
-      var demoelement = document.querySelector("noi-mobility-atc");
-      demoelement.setAttribute("filters", '{"from_ts": "1674604800","to_ts": false,"airport": "BZO"}');
+      // var demoelement = document.querySelector("noi-mobility-atc");
+      // demoelement.setAttribute("filters", '{"from_ts": "1674604800","to_ts": false,"airport": "BZO"}');
     </script>
   </div>
 </body>

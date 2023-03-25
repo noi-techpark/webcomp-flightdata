@@ -1,6 +1,6 @@
 {
   "name": "noi-flightmap",
-  "version": "0.9.9",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "serve": "npm run vcbuild -- --target wc --name noi-mobility-atc src/App.vue --watch --inline-vue",
@@ -21,7 +21,7 @@
     "tzdata": "^1.0.29",
     "vue": "^2.6.11",
     "vue-axios": "^3.4.0",
-    "vuelayers": "^0.12.6"
+    "vuelayers": "^0.12.7"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

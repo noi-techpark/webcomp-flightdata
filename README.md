@@ -29,9 +29,7 @@ Include vue.js (https://unpkg.com/vue) and the webcompscript file `dist/noi-mobi
  maxage="60"
  ></noi-mobility-atc>
 ```
-For an example, configuration options and available custom properties please have a look at [the demo](demo.html)
-
-
+For a full example, configuration and filter options and available custom properties please have a look at [the demo 1](demo.html) [the demo 2](demo_filters_and_single_use.html)
 
 ### Attributes
 
@@ -66,9 +64,9 @@ Only flights departing from or arriving in Hamburg or Berlin are displayed.
   nations='["IT", "DNK"]'
 ```
 
-Mutually exclusive configuration, nothing is displayed at all
+Mutually exclusive configuration, nothing is displayed at all.
 
-Remember: With filters={ airport : 'BZO' } the current airport of interest is defined. Basically all flights are hidden which do not concern this airport.
+For a full example, configuration and filter options and available custom properties please have a look at [the demo 1](demo.html) [the demo 2](demo_filters_and_single_use.html)
 
 #### lang
 
@@ -76,6 +74,8 @@ The language in which the component is rendered
 
 Type: string
 Options: "en", "it", "de"
+
+Translations can be changed or added via the messages attribute: [demo](demo_filters_and_single_use.html)
 
 #### departures, arrivals, regionswitch, realtime
 
@@ -127,7 +127,7 @@ Default:
 
 #### regions
 
-preset regions, first region is used as start screen
+preset regions, first region is used as start screen and sidebar header label
 
 Type: Array
 Default:
@@ -153,6 +153,10 @@ maximum entries for departure and arrival
 Type: Number
 Default: 5
 
+
+#### filters, columns, airports, nations
+
+See [demo](demo_filters_and_single_use.html) for an example of the more complex data attributes
 
 ## Getting started
 
@@ -255,32 +259,6 @@ docker-compose run --rm app /bin/bash -c "npm run test"
 ```
 
 ## Information
-
-### Support
-
-For support, please contact [help@opendatahub.bz.it](mailto:help@opendatahub.bz.it).
-
-### Contributing
-
-If you'd like to contribute, please follow the following instructions:
-
-- Fork the repository.
-
-- Checkout a topic branch from the `development` branch.
-
-- Make sure the tests are passing.
-
-- Create a pull request against the `development` branch.
-
-A more detailed description can be found here: [https://github.com/noi-techpark/documentation/blob/master/contributors.md](https://github.com/noi-techpark/documentation/blob/master/contributors.md).
-
-### Documentation
-
-More documentation can be found at [https://opendatahub.readthedocs.io/en/latest/index.html](https://opendatahub.readthedocs.io/en/latest/index.html).
-
-### Boilerplate
-
-The project uses this boilerplate: [https://github.com/noi-techpark/webcomp-boilerplate](https://github.com/noi-techpark/webcomp-boilerplate).
 
 ### License
 

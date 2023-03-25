@@ -1,134 +1,109 @@
 <template>
-  <div
-    :class="'noi-mobility-atc global ' + device + ' ' + options.theme"
-    ref="viewport"
-    style="width: 100%; height: 100%; min-height: 245px; position: relative"
-    v-if="options"
-  >
-    <vl-map
-      :load-tiles-while-animating="true"
-      :load-tiles-while-interacting="true"
-      v-if="options.showMap"
-      data-projection="EPSG:4326"
-      style="width: 100%; height: 100%; min-height: 245px"
-      @moveend="setExtend($event)"
-    >
-      <div v-for="plane in map.features" :key="plane[plane.length - 1].name">
+  <div :class="'noi-mobility-atc global ' + device + ' ' + options.theme"
+       ref="viewport"
+       style="width: 100%; height: 100%; min-height: 245px; position: relative"
+       v-if="options">
+    <vl-map :load-tiles-while-animating="true"
+            :load-tiles-while-interacting="true"
+            v-if="options.showMap"
+            data-projection="EPSG:4326"
+            style="width: 100%; height: 100%; min-height: 245px"
+            @moveend="setExtend($event)">
+      <div v-for="plane in map.features"
+           :key="plane[plane.length - 1].name">
         <vl-feature v-if="options.colors">
           <vl-geom-point :coordinates="plane[plane.length - 1].pos"></vl-geom-point>
           <vl-style-box>
-            <vl-style-icon
-              :src="emitter_types[plane[plane.length - 1].type][1]"
-              :scale="emitter_types[plane[plane.length - 1].type][3]"
-              :rotation="
-                emitter_types[plane[plane.length - 1].type][4]
-                  ? 0
-                  : ((plane[plane.length - 1].rotation -
-                      emitter_types[plane[plane.length - 1].type][2]) *
-                      3.14 *
-                      2) /
-                    360
-              "
-              :anchor="[0.5, 0.5]"
-            ></vl-style-icon>
-            <vl-style-text
-              :text="plane[plane.length - 1].text"
-              font="12px monospace"
-              :offsetX="22"
-              text-align="end"
-            >
-              <vl-style-stroke
-                :color="options.colors['primary']"
-                :width="3"
-                v-if="plane[plane.length - 1].source == 'default'"
-              ></vl-style-stroke>
-              <vl-style-stroke
-                :color="options.colors['secondary']"
-                :width="3"
-                v-else
-              ></vl-style-stroke>
-              <vl-style-fill :color="options.colors['primary_contrast']" :width="3"></vl-style-fill>
+            <vl-style-icon :src="emitter_types[plane[plane.length - 1].type][1]"
+                           :scale="emitter_types[plane[plane.length - 1].type][3]"
+                           :rotation="
+                             emitter_types[plane[plane.length - 1].type][4]
+                               ? 0
+                               : ((plane[plane.length - 1].rotation -
+                                 emitter_types[plane[plane.length - 1].type][2]) *
+                                 3.14 *
+                                 2) /
+                               360
+                           "
+                           :anchor="[0.5, 0.5]"></vl-style-icon>
+            <vl-style-text :text="plane[plane.length - 1].text"
+                           font="12px monospace"
+                           :offsetX="80"
+                           text-align="end">
+              <vl-style-stroke :color="options.colors['primary']"
+                               :width="3"
+                               v-if="plane[plane.length - 1].source == 'default'"></vl-style-stroke>
+              <vl-style-stroke :color="options.colors['secondary']"
+                               :width="3"
+                               v-else></vl-style-stroke>
+              <vl-style-fill :color="options.colors['primary_contrast']"
+                             :width="3"></vl-style-fill>
             </vl-style-text>
           </vl-style-box>
         </vl-feature>
         <vl-feature>
-          <vl-geom-line-string
-            v-if="plane.length > 0"
-            :coordinates="map.trails[plane[0].name]"
-          ></vl-geom-line-string>
+          <vl-geom-line-string v-if="plane.length > 0 && false"
+                               :coordinates="map.trails[plane[0].name]"></vl-geom-line-string>
           <vl-style-box>
-            <vl-style-stroke
-              :color="options.colors['primary']"
-              :width="3"
-              v-if="plane[plane.length - 1].source == 'default'"
-            ></vl-style-stroke>
-            <vl-style-stroke
-              :color="options.colors['secondary']"
-              :width="2"
-              v-else
-            ></vl-style-stroke>
+            <vl-style-stroke :color="options.colors['primary']"
+                             :width="3"
+                             v-if="plane[plane.length - 1].source == 'default'"></vl-style-stroke>
+            <vl-style-stroke :color="options.colors['secondary']"
+                             :width="2"
+                             v-else></vl-style-stroke>
           </vl-style-box>
         </vl-feature>
       </div>
 
-      <vl-view
-        :zoom.sync="map.zoom"
-        :center.sync="map.center"
-        :rotation.sync="map.rotation"
-        :min-zoom="9"
-      ></vl-view>
+      <vl-view :zoom.sync="map.zoom"
+               :center.sync="map.center"
+               :rotation.sync="map.rotation"
+               :min-zoom="9"></vl-view>
 
       <vl-layer-tile id="osm">
-        <vl-source-osm v-if="map.current_tiles != ''" :url="map.current_tiles"></vl-source-osm>
+        <vl-source-osm v-if="map.current_tiles != ''"
+                       :url="map.current_tiles"></vl-source-osm>
         <vl-source-osm v-else></vl-source-osm>
       </vl-layer-tile>
     </vl-map>
-    <button
-      type="button"
-      v-if="hideTables"
-      class="btn btn-dark shadow btn-sm dark"
-      @click="hideTables = false"
-      style="position: absolute; top: 0.5rem; right: 0.5rem; z-index: 100001"
-    >
-      <img
-        :src="require('@/assets/icons/list-view.png')"
-        height="14px"
-        style="display: inline-block; color: white"
-      />
+    <button type="button"
+            v-if="hideTables"
+            class="btn btn-dark shadow btn-sm dark"
+            @click="hideTables = false"
+            style="position: absolute; top: 0.5rem; right: 0.5rem; z-index: 100001">
+      <img :src="require('@/assets/icons/list-view.png')"
+           height="14px"
+           style="display: inline-block; color: white" />
     </button>
-    <div
-      class="sidebar"
-      :class="{ full: !options.showMap, shadow: options.showMap }"
-      v-if="!hideTables && options.showSidebar"
-      style="overflow-y: auto; overflow-x: hidden; padding-bottom: 45px"
-    >
-      <button
-        type="button"
-        v-if="options.showMap"
-        class="btn btn-sm"
-        @click="hideTables = true"
-        style="position: absolute; top: 0.5rem; right: 0.5rem; z-index: 100001"
-      >
+    <div class="sidebar"
+         :class="{ full: !options.showMap, shadow: options.showMap }"
+         v-if="!hideTables && options.showSidebar"
+         style="overflow-y: auto; overflow-x: hidden; padding-bottom: 45px">
+      <button type="button"
+              v-if="options.showMap"
+              class="btn btn-sm"
+              @click="hideTables = true"
+              style="position: absolute; top: 0.5rem; right: 0.5rem; z-index: 100001">
         collapse
-        <img
-          :src="require('@/assets/icons/collapse.png')"
-          height="14px"
-          style="display: inline-block"
-        />
+        <img :src="require('@/assets/icons/collapse.png')"
+             height="14px"
+             style="display: inline-block" />
       </button>
-      <div class="clock p-2 mt-4 mb-4" @click="nextTimezone()" v-if="options.showHeader">
+      <div class="clock p-2 mt-4 mb-4"
+           @click="nextTimezone()"
+           v-if="options.showHeader">
         <span v-if="time.isValid">{{ time.toFormat("TTT") }}</span> <br />
         <span>{{ current_region }}</span>
       </div>
-      <div class="accordeon" :class="{ 'p-2': options.showMap }">
-        <div class="aitem" v-if="options.showArrivals">
+      <div class="accordeon"
+           :class="{ 'p-2': options.showMap }">
+        <div class="aitem"
+             v-if="options.showArrivals">
           <h2 class="ma-0 p-0 dark">
             <span class="iconbg m-1">
-              <img
-                :src="require('@/assets/icons/arrival.png')"
-                height="40px"
-                style="display: inline-block"
-              />
+              <img :src="require('@/assets/icons/arrival.png')"
+                   height="40px"
+                   style="display: inline-block" />
             </span>
             {{ $t("Arrivals") }}
           </h2>
@@ -136,41 +111,62 @@
             <table class="table table-dark shadow mb-0">
               <thead>
                 <tr>
-                  <th scope="col" v-if="options.columns.date">{{ $t("Date") }}</th>
-                  <th scope="col" class="text-center" v-if="options.columns.time">
+                  <th scope="col"
+                      v-if="options.columns.date">{{ $t("Date") }}</th>
+                  <th scope="col"
+                      class="text-center"
+                      v-if="options.columns.time">
                     {{ $t("Time") }}
                   </th>
-                  <th scope="col" class="text-center" v-if="options.columns.airline">
+                  <th scope="col"
+                      class="text-center"
+                      v-if="options.columns.airline">
                     {{ $t("Airline") }}
                   </th>
-                  <th scope="col" v-if="options.columns.fromto">{{ $t("Origin") }}</th>
-                  <th scope="col" v-if="options.columns.flightnumber">{{ $t("Flight") }}</th>
-                  <th scope="col" class="text-center" v-if="options.columns.remark">
+                  <th scope="col"
+                      v-if="options.columns.fromto">{{ $t("Origin") }}</th>
+                  <th scope="col"
+                      v-if="options.columns.flightnumber">{{ $t("Flight") }}</th>
+                  <th scope="col"
+                      class="text-center"
+                      v-if="options.columns.remark">
                     {{ $t("Remarks") }}
                   </th>
-                  <th scope="col" class="text-center" v-if="options.columns.gate">
+                  <th scope="col"
+                      class="text-center"
+                      v-if="options.columns.gate">
                     {{ $t("Gate") }}
                   </th>
-                  <th scope="col" class="text-end" v-if="options.columns.ticketlink">
+                  <th scope="col"
+                      class="text-end"
+                      v-if="options.columns.ticketlink">
                     {{ $t("Buy ticket") }}
+                  </th>
+                  <th scope="col"
+                      class="text-end"
+                      v-if="options.columns.rate">
+                    {{ $t("Price from") }}
                   </th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="arrival in lastArrivals" :key="arrival.key">
+                <tr v-for="arrival in lastArrivals"
+                    :key="arrival.key">
                   <th v-if="options.columns.date">
                     {{ asZoneDate(arrival.date, "UTC", arrival.time) }}
                   </th>
-                  <th class="text-center" v-if="options.columns.time">
+                  <th class="text-center"
+                      v-if="options.columns.time">
                     {{ asZoneTime(arrival.time) }}
                   </th>
-                  <th class="text-center" v-if="options.columns.airline">
-                    <a :href="airlineLink(arrival)" target="_blank" title="skyalps">
-                      <img
-                        :src="require('@/assets/icons/skyalpsl.png')"
-                        width="62px"
-                        style="display: inline-block; margin-top: 2px"
-                      />
+                  <th class="text-center"
+                      v-if="options.columns.airline">
+                    <a :href="airlineLink(arrival)"
+                       target="_blank"
+                       title="skyalps">
+                      <img :src="require('@/assets/icons/skyalpsl.png')"
+                           width="62px"
+                           style="display: inline-block; margin-top: 2px" />
                     </a>
                   </th>
                   <td v-if="airport_types[arrival.departure] && options.columns.fromto">
@@ -180,43 +176,61 @@
                   <td v-if="options.columns.flightnumber">
                     {{ arrival.flight_number }}
                   </td>
-                  <td class="text-center" v-if="options.columns.remark">
+                  <td class="text-center"
+                      v-if="options.columns.remark">
                     <span :style="'color:' + remark(arrival)['color']">
-                      {{ remark(arrival)["text"] }}</span
-                    >
+                      {{ remark(arrival)["text"] }}</span>
                   </td>
-                  <td class="text-center" v-if="options.columns.gate">
+                  <td class="text-center"
+                      v-if="options.columns.gate">
                     {{ arrival.gate }}
                   </td>
-                  <td style="text-align: right" v-if="options.columns.ticketlink">
-                    <a :href="airlineLink(arrival)" target="_blank" title="Skyalps Home">
-                      <img
-                        :src="require('@/assets/icons/cart.png')"
-                        height="20px"
-                        style="filter: invert(1)"
-                      />
+                  <td style="text-align: right"
+                      v-if="options.columns.ticketlink">
+                    <a :href="airlineLink(arrival)"
+                       target="_blank"
+                       title="Skyalps Home"
+                       v-if="remark(arrival)['text'] == 'SCHEDULED'">
+                      <img :src="require('@/assets/icons/cart.png')"
+                           height="20px"
+                           style="filter: invert(1)" />
                     </a>
                   </td>
+                  <td class="text-end"
+                      v-if="options.columns.rate">
+                    <span v-if="remark(arrival)['text'] == 'SCHEDULED' && arrival.rates">
+                      {{ arrival.rates.basic_adult_oneway_withtaxes }} €</span>
+                  </td>
                 </tr>
-                <tr
-                  v-for="index in Math.max(5, Object.values(lastArrivals).length) -
+                <tr v-for="index in Math.max(5, Object.values(lastArrivals).length) -
                   Object.values(lastArrivals).length"
-                  :key="index"
-                >
-                  <td colspan="9"></td>
+                    :key="index">
+                  <td colspan="10"></td>
+                </tr>
+                <tr v-if="max_entries < this.arrivals.length && options.columns.morebutton"
+                    class="load-more">
+                  <td colspan="10"
+                      class="text-center">
+                    <div @click="loadMore()">
+                      {{ $t("load more") }} ({{ max_entries }}/{{ this.arrivals.length }})
+                    </div>
+                  </td>
                 </tr>
               </tbody>
             </table>
+            <div v-if="options.columns.rate"
+                 class="text-end rateinfo">
+              {{ $t("rateinfo") }}
+            </div>
           </div>
         </div>
-        <div class="aitem" v-if="options.showDepartures">
+        <div class="aitem"
+             v-if="options.showDepartures">
           <h2 class="ma-0 p-0 dark">
             <span class="iconbg m-1">
-              <img
-                :src="require('@/assets/icons/departure.png')"
-                height="40px"
-                style="display: inline-block"
-              />
+              <img :src="require('@/assets/icons/departure.png')"
+                   height="40px"
+                   style="display: inline-block" />
             </span>
             {{ $t("Departures") }}
           </h2>
@@ -224,44 +238,65 @@
             <table class="table table-dark shadow mb-0">
               <thead>
                 <tr>
-                  <th scope="col" v-if="options.columns.date">{{ $t("Date") }}</th>
-                  <th scope="col" class="text-center" v-if="options.columns.time">
+                  <th scope="col"
+                      v-if="options.columns.date">{{ $t("Date") }}</th>
+                  <th scope="col"
+                      class="text-center"
+                      v-if="options.columns.time">
                     {{ $t("Time") }}
                   </th>
-                  <th scope="col" class="text-center" v-if="options.columns.airline">
+                  <th scope="col"
+                      class="text-center"
+                      v-if="options.columns.airline">
                     {{ $t("Airline") }}
                   </th>
-                  <th scope="col" v-if="options.columns.fromto">
+                  <th scope="col"
+                      v-if="options.columns.fromto">
                     {{ $t("Destination") }}
                   </th>
-                  <th scope="col" v-if="options.columns.flightnumber">{{ $t("Flight") }}</th>
+                  <th scope="col"
+                      v-if="options.columns.flightnumber">{{ $t("Flight") }}</th>
 
-                  <th scope="col" v-if="options.columns.remark" class="text-center">
+                  <th scope="col"
+                      v-if="options.columns.remark"
+                      class="text-center">
                     {{ $t("Remarks") }}
                   </th>
-                  <th scope="col" v-if="options.columns.gate" class="text-center">
+                  <th scope="col"
+                      v-if="options.columns.gate"
+                      class="text-center">
                     {{ $t("Gate") }}
                   </th>
-                  <th scope="col" v-if="options.columns.ticketlink" class="text-end">
+                  <th scope="col"
+                      v-if="options.columns.ticketlink"
+                      class="text-end">
                     {{ $t("Buy ticket") }}
+                  </th>
+                  <th scope="col"
+                      class="text-end"
+                      v-if="options.columns.rate">
+                    {{ $t("Price from") }}
                   </th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="departure in lastDepartures" :key="departure.key">
+                <tr v-for="departure in lastDepartures"
+                    :key="departure.key">
                   <th v-if="options.columns.date">
                     {{ asZoneDate(departure.date, "UTC", departure.time) }}
                   </th>
-                  <th class="text-center" v-if="options.columns.time">
+                  <th class="text-center"
+                      v-if="options.columns.time">
                     {{ asZoneTime(departure.time) }}
                   </th>
-                  <th class="text-center" v-if="options.columns.airline">
-                    <a :href="airlineLink(departure)" target="_blank" title="Skyalps Home">
-                      <img
-                        :src="require('@/assets/icons/skyalpsl.png')"
-                        width="62px"
-                        style="display: inline-block; margin-top: 2px"
-                      />
+                  <th class="text-center"
+                      v-if="options.columns.airline">
+                    <a :href="airlineLink(departure)"
+                       target="_blank"
+                       title="Skyalps Home">
+                      <img :src="require('@/assets/icons/skyalpsl.png')"
+                           width="62px"
+                           style="display: inline-block; margin-top: 2px" />
                     </a>
                   </th>
                   <td v-if="airport_types[departure.arrival] && options.columns.fromto">
@@ -270,35 +305,54 @@
                   <td v-if="!airport_types[departure.arrival] && options.columns.fromto"></td>
                   <td v-if="options.columns.flightnumber">{{ departure.flight_number }}</td>
 
-                  <td class="text-center" v-if="options.columns.remark">
+                  <td class="text-center"
+                      v-if="options.columns.remark">
                     <span :style="'color:' + remark(departure)['color']">
-                      {{ remark(departure)["text"] }}</span
-                    >
+                      {{ remark(departure)["text"] }}</span>
                   </td>
-                  <td class="text-center" v-if="options.columns.gate">{{ departure.gate }}</td>
-                  <td style="text-align: right" v-if="options.columns.ticketlink">
-                    <a :href="airlineLink(departure)" target="_blank" title="Skyalps Home">
-                      <img
-                        :src="require('@/assets/icons/cart.png')"
-                        height="20px"
-                        style="filter: invert(1)"
-                      />
+                  <td class="text-center"
+                      v-if="options.columns.gate">{{ departure.gate }}</td>
+                  <td style="text-align: right"
+                      v-if="options.columns.ticketlink">
+                    <a :href="airlineLink(departure)"
+                       target="_blank"
+                       title="Skyalps Home"
+                       v-if="remark(departure)['text'] == 'SCHEDULED'">
+                      <img :src="require('@/assets/icons/cart.png')"
+                           height="20px"
+                           style="filter: invert(1)" />
                     </a>
                   </td>
+                  <td class="text-end"
+                      v-if="options.columns.rate">
+                    <span v-if="remark(departure)['text'] == 'SCHEDULED' && departure.rates">{{ departure.rates.basic_adult_oneway_withtaxes }} €</span>
+                  </td>
                 </tr>
-                <tr
-                  v-for="index in Math.max(5, Object.values(lastDepartures).length) -
+                <tr v-for="index in Math.max(5, Object.values(lastDepartures).length) -
                   Object.values(lastDepartures).length"
-                  :key="index"
-                >
-                  <td colspan="9"></td>
+                    :key="index">
+                  <td colspan="10"></td>
+                </tr>
+                <tr v-if="max_entries < this.departures.length && options.columns.morebutton"
+                    class="load-more">
+                  <td colspan="10"
+                      class="text-center">
+                    <div @click="loadMore()">
+                      {{ $t("load more") }} ({{ max_entries }}/{{ this.departures.length }})
+                    </div>
+                  </td>
                 </tr>
               </tbody>
             </table>
+            <div v-if="options.columns.rate"
+                 class="text-end rateinfo">
+              {{ $t("rateinfo") }}
+            </div>
           </div>
         </div>
 
-        <div class="aitem" v-if="options.showRealtimeTable">
+        <div class="aitem"
+             v-if="options.showRealtimeTable">
           <h3 class="mb-0 text-center">
             {{ $t("Realtime data") }}
           </h3>
@@ -307,48 +361,51 @@
               <thead>
                 <tr>
                   <th scope="col">
-                    {{ $t("Flight") }} <br />
-                    &nbsp;
+                    {{ $t("Flight") }}
                   </th>
                   <th scope="col">
-                    {{ $t("Type") }} <br />
-                    &nbsp;
+                    {{ $t("Type") }}
                   </th>
-                  <th scope="col" class="text-center">
-                    {{ $t("Altitude") }} <br />
+                  <th scope="col"
+                      class="text-center">
+                    {{ $t("Altitude") }}
                     ({{ units.alt }})
                   </th>
-                  <th scope="col" class="text-center">
-                    {{ $t("Speed") }} <br />
+                  <th scope="col"
+                      class="text-center">
+                    {{ $t("Speed") }}
                     ({{ units.speed }})
                   </th>
-                  <th scope="col" class="text-end">
-                    {{ $t("Track") }} <br />
+                  <th scope="col"
+                      class="text-end">
+                    {{ $t("Track") }}
                     (°)
                   </th>
                 </tr>
               </thead>
               <tbody v-if="map.features">
-                <tr v-for="flight in map.features" :key="flight[flight.length - 1].name">
+                <tr v-for="flight in map.features"
+                    :key="flight[flight.length - 1].name">
                   <th>{{ flight[flight.length - 1].tail }}</th>
                   <td>
                     {{ $t(emitter_types[flight[flight.length - 1].type][0]) }}
                   </td>
-                  <td scope="col" class="text-center">
+                  <td scope="col"
+                      class="text-center">
                     {{ ftOrM(flight[flight.length - 1].alt) }}
                   </td>
-                  <td scope="col" class="text-center">
+                  <td scope="col"
+                      class="text-center">
                     {{ ktsOrKmh(flight[flight.length - 1].speed) }}
                   </td>
-                  <td scope="col" class="text-end">
+                  <td scope="col"
+                      class="text-end">
                     {{ ktsOrKmh(flight[flight.length - 1].rotation) }}
                   </td>
                 </tr>
-                <tr
-                  v-for="index in Math.max(6, Object.values(map.features).length) -
+                <tr v-for="index in Math.max(6, Object.values(map.features).length) -
                   Object.values(map.features).length"
-                  :key="index"
-                >
+                    :key="index">
                   <td colspan="5"></td>
                 </tr>
               </tbody>
@@ -357,54 +414,45 @@
         </div>
       </div>
     </div>
-    <div
-      class="btn-group"
-      role="group"
-      v-if="options.regionSwitcher"
-      style="position: absolute; bottom: 25px; left: 12px; z-index: 10000"
-    >
-      <button
-        type="button"
-        v-for="regions in options.regions"
-        class="btn btn-dark shadow"
-        :class="{
-          active: regions.center[0] == map.center[0] && regions.center[1] == map.center[1]
-        }"
-        :key="regions.label"
-        @click="changeRegion(regions)"
-      >
+    <div class="btn-group"
+         role="group"
+         v-if="options.regionSwitcher"
+         style="position: absolute; bottom: 25px; left: 12px; z-index: 10000">
+      <button type="button"
+              v-for="regions in options.regions"
+              class="btn btn-dark shadow"
+              :class="{
+                active: regions.center[0] == map.center[0] && regions.center[1] == map.center[1]
+              }"
+              :key="regions.label"
+              @click="changeRegion(regions)">
         {{ regions.label }}
       </button>
     </div>
 
-    <div
-      class="btn-group"
-      role="group"
-      v-if="options.timezoneSwitcher"
-      style="position: absolute; bottom: 75px; left: 12px; z-index: 10000"
-    >
-      <button
-        type="button"
-        v-for="zone in options.timezones"
-        :key="zone.code"
-        class="btn btn-dark shadow"
-        :class="{
-          active: zone.code == options.timezone
-        }"
-        @click="changeTimezone(zone)"
-      >
+    <div class="btn-group"
+         role="group"
+         v-if="options.timezoneSwitcher"
+         style="position: absolute; bottom: 75px; left: 12px; z-index: 10000">
+      <button type="button"
+              v-for="zone in options.timezones"
+              :key="zone.code"
+              class="btn btn-dark shadow"
+              :class="{
+                active: zone.code == options.timezone
+              }"
+              @click="changeTimezone(zone)">
         {{ zone.label }}
       </button>
     </div>
 
-    <div class="footer" style="font-size: 80%; padding: 0.5rem 1.5rem">
-      <a href="https://opendatahub.com" target="_blank"
-        >powered by Open Data Hub
-        <img
-          :src="require('@/assets/icons/odh.png')"
-          height="25px"
-          style="display: inline-block; margin-left: 10px"
-      /></a>
+    <div class="footer"
+         style="font-size: 80%; padding: 0.5rem 1.5rem">
+      <a href="https://opendatahub.com"
+         target="_blank">powered by Open Data Hub
+        <img :src="require('@/assets/icons/odh.png')"
+             height="25px"
+             style="display: inline-block; margin-left: 10px" /></a>
     </div>
   </div>
 </template>
@@ -428,6 +476,9 @@ export default {
     }
   },
   methods: {
+    loadMore() {
+      this.max_entries += 10
+    },
     airlineLink(departure) {
       let dep = DateTime.fromFormat(departure.date, "yyyy-LL-dd", "UTC")
       let loc = departure.departure + "-" + departure.arrival
@@ -478,10 +529,11 @@ export default {
       let icon = this.icons[index]
       return atob(icon)
     },
-    // wc kiss
+    // kiss
     $t: function (mess) {
-      const messages = require("../mappings/messages.json")
+      let messages = require("../mappings/messages.json")
       const lang = this.options.lang || "en"
+      if (this.options.messages) messages = { ...messages, ...this.options.messages }
       return messages && messages[lang] && messages[lang][mess] ? messages[lang][mess] : mess
     },
     changeRegion(region = false) {
@@ -547,11 +599,9 @@ export default {
           : now.plus({ years: 1 })
 
         const where =
-          "and(smetadata.departure_timestamp.gt." +
-          now.toMillis() / 1000 +
-          ",smetadata.departure_timestamp.lt." +
-          until.toMillis() / 1000 +
-          ")"
+          "and(or(smetadata.fromdestination.eq." + this.options.filters.airport + ",smetadata.todestination.eq." + this.options.filters.airport + "),smetadata.departure_timestamp.gt." + now.toMillis() / 1000 + ",smetadata.departure_timestamp.lt." + until.toMillis() / 1000 + ")"
+
+        console.log(where)
 
         const airport = this.options.filters.airport ? this.options.filters.airport : "BZO"
 
@@ -579,6 +629,19 @@ export default {
             }
           )
 
+          let rate = o.smetadata.fares ? o.smetadata.fares["SKY_LIGHT"] : null
+
+          if (rate) {
+            rate =
+              rate.fare.adultFareOW +
+              rate.fare.tax1OW +
+              rate.fare.tax2OW +
+              rate.fare.tax3OW +
+              rate.fare.tax4OW
+          }
+
+          if (isNaN(rate) || rate == 0) rate = false
+
           return {
             gate: "1",
             // we assume that fltsfromperiod = fltstoperiod
@@ -592,7 +655,12 @@ export default {
             company: o.sorigin,
             departure: o.smetadata.fromdestination,
             flight_number: o.smetadata.fltnumber,
-            timestamp: datetime.toMillis()
+            timestamp: datetime.toMillis(),
+            rates: rate
+              ? {
+                basic_adult_oneway_withtaxes: rate
+              }
+              : null
           }
         })
 
@@ -886,16 +954,19 @@ export default {
   },
   computed: {
     lastArrivals() {
-      return this.arrivals.slice(0, this.options.maxforecast)
+      console.log(this.max_entries)
+      console.log(this.arrivals.slice(0, this.max_entries))
+      return this.arrivals.slice(0, this.max_entries)
     },
     lastDepartures() {
-      return this.departures.slice(0, this.options.maxforecast)
+      return this.departures.slice(0, this.max_entries)
     }
   },
   mounted: function () {
     this.current_timezone = this.options.timezone
 
     this.changeRegion()
+
     if (this.options.metricUnits) {
       this.units = {
         speed: "km/h",
@@ -910,25 +981,27 @@ export default {
     }
   },
   created: async function () {
-    // arrivals/departures
-    setInterval(this.fetchSchedules, 60000 * 5)
-
     Settings.defaultLocale = this.$t(this.options.lang)
 
-    // clock
-    setInterval(this.updateTime, 1000)
+    // arrivals/departures
+    if (this.options.showSidebar) {
+      setInterval(this.fetchSchedules, 60000 * 5)
+      setInterval(this.updateTime, 1000)
+    }
 
     this.updateTime()
     this.time = this.time.setZone(this.current_timezone)
 
-    // everything older than Xsec will be removed
-    setInterval(this.garbageCollector, 500)
-
     // realtime data from integrator websockets
-    this.initWebsockets()
+    if (this.options.showRealtimeTable || this.options.showMap) {
+      setInterval(this.garbageCollector, 500)
+      this.initWebsockets()
+    }
 
     // "container"-queries
     window.addEventListener("resize", this.resizer)
+
+    this.max_entries = this.options.maxforecast
 
     if (this.options.regions.length > 0) this.current_region = this.options.regions[0].label
   },
@@ -937,7 +1010,8 @@ export default {
   },
   data: function () {
     return {
-      zoneindex: 0,
+      zoneindex: 1,
+      max_entries: 0,
       device: "desktop",
       hideTables: false,
       idmap: {},
@@ -986,7 +1060,7 @@ export default {
   }
 
   .footer {
-    position: fixed;
+    position: absolute;
     bottom: 0;
     left: 0;
     background: white;
@@ -998,12 +1072,14 @@ export default {
 
   table {
     font-size: var(--basic-font-size, 12px);
+
     td,
     th {
       font-family: var(--noi-font-family-2, monospace);
       line-height: 20px;
       vertical-align: middle;
     }
+
     td {
       color: var(--noi-jam-strong, #ffffff);
       vertical-align: middle;
@@ -1017,7 +1093,7 @@ export default {
   }
 
   &.skyalps {
-    .table > :not(caption) > * > * {
+    .table> :not(caption)>*>* {
       background-color: var(--table-bg, #6e6e6d);
       border-color: var(--table-color, #ffffff);
     }
@@ -1090,7 +1166,7 @@ export default {
 
   .sidebar {
     color: var(--noi-primary, #000000);
-    width: 500px;
+    width: 650px;
     height: 100%;
     background-color: var(--noi-primary-contrast, #ffffff);
     color: white;
@@ -1103,6 +1179,10 @@ export default {
     &.full {
       width: 100%;
     }
+  }
+
+  .load-more {
+    cursor: pointer;
   }
 
   .clock {
@@ -1127,7 +1207,7 @@ export default {
     display: none;
   }
 
-  .table > :not(caption) > * > * {
+  .table> :not(caption)>*>* {
     padding: 0.2rem 0.2rem;
   }
 
