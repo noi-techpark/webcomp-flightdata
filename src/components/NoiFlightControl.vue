@@ -1,13 +1,13 @@
 <template>
   <div :class="'noi-mobility-atc global ' + device + ' ' + options.theme"
        ref="viewport"
-       style="width: 100%; height: 100%; min-height: 245px; position: relative"
+       style="width: 100%; height: 100%; min-height: 200px; position: relative"
        v-if="options">
     <vl-map :load-tiles-while-animating="true"
             :load-tiles-while-interacting="true"
             v-if="options.showMap"
             data-projection="EPSG:4326"
-            style="width: 100%; height: 100%; min-height: 245px"
+            style="width: 100%; height: 100%; min-height: 200px"
             @moveend="setExtend($event)">
       <div v-for="plane in map.features"
            :key="plane[plane.length - 1].name">
@@ -78,7 +78,7 @@
     <div class="sidebar"
          :class="{ full: !options.showMap, shadow: options.showMap }"
          v-if="!hideTables && options.showSidebar"
-         style="overflow-y: auto; overflow-x: hidden; padding-bottom: 45px">
+         style="overflow-y: auto; overflow-x: hidden; padding-bottom: 25px">
       <button type="button"
               v-if="options.showMap"
               class="btn btn-sm"
@@ -107,7 +107,8 @@
             </span>
             {{ $t("Arrivals") }}
           </h2>
-          <div class="table-responsive mb-4">
+          <div class="table-responsive mb-4"
+               :style="'overflow-y: auto; overflow-x: hidden; height:' + options.tableheight">
             <table class="table table-dark shadow mb-0">
               <thead>
                 <tr>
@@ -234,7 +235,8 @@
             </span>
             {{ $t("Departures") }}
           </h2>
-          <div class="table-responsive mb-4">
+          <div class="table-responsive mb-4 "
+               :style="'overflow-y: auto; overflow-x: hidden; height:' + options.tableheight">
             <table class="table table-dark shadow mb-0">
               <thead>
                 <tr>
@@ -356,7 +358,8 @@
           <h3 class="mb-0 text-center">
             {{ $t("Realtime data") }}
           </h3>
-          <div class="table-responsive realtime mb-2">
+          <div class="table-responsive realtime mb-2"
+               :style="'overflow-y: auto; overflow-x: hidden; height:' + options.tableheight">
             <table class="table table-dark table-secondary mb-0 realtime">
               <thead>
                 <tr>

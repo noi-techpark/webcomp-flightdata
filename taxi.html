@@ -11,10 +11,6 @@
         href="/favicon.ico">
   <title>Skyalps flight schedule</title>
   <script src="./dist/noi-mobility-atc.min.js"></script>
-  <link rel="preconnect"
-        href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300&display=swap"
-        rel="stylesheet">
   <style>
     html,
     body,
@@ -44,7 +40,7 @@
     <noi-mobility-atc theme="skyalps"
                       id="atc-main"
                       styleurl=""
-                      map="true"
+                      map="false"
                       header="true"
                       lang="es"
                       messages='{"es": { 
@@ -63,15 +59,14 @@
                         "Flight": "Numero volo",
                         "de": "it-IT"
                       }}'
-                      realtime="true"
+                      realtime="false"
                       departures="true"
                       arrivals="true"
                       regionswitch="true"
                       maxage="80"
                       timezone="Europe/Berlin"
-                      maxforecast="10"
-                      regions='[{"label": "Airport Hamburg","center": [11.3361503, 46.4607403],"zoom": 14.25}, {"label": "Region","center": [11.463606010174134, 46.42665096950925],"zoom": 10}]'
-                      filters='{"from_ts": false,"to_ts": false,"airport": "HAM"}'
+                      maxforecast="200"
+                      filters='{"from_ts": false,"to_ts": false,"airport": "BZO"}'
                       columns='{"morebutton" : true, "date": true,"time": true,"airline": true,"fromto": true,"flightnumber": true,"remark": true,"gate": true,"ticketlink": true, "rate" : false}'>
     </noi-mobility-atc>
     <script>

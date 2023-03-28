@@ -4,7 +4,8 @@ pages:
   - npm install
   - npm run build
   - mv dist public
-  - mv demo.html public/index.html
+  - mv taxi.html public/index.html
+  - mv demo_filters_and_single_use.html public/noi.html
   artifacts:
     paths:
     - public
