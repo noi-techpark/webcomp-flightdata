@@ -21,7 +21,6 @@
     div {
       /* height: 100%; */
       width: 100%;
-      overflow: hidden;
       margin: 0;
       padding: 0;
     }
@@ -42,30 +41,32 @@
 
 <body style="width: 100%; height: 100%">
   <div style="padding:1%">
-    The components can be used multiple times with different configurations and use a minimum height of 245px.
+    The components can be used multiple times with different configurations and use a minimum height of 200px.
     If the surrounding container has a height defined, the component uses 100% of the available height.
     If the provided height is not sufficient, a scrollbar will be displayed. The necessary height results from the elements to be displayed + possibly defined spacing (margin/padding).
-    Internal spacing and styles within the shadow can be overridden by providing an own custom CSS file (styleurl="").
-    The default style of the component is designed for a reasonable simultaneous display of all offered features. Due to the various possible use cases and different usage scenarios when combining individual features, the use of custom styles is recommended in order to better handle any borderline cases.
+    The tableheight attribute can be used to limit single tables to a fixed height. The surrounding container must have a sufficient height defined so that displayed components have enough space without triggering container scrollbar.
+    Internal spacing and styles within the shadow root can be overridden by providing an own custom CSS file (styleurl=""). The default style of the component is designed for a reasonable simultaneous display of all offered features. Due to the various possible use cases and different usage scenarios when combining individual features, the use of custom styles is recommended in order to better handle any borderline cases.
   </div>
-  <div style="width: 50%; float:left; padding:1%;height:400px">
+  <div style="width: 50%; float:left; padding:1%;height:350px">
     <noi-mobility-atc maxforecast="5"
                       header="false"
                       map="false"
                       lang="de"
                       realtime="false"
                       departures="false"
+                      tableheight="200px"
                       arrivals="true"
                       regionswitch="false"
                       maxage="80"
                       timezone="Europe/Berlin"
                       maxforecast="200"></noi-mobility-atc>
   </div>
-  <div style="width: 50%; float:left; padding:1%;height:400px">
+  <div style="width: 50%; float:left; padding:1%;height:350px">
     <noi-mobility-atc maxforecast="5"
                       header="false"
                       map="false"
                       lang="it"
+                      tableheight="200px"
                       realtime="false"
                       departures="true"
                       arrivals="false"
@@ -79,16 +80,17 @@
   <div style="padding:1%">
     Currently relevant airport is indicated by "filters.airport". Only flights that directly affect this airport are displayed.
     Flights can be additionally filtered by nation. See src/mappings/airport_types.js for current possible values.
-    Using the airport attribute, individual destinations can be included or excluded. If an exclusion is present, existing inclusions will be ignored. Avoid mutually exclusive filter-combinations.
+    Using the airports attribute, individual destinations can be included or excluded. If an exclusion is present, existing inclusions will be ignored. Avoid mutually exclusive filter-combinations.
     If columns attribute is present, missing column configurations are assumed to be false. Translations can be changed or added via the messages attribute.
   </div>
-  <div style="width: 50%; float:left; padding:1%;height:400px">
+  <div style="width: 50%; float:left; padding:1%;height:350px">
     <noi-mobility-atc maxforecast="5"
                       header="false"
                       map="false"
                       lang="en"
                       realtime="false"
                       departures="true"
+                      tableheight="200px"
                       arrivals="false"
                       regionswitch="false"
                       maxage="80"
@@ -98,7 +100,7 @@
                       filters='{"from_ts": false,"to_ts": false,"airport": "BZO"}'
                       maxforecast="200"></noi-mobility-atc>
   </div>
-  <div style="width: 50%; float:left; padding:1%;height:400px">
+  <div style="width: 50%; float:left; padding:1%;height:350px">
     <noi-mobility-atc maxforecast="5"
                       header="false"
                       map="false"
@@ -107,6 +109,7 @@
                       realtime="false"
                       departures="false"
                       arrivals="true"
+                      tableheight="200px"
                       regionswitch="false"
                       maxage="80"
                       timezone="Europe/Berlin"
@@ -114,8 +117,6 @@
                       nations='["ESP"]'
                       filters='{"from_ts": false,"to_ts": false,"airport": "BZO"}'
                       maxforecast="200"></noi-mobility-atc>
-
-
   </div>
 </body>
 
