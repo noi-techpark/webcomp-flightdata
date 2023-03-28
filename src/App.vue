@@ -8,6 +8,7 @@
     showArrivals: arrivals,
     showMap: map,
     theme: theme,
+    tableheight: tableheight,
     showHeader: header,
     showSidebar: schedules,
     regionSwitcher: regionswitch,
@@ -41,7 +42,6 @@ Vue.use(TileLayer)
 Vue.use(OsmSource)
 Vue.use(Feature)
 Vue.use(Style)
-
 
 export default {
   name: "App",
@@ -102,6 +102,10 @@ export default {
       type: String,
       // "terminal" || "skyalps"
       default: "terminal"
+    },
+    tableheight: {
+      type: String,
+      default: "auto"
     },
     header: {
       type: Boolean,
