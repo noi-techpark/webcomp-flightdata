@@ -420,7 +420,7 @@
     <div class="btn-group"
          role="group"
          v-if="options.regionSwitcher"
-         style="position: absolute; bottom: 25px; left: 12px; z-index: 10000">
+         style="position: absolute; bottom: 45px; left: 12px; z-index: 10000">
       <button type="button"
               v-for="regions in options.regions"
               class="btn btn-dark shadow"
