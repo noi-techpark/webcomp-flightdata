@@ -82,17 +82,14 @@ export default {
       type: Boolean,
       default: true
     },
-    buyticket: {
-      type: Boolean,
-      default: false
-    },
+    // disabled / obsolete?: click clock instead
     timezoneswitch: {
       type: Boolean,
       default: false
     },
     metricunits: {
       type: Boolean,
-      default: false
+      default: true
     },
     map: {
       type: Boolean,
