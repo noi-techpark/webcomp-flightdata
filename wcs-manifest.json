@@ -211,7 +211,7 @@
         "label": "Valid nations (excludes > includes)",
         "required": false,
         "options": {
-          "default": "[\"!DE\"]"
+          "default": "[]"
         }
       },
       {

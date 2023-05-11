@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible"
+        content="IE=edge" />
+  <meta name="viewport"
+        content="width=device-width,initial-scale=1.0" />
+  <title>Skyalps flight schedule</title>
+  <script src="./dist/noi-mobility-atc.min.js"></script>
+  <style>
+    html,
+    body,
+    div {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+
+<body style="width: 100%; height: 100%">
+  <div style="width: 100%; height: 100%; padding:0 1.5rem">
+    <form onsubmit="getDates()">
+      <div>
+        <label for="timeSelector">
+          Select here the arrival and departure:
+        </label>
+        <div>Flüge von:
+          <input id="departure"
+                 type="datetime-local"
+                 name="timeSelectordate"
+                 min="2023-01-01T08:30"
+                 required />
+        </div>
+        <div>
+          Flüge bis:
+          <input id="arrival"
+                 type="datetime-local"
+                 name="timeSelectordate"
+                 min="2023-01-01T08:30"
+                 required />
+        </div>
+        <span></span>
+      </div>
+      <div>
+        <div class="quickanddirty-preventdefault-button"
+             onclick="setFilters()">Filter anwenden</div>
+      </div>
+    </form>
+
+    <noi-mobility-atc airports='["!ANR"]'
+                      arrivals="true"
+                      columns='{"date": true,"time": true,"airline": true,"fromto": true,"flightnumber": true,"remark": true,"gate": true,"ticketlink": true}'
+                      departures="true"
+                      filters='{"from_ts": false,"to_ts": false,"airport": "BZO"}'
+                      header="true"
+                      id="atc-main"
+                      lang="en"
+                      map="true"
+                      maxage="60"
+                      maxforecast="5"
+                      metricunits="false"
+                      nations='[]'
+                      realtime="true"
+                      regionswitch="true"
+                      schedules="true"
+                      styleurl=""
+                      theme="terminal"></noi-mobility-atc>
+
+    <script>
+
+      function setFilters() {
+        const departure = document.getElementById('departure')
+        const arrival = document.getElementById('arrival')
+
+        depUnix = Math.floor(new Date(departure.value).getTime() / 1000)
+        arrUnix = Math.floor(new Date(arrival.value).getTime() / 1000)
+
+        if (isNaN(depUnix)) depUnix = false
+        if (isNaN(arrUnix)) arrUnix = false
+
+        filterState = '{"from_ts": ' + depUnix + ',"to_ts":' + arrUnix + ',"airport": "BZO"}'
+
+        var demoelement = document.querySelector("noi-mobility-atc")
+        demoelement.setAttribute("filters", filterState)
+
+        return false
+      }
+
+    </script>
+
+</body>
+
+</html>
