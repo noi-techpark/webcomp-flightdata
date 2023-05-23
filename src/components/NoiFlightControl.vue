@@ -616,7 +616,8 @@ export default {
           offset: "0",
           shownull: "false",
           distinct: "true",
-          where: where
+          where: where,
+          origin: "webcomp-flightdata"
         }
 
         params = new URLSearchParams(params).toString()
