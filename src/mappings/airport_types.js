@@ -113,4 +113,15 @@ module.exports = {
     name: "Dubrovnik",
     nation: "HRV"
   },
+  FCO: {
+    pos: [0, 0],
+    name: "Roma Fiumicino",
+    nation: "IT"
+  },
+  VRN: {
+    pos: [0, 0],
+    name: "Verona",
+    nation: "IT"
+  },
+
 };
