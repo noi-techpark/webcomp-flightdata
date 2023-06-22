@@ -14,7 +14,11 @@
     "Remarks": "Info",
     "Flight": "Flugnummer",
     "load more": "mehr anzeigen",
-    "de": "de-DE"
+    "de": "de-DE",
+    "SCHEDULED": "Scheduled",
+    "BOARDING": "Boarding",
+    "LANDED": "Landed",
+    "STARTED": "Starded"
   },
   "it": {
     "Realtime data": "Tempo reale",
@@ -31,7 +35,11 @@
     "Remarks": "Info",
     "Flight": "Numero volo",
     "load more": "Mostra di più",
-    "de": "it-IT"
+    "de": "it-IT",
+    "SCHEDULED": "Scheduled",
+    "BOARDING": "Boarding",
+    "LANDED": "Landed",
+    "STARTED": "Starded"
   },
   "en": {
     "Realtime data": "Realtime data",
@@ -48,6 +56,10 @@
     "Remarks": "Info",
     "Flight": "Flight",
     "load more": "show more",
-    "en": "en-GB"
+    "en": "en-GB",
+    "SCHEDULED": "Scheduled",
+    "BOARDING": "Boarding",
+    "LANDED": "Landed",
+    "STARTED": "Starded"
   }
 }

@@ -20,7 +20,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     regionSwitcher: regionswitch,
     timezoneSwitcher: timezoneswitch,
     metricUnits: metricunits,
-    buyTicket: buyticket,
     maxAge: maxage,
     timezone: timezone,
     regions: JSON.parse(regions),
