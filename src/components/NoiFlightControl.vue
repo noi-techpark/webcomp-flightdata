@@ -115,7 +115,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           </h2>
           <div class="table-responsive mb-4"
                :style="'overflow-y: auto; overflow-x: hidden; height:' + options.tableheight">
-            <table class="table table-dark shadow mb-0">
+            <table class="table table-dark shadow-none mb-0">
               <thead>
                 <tr>
                   <th scope="col"
@@ -159,12 +159,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               <tbody>
                 <tr v-for="arrival in lastArrivals"
                     :key="arrival.key">
-                  <th v-if="options.columns.date">
-                    {{ asZoneDate(arrival.date, "UTC", arrival.time) }}
+                  <th v-if="options.columns.date">{{ asZoneDate(arrival.date, "UTC", arrival.time) }}
                   </th>
                   <th class="text-center"
-                      v-if="options.columns.time">
-                    {{ asZoneTime(arrival.time) }}
+                      v-if="options.columns.time">{{ asZoneTime(arrival.time) }}
                   </th>
                   <th class="text-center"
                       v-if="options.columns.airline">
@@ -176,17 +174,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                            style="display: inline-block; margin-top: 2px" />
                     </a>
                   </th>
-                  <td v-if="airport_types[arrival.departure] && options.columns.fromto">
-                    {{ airport_types[arrival.departure].name }}
+                  <td v-if="airport_types[arrival.departure] && options.columns.fromto">{{ airport_types[arrival.departure].name }}
                   </td>
                   <td v-if="!airport_types[arrival.departure] && options.columns.fromto"></td>
-                  <td v-if="options.columns.flightnumber">
-                    {{ arrival.flight_number }}
+                  <td v-if="options.columns.flightnumber">{{ arrival.flight_number }}
                   </td>
                   <td class="text-center"
                       v-if="options.columns.remark">
-                    <span :style="'color:' + remark(arrival)['color']">
-                      {{ remark(arrival)["text"] }}</span>
+                    <span :style="'color:' + remark(arrival)['color']">{{ $t(remark(arrival)["text"]) }}</span>
                   </td>
                   <td class="text-center"
                       v-if="options.columns.gate">
@@ -196,6 +191,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                       v-if="options.columns.ticketlink">
                     <a :href="airlineLink(arrival)"
                        target="_blank"
+                       class="ticketlink"
                        title="Skyalps Home"
                        v-if="remark(arrival)['text'] == 'SCHEDULED'">
                       <img :src="require('@/assets/icons/cart.png')"
@@ -243,7 +239,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           </h2>
           <div class="table-responsive mb-4 "
                :style="'overflow-y: auto; overflow-x: hidden; height:' + options.tableheight">
-            <table class="table table-dark shadow mb-0">
+            <table class="table table-dark shadow-none mb-0">
               <thead>
                 <tr>
                   <th scope="col"
@@ -307,16 +303,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                            style="display: inline-block; margin-top: 2px" />
                     </a>
                   </th>
-                  <td v-if="airport_types[departure.arrival] && options.columns.fromto">
-                    {{ airport_types[departure.arrival].name }}
+                  <td v-if="airport_types[departure.arrival] && options.columns.fromto">{{ airport_types[departure.arrival].name }}
                   </td>
                   <td v-if="!airport_types[departure.arrival] && options.columns.fromto"></td>
                   <td v-if="options.columns.flightnumber">{{ departure.flight_number }}</td>
 
                   <td class="text-center"
                       v-if="options.columns.remark">
-                    <span :style="'color:' + remark(departure)['color']">
-                      {{ remark(departure)["text"] }}</span>
+                    <span :style="'color:' + remark(departure)['color']">{{ $t(remark(departure)["text"]) }}</span>
                   </td>
                   <td class="text-center"
                       v-if="options.columns.gate">{{ departure.gate }}</td>
@@ -324,6 +318,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                       v-if="options.columns.ticketlink">
                     <a :href="airlineLink(departure)"
                        target="_blank"
+                       class="ticketlink"
                        title="Skyalps Home"
                        v-if="remark(departure)['text'] == 'SCHEDULED'">
                       <img :src="require('@/assets/icons/cart.png')"
