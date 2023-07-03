@@ -1,0 +1,206 @@
+.accordeon {
+    display: flex;
+    justify-content: center;
+}
+
+.noi-mobility-atc table {
+    font-size: 14px;
+}
+
+.aitem {
+    max-width: 591px;
+    width: 591px;
+}
+
+.aitem:first-child {
+    margin-right: 40px;
+}
+
+.aitem h2 {
+    border-radius: 5px 5px 0 0;
+    height: 55px;
+    text-align: left;
+    font: normal normal bold 22px/28px Open Sans;
+    letter-spacing: 0px;
+    color: #242424;
+    margin-bottom: 4px;
+    padding: 0 32px !important;
+    background-color: #E5BA2C !important;
+}
+
+.noi-mobility-atc h2 .iconbg {
+    background: transparent;
+    filter: invert(1);
+}
+
+.aitem table {
+    border-radius: 5px;
+}
+
+.aitem table tr,
+.aitem table th {
+    padding: 0 15px;
+}
+
+.aitem table td,
+.aitem table th {
+    text-align: left !important;
+}
+
+.aitem table {
+    border-spacing: 0;
+    border-collapse: separate;
+    border-radius: 10px;
+}
+
+.aitem table thead th {
+    text-align: left;
+    font: normal normal normal 14px/18px Open Sans;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    opacity: 1;
+}
+
+.aitem table tbody th,
+.aitem table tbody td {
+    text-align: left;
+    font: normal normal 600 14px/18px Open Sans;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    opacity: 1;
+}
+
+.noi-mobility-atc .table> :not(caption)>*>* {
+    padding: 19px 15px;
+    position: relative;
+}
+
+.table> :not(caption)>*>* {
+    background-color: #1E2124;
+}
+
+.aitem table tr th:first-child,
+.aitem table tr td:first-child {
+    padding-left: 40px;
+}
+
+.aitem table tr th:last-child,
+.aitem table tr td:last-child {
+    padding-right: 20px;
+}
+
+.aitem table tr:last-child td:last-child {
+    border-radius: 0 0 6px 0;
+}
+
+.aitem table tbody tr:last-child th:first-child {
+    border-radius: 0 0 0 6px;
+}
+
+tbody td:not(:last-child):before,
+tbody th:not(:first-child):before {
+    content: '|';
+    position: relative;
+    left: -17px;
+    top: 2px;
+    font-size: 24px;
+    font-weight: 300;
+    opacity: 0.5;
+    width: 0;
+    display: inline-block;
+}
+
+.ticketlink {
+    background: rgba(255, 255, 255, 0.15) 0% 0% no-repeat padding-box;
+    border-radius: 4px;
+    margin: -10px 0;
+    display: inline-block;
+    height: 35px;
+    width: 35px;
+}
+
+.ticketlink img {
+    display: inline-block;
+    margin: 8px;
+}
+
+@media screen and (max-width: 1300px) {
+    .accordeon {
+        display: block;
+    }
+
+
+    tbody td {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        text-overflow: '...';
+        max-width: 65px;
+    }
+
+    .aitem {
+        max-width: 353px;
+        width: 100%;
+        margin: auto !important;
+        margin-right: auto;
+        margin-bottom: 30px;
+    }
+
+    .aitem table thead th {
+        font: normal normal normal 11px/15px Open Sans;
+    }
+
+    .aitem table tbody th,
+    .aitem table tbody td {
+        font: normal normal 600 11px/15px Open Sans;
+    }
+
+    .noi-mobility-atc .table> :not(caption)>*>* {
+        padding: 2px 4px;
+    }
+
+    .ticketlink {
+        border-radius: 4px;
+        margin: 0px;
+        height: 25px;
+        width: 25px;
+        float: right;
+    }
+
+    .ticketlink img {
+        margin: 3px;
+    }
+
+    .aitem table tr th:first-child,
+    .aitem table tr td:first-child {
+        padding-left: 17px;
+    }
+
+    .aitem table tr th:last-child,
+    .aitem table tr td:last-child {
+        padding-right: 17px;
+    }
+
+    tbody td:not(:last-child):before,
+    tbody th:not(:first-child):before {
+        left: -6px;
+        margin-right: 2px;
+        top: 0px;
+        font-size: 12px;
+        opacity: 1;
+    }
+
+    .aitem h2 {
+        text-align: left;
+        font: normal normal bold 14px/15px Open Sans;
+        letter-spacing: 0px;
+        opacity: 1;
+        line-height: 24px;
+        height: 39px;
+        padding: 0 7px !important;
+    }
+
+    .aitem h2 img {
+        height: 23px;
+    }
+}

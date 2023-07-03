@@ -22,15 +22,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           <vl-style-box>
             <vl-style-icon :src="emitter_types[plane[plane.length - 1].type][1]"
                            :scale="emitter_types[plane[plane.length - 1].type][3]"
-                           :rotation="
-                             emitter_types[plane[plane.length - 1].type][4]
+                           :rotation="emitter_types[plane[plane.length - 1].type][4]
                                ? 0
                                : ((plane[plane.length - 1].rotation -
                                  emitter_types[plane[plane.length - 1].type][2]) *
                                  3.14 *
                                  2) /
                                360
-                           "
+                             "
                            :anchor="[0.5, 0.5]"></vl-style-icon>
             <vl-style-text :text="plane[plane.length - 1].text"
                            font="12px monospace"
@@ -607,8 +606,6 @@ export default {
 
         const where =
           "and(or(smetadata.fromdestination.eq." + this.options.filters.airport + ",smetadata.todestination.eq." + this.options.filters.airport + "),smetadata.departure_timestamp.gt." + now.toMillis() / 1000 + ",smetadata.departure_timestamp.lt." + until.toMillis() / 1000 + ")"
-
-        console.log(where)
 
         const airport = this.options.filters.airport ? this.options.filters.airport : "BZO"
 
