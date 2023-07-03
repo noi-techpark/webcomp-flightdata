@@ -1,5 +1,6 @@
 {
   "title": "Webcomponent: Flightmap",
+  "shortName": "Flightdata",
   "description": "A webcomponent displaying realtime flightdata & Skyalps arrival/departures",
   "descriptionAbstract": "A webcomponent displaying realtime flightdata & Skyalps arrival/departures",
   "license": "AGPL-3.0-or-later",
