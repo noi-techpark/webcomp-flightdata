@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+
+SPDX-License-Identifier: CC0-1.0
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +13,7 @@
         content="IE=edge" />
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0" />
-  <title>KM Demo</title>
+  <title>Custom-CSS Demo</title>
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Open%20Sans">
   <script src="./dist/noi-mobility-atc.min.js"></script>
@@ -21,13 +27,13 @@
       padding: 0;
     }
 
-    #agon-e-km {
+    #customcss {
       width: 1265px;
       height: 480px;
     }
 
     @media screen and (max-width: 1300px) {
-      #agon-e-km {
+      #customcss {
         width: 400px;
         height: 535px;
       }
@@ -39,8 +45,8 @@
   <div style="height:100%;display:flex;align-items: center;justify-content: center;">
 
     <noi-mobility-atc maxforecast="5"
-                      styleurl="https://cdn.agon-e.com/noi/demo/style.css"
-                      id="agon-e-km"
+                      styleurl="./demo-assets/custom.css"
+                      id="customcss"
                       header="false"
                       map="false"
                       lang="de"
