@@ -161,7 +161,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                   <th v-if="options.columns.date">{{ asZoneDate(arrival.date, "UTC", arrival.time) }}
                   </th>
                   <th class="text-center"
-                      v-if="options.columns.time">{{ asZoneTime(arrival.time) }}
+                      v-if="options.columns.time">{{ asZoneTime(arrival.time, "UTC", arrival.date) }}
                   </th>
                   <th class="text-center"
                       v-if="options.columns.airline">
@@ -290,7 +290,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                   </th>
                   <th class="text-center"
                       v-if="options.columns.time">
-                    {{ asZoneTime(departure.time) }}
+                    {{ asZoneTime(departure.time, "UTC", departure.date) }}
                   </th>
                   <th class="text-center"
                       v-if="options.columns.airline">
@@ -482,9 +482,6 @@ export default {
     loadMore() {
       this.max_entries += 10
     },
-    loadMore() {
-      this.max_entries += 10
-    },
     airlineLink(departure) {
       let dep = DateTime.fromFormat(departure.date, "yyyy-LL-dd", "UTC")
       let loc = departure.departure + "-" + departure.arrival
@@ -496,12 +493,27 @@ export default {
         "/NA/1/0/0"
       return link
     },
-    asZoneTime(time = "00:00", source_zone = "UTC") {
-      if (time == "") return ""
-      let datetime = DateTime.fromFormat(time, "T", {
+    asZoneTime(time = "00:00", source_zone = "UTC", date = false) {
+      if (time == "" || !date) return ""
+
+      let datetime = false;
+
+      datetime = DateTime.fromFormat(date + " " + time, "yyyy-LL-dd T", {
         zone: source_zone
       })
+
       datetime = datetime.setZone(this.current_timezone)
+
+      const usageDuringSummer = this.time.isInDST;
+      const targetTimeIsDst = datetime.isInDST;
+      const currentTargetOffset = this.options.offset;
+
+      if(usageDuringSummer && !targetTimeIsDst) {
+          datetime = datetime.plus({minutes: currentTargetOffset})
+      } else if(!usageDuringSummer && targetTimeIsDst) {
+          datetime = datetime.minus({minutes: currentTargetOffset})
+      } 
+
       return datetime.toFormat("HH:mm")
     },
     asZoneDate(date = "2022-01-01", source_zone = "UTC", time = "00:00") {
@@ -627,7 +639,7 @@ export default {
           const arrival = o.smetadata.fromdestination != airport
 
           let datetime = DateTime.fromFormat(
-            o.smetadata.fltsfromperiod + " " + arrival ? o.smetadata.sta : o.smetadata.std,
+            o.smetadata.fltsfromperiod + " " + (arrival ? o.smetadata.sta : o.smetadata.std),
             "yyyy-LL-dd T",
             {
               zone: "UTC"
@@ -649,7 +661,7 @@ export default {
 
           return {
             gate: "1",
-            // we assume that fltsfromperiod = fltstoperiod
+            // we assume that fltsfromperiod = fltstoperiod / "flat" endpoint
             date: o.smetadata.fltsfromperiod.replace(/\//g, "-"),
             time: arrival ? o.smetadata.sta : o.smetadata.std,
             sta: o.smetadata.arrival_timestamp,
@@ -668,7 +680,6 @@ export default {
               : null
           }
         })
-
         // clientside filtering
         data = data.filter((json) => {
           const flightdate = DateTime.fromFormat(json.date, "yyyy-LL-dd", {

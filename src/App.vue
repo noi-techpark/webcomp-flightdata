@@ -30,6 +30,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     filters: JSON.parse(filters),
     columns: JSON.parse(columns),
     airports: JSON.parse(airports),
+    dstoffset: dstoffset,
     nations: JSON.parse(nations)
   }" />
 </template>
@@ -130,6 +131,10 @@ export default {
       default: "local"
       // https://www.npmjs.com/package/tzdata list
     },
+    dstoffset: {
+      type: Number,
+      default: 60
+    },
     wssendpoint: {
       type: String,
       default: "wss://ws.datapool.opendatahub.testingmachine.eu/flightdata/sbs-aggregated"
@@ -209,8 +214,8 @@ export default {
             code: "UTC"
           },
           {
-            label: "Local time",
-            code: "local"
+            label: "Europe/Berlin",
+            code: "Europe/Berlin"
           }
         ])
       }
