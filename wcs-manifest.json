@@ -99,6 +99,24 @@
         }
       },
       {
+        "key": "timezone",
+        "type": "text",
+        "label": "Default timezone-string for all displayed times",
+        "required": false,
+        "options": {
+          "default": "local"
+        }
+      },
+      {
+        "key": "dstoffset",
+        "type": "number",
+        "label": "Daylight saving time offset in minutes. Times for arrivals and departures are globally adjusted by this value if they happen outside the current summer/winter time.",
+        "required": false,
+        "options": {
+          "default": 60
+        }
+      },
+      {
         "key": "map",
         "type": "select",
         "label": "Show map",

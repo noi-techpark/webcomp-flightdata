@@ -119,6 +119,13 @@ timezone for arrivals/departures
 Type: Timezone name (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)<br>
 Default: UTC
 
+#### dstoffset
+
+Daylight saving time offset in minutes. Times for arrivals and departures are globally adjusted by this value if they happen outside the current summer/winter time.
+
+Type: Number
+Default: 60
+
 #### colors
 
 in-map coloring (aircraft)
