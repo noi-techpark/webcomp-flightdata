@@ -67,6 +67,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
       <vl-layer-tile id="osm">
         <vl-source-osm v-if="map.current_tiles != ''"
+        attributions="<a href='https://opendatahub.com' target='_blank'>OpenDataHub.com</a> | &copy <a href='https://www.openstreetmap.org/copyright' target='_blank'>OpenStreetMap</a> contributors."
                        :url="map.current_tiles"></vl-source-osm>
         <vl-source-osm v-else></vl-source-osm>
       </vl-layer-tile>
