@@ -28,10 +28,8 @@
   ],
   "image": "wcs-logo.png",
   "searchTags": [
-    "atc",
-    "adsb",
-    "mqtt",
-    "websockets"
+    "flights",
+    "map"
   ],
   "dist": {
     "basePath": "dist",
