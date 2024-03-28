@@ -9,7 +9,7 @@ SPDX-License-Identifier: CC0-1.0
 [![REUSE Compliance](https://github.com/noi-techpark/webcomp-flightdata/actions/workflows/reuse.yml/badge.svg)](https://github.com/noi-techpark/odh-docs/wiki/REUSE#badges)
 [![REUSE status](https://api.reuse.software/badge/github.com/noi-techpark/webcomp-flightdata)](https://api.reuse.software/info/github.com/noi-techpark/webcomp-flightdata)
 
-A customizable map for displaying air traffic in and around BZO/Bolzano. Real-time data can be retrieved and displayed via websockets.
+A customizable map for displaying air traffic in and around BZO/Bolzano. Real-time data can be retrieved and displayed via websockets. 
 
 ## Table of contents
 
