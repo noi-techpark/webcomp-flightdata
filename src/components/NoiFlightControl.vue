@@ -638,16 +638,49 @@ export default {
     loadMore() {
       this.max_entries += 10;
     },
-    airlineLink(departure) {
-      let dep = DateTime.fromFormat(departure.date, "yyyy-LL-dd", "UTC");
-      let loc = departure.departure + "-" + departure.arrival;
-      let link =
-        "https://booking.skyalps.com/flight-results/" +
-        loc +
-        "/" +
-        dep.toFormat("yyyy-LL-dd") +
-        "/NA/1/0/0";
-      return link;
+      airlineLink(flight) {
+      if (!flight || !flight.departure || !flight.arrival || !flight.date) {
+        return "";
+      }
+
+      const departureDate = DateTime.fromFormat(
+        flight.date,
+        "yyyy-LL-dd",
+        { zone: "utc" }
+      );
+
+      if (!departureDate.isValid) {
+        return "";
+      }
+
+      const url = "https://book-skyalps.crane.aero/ibe/availability";
+      const params = new URLSearchParams();
+
+      const language = (this.options.lang || "en").toLowerCase();
+
+      const passengers = this.options.bookingPassengers || {
+        adults: 1,
+        children: 0,
+        infants: 0,
+      };
+
+      params.set("tripType", "ONE_WAY");
+      params.set("depPort", flight.departure);
+      params.set("arrPort", flight.arrival);
+      params.set("departureDate", departureDate.toFormat("dd LLL yyyy"));
+      params.set("currency", this.options.bookingCurrency || "EUR");
+      params.set("lang", language);
+
+      params.set("passengerQuantities[0][passengerType]", "ADLT");
+      params.set("passengerQuantities[0][quantity]", String(passengers.adults || 0));
+
+      params.set("passengerQuantities[1][passengerType]", "CHLD");
+      params.set("passengerQuantities[1][quantity]", String(passengers.children || 0));
+
+      params.set("passengerQuantities[2][passengerType]", "INFT");
+      params.set("passengerQuantities[2][quantity]", String(passengers.infants || 0));
+
+      return `${url}?${params.toString()}`;
     },
     asZoneTime(time = "00:00", source_zone = "UTC", date = false) {
       if (time == "" || !date) return "";
@@ -801,59 +834,48 @@ export default {
           where: where,
           origin: "webcomp-flightdata",
         };
+      params = new URLSearchParams(params).toString();
 
-        params = new URLSearchParams(params).toString();
+      let response = await axios.get(this.options.rest_endpoint);
+      let trips = response.data.Items;
 
-        let data = await axios.get(this.options.rest_endpoint + params);
+      let data = trips.map((trip) => {
 
-        // we can assume with reasonable certainty that the following data type is "data" :)
-        data = data.data.data.map((o) => {
-          const arrival = o.smetadata.fromdestination != airport;
+      if (!trip.StopTimes || trip.StopTimes.length < 2) return null;
 
-          let datetime = DateTime.fromFormat(
-            o.smetadata.fltsfromperiod +
-              " " +
-              (arrival ? o.smetadata.sta : o.smetadata.std),
-            "yyyy-LL-dd T",
-            {
-              zone: "UTC",
-            }
-          );
+      let origin = trip.StopTimes[0].Shortname;
+      let destination = trip.StopTimes[1].Shortname;
 
-          let rate = o.smetadata.fares ? o.smetadata.fares["SKY_LIGHT"] : null;
+      let departureDT = DateTime.fromISO(
+        trip.StopTimes[0].DepartureTime,
+        { zone: "UTC" }
+      );
 
-          if (rate) {
-            rate =
-              rate.fare.adultFareOW +
-              rate.fare.tax1OW +
-              rate.fare.tax2OW +
-              rate.fare.tax3OW +
-              rate.fare.tax4OW;
-          }
+      let arrivalDT = DateTime.fromISO(
+        trip.StopTimes[1].ArrivalTime,
+        { zone: "UTC" }
+      );
 
-          if (isNaN(rate) || rate == 0) rate = false;
+      let type = origin === airport ? "DEPARTURE" : "ARRIVAL";
+      let relevantDT = type === "DEPARTURE" ? departureDT : arrivalDT;
 
-          return {
-            gate: "1",
-            // we assume that fltsfromperiod = fltstoperiod / "flat" endpoint
-            date: o.smetadata.fltsfromperiod.replace(/\//g, "-"),
-            time: arrival ? o.smetadata.sta : o.smetadata.std,
-            sta: o.smetadata.arrival_timestamp,
-            std: o.smetadata.departure_timestamp,
-            type: arrival ? "ARRIVAL" : "DEPARTURE",
-            remark: o.smetadata.remark ? o.smetadata.remark : "SCHEDULED",
-            arrival: o.smetadata.todestination,
-            company: o.sorigin,
-            departure: o.smetadata.fromdestination,
-            flight_number: o.smetadata.fltnumber,
-            timestamp: datetime.toMillis(),
-            rates: rate
-              ? {
-                  basic_adult_oneway_withtaxes: rate,
-                }
-              : null,
-          };
-        });
+  return {
+    gate: "1",
+    date: relevantDT.toFormat("yyyy-LL-dd"),
+    time: relevantDT.toFormat("HH:mm"),
+    sta: arrivalDT.toSeconds(),
+    std: departureDT.toSeconds(),
+    type: type,
+    remark: "SCHEDULED",
+    arrival: destination,
+    departure: origin,
+    flight_number: trip.Shortname,
+    timestamp: relevantDT.toMillis(),
+    rates: null
+  };
+
+}).filter(Boolean);
+        
         // clientside filtering
         data = data.filter((json) => {
           const flightdate = DateTime.fromFormat(json.date, "yyyy-LL-dd", {
